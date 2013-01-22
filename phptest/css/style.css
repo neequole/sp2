@@ -1,0 +1,166 @@
+@charset "utf-8";
+/* CSS Document */
+
+html, body{
+	margin: 0;
+	padding: 0;
+	height:100%;
+	background-color:#eee;
+}
+
+#container {
+   min-height:100%;
+   position:relative;
+}
+
+#header,#main{
+	width:1100px;
+	margin-left:auto;
+	margin-right:auto;
+}
+	
+#header {
+   padding:10px;
+   height: 151px;
+}
+
+#logo{
+	width: 40%;
+	float:left;
+}
+
+#nav{
+	width: 60%;
+	float:right;
+}
+
+#main {
+   padding:10px;
+   padding-bottom:60px;   /* Height of the footer */
+   background-color:white;
+   overflow:hidden;
+   border:2px solid #ccc;
+}
+#footer {
+   position:absolute;
+   bottom:0;
+   width:100%;
+   height:80px;   /* Height of the footer */
+   background:#1B1112;
+}
+
+#leftmain{
+	width: 19%;
+	float:left;
+}
+
+#ajax-content{
+	width:79%;
+	float:right;
+	border:solid 1px #ccc;
+	padding:10px;
+}
+
+#container, #logo, #nav,#leftmain, #rightmain{
+   height:100%;
+}
+
+
+/*borders rounded*/
+#main, #ajax-content,ul#nav-tabs li a, #tabs_container{
+   border-radius: 5px 5px 5px 5px;
+   -moz-border-radius: 5px 5px 5px 5px;
+   -webkit-border-radius: 5px;
+   -webkit-border-radius: 5px;
+ }
+ 
+ul#nav-tabs
+{
+list-style-type:none;
+margin:0;
+padding:0;
+} 
+
+ul.horizontal li
+{
+float:left;
+}
+
+ul#nav-tabs li a
+{
+display:block;
+width:90%;
+background-color:#A4C639;	/*android green*/
+margin:10px;
+height:40px;
+text-align:center;
+color:white;
+text-decoration:none;
+}
+
+ul#nav-tabs li a:hover{
+background-color:#99CC99;
+}
+
+.divclean{
+clear:both;
+}
+
+/*css for tab*/
+#tabs_container {
+	border:1px solid #ccc;
+	background-color:#CCCC99;
+}
+#tabs {
+    list-style: none;
+    padding: 5px 0 4px 0;
+    margin: 0 0 0 10px;
+    font: 0.75em arial;
+	height:20px;
+}
+#tabs li {
+    display: inline;
+}
+
+#tabs li a {
+	height:100%;
+	width:100px;
+    border: 1px solid #ccc;
+    padding: 4px 6px;
+    text-decoration: none;
+    background-color: #eeeeee;
+    border-bottom: none;
+    outline: none;
+    border-radius: 5px 5px 0 0;
+    -moz-border-radius: 5px 5px 0 0;
+    -webkit-border-top-left-radius: 5px;
+    -webkit-border-top-right-radius: 5px;
+}
+#tabs li a:hover {
+    background-color: #dddddd;
+    padding: 4px 6px;
+}
+#tabs li.active a {
+    border-bottom: 1px solid #fff;
+    background-color: #fff;
+    padding: 4px 6px 5px 6px;
+    border-bottom: none;
+}
+#tabs li.active a:hover {
+    background-color: #eeeeee;
+    padding: 4px 6px 5px 6px;
+    border-bottom: none;
+}
+ 
+ 
+#tabs_content_container {
+    border: 1px solid #ccc;
+    border-top: none;
+    padding: 10px;
+	background-color:white;
+}
+.tab_content {
+    display: none;
+}
+
+/*end of tab*/
