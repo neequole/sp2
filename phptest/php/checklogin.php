@@ -26,6 +26,7 @@ $row = mysql_fetch_array($result);
 //header("location:login_success.php");
 $_SESSION["loggedin"] = "YES";
 $_SESSION["name"] = $row['fname']." ".$row['mname']." ".$row['lname'];
+$_SESSION["id"] = $row['id'];
 header("location:../admin.php");
 }
 
