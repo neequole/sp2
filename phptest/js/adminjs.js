@@ -1,4 +1,5 @@
 $(document).ready(function() {
+
 	$("#nav-tabs li a").click(function() {
 	if($(this).text() == "Log-out") {}		//excempt log-out from ajax
 	else{
@@ -48,7 +49,7 @@ $(document).ready(function() {
 	});
 	
 	$("#addDate").live("click",function() {
-	var newRow = jQuery('<tr><td><input type="text" class="datepicker required"/></td><td><input type="text" class="timepicker required"/></td><td>to</td><td><input type="text" class="timepicker required"/></td><td><input type="text" class="required"/></td><td><a href="#" class="deleteDate">Delete</a></tr>');
+	var newRow = jQuery('<tr><td><input type="text" class="datepicker required"/></td><td><input type="text" class="timepicker required"/></td><td>to</td><td><input type="text" class="timepicker required"/></td><td><input type="text" class="required"/></td><td><a href="#" class="deleteDate">Delete</a><td><input type="hidden" name="date[]"/></td><td><input type="hidden" name="start[]"/></td><td><input type="hidden" name="end[]"/></td><td><input type="hidden" name="max[]"/></td></tr>');
     jQuery('table#eventDate').append(newRow);
     });
 
@@ -135,21 +136,22 @@ $(document).ready(function() {
 	//function for creating event
 	$("#create_eButton").live("click", function(){
 		var err = 0;
-		var listItem = $( '#tabs li' ).first(); // tab 1
+		/*var listItem = $( '#tabs li' ).first(); // tab 1
 		var nextSibling = listItem.next(); // tab 2
+		*/
 		var date_array = new Array();
 		var start_array = new Array();
 		var end_array = new Array();
 		var max_array = new Array();
 		var class_array = new Array();
 		
-		
+		/*
 		$("#tabs li").removeClass('active');
 		listItem.addClass("active");
 		$(".tab_content").hide();
 		var selected_tab = listItem.find("a").attr("href");
 		$(selected_tab).fadeIn();
-		
+		*/
 		//highlight fields that are blank
 		$("#form_eDetails input.required").each(function() {
 			$(this).css("border","solid 1px #999");
@@ -180,7 +182,6 @@ $(document).ready(function() {
 				var max = $("td:nth-child(5) input", this).val();
 				
 				
-				//window.alert(date + " " + start + " " + end + " " + max);
 				/*check if schedule is valid*/
 				if(!intRegex.test(max)){
 					$("#error_edetails").attr("class", "errorDiv");
@@ -193,11 +194,16 @@ $(document).ready(function() {
 				end_array.push(end);
 				max_array.push(max);
 				
+				
+				$("td:nth-child(7) input", this).val(date);
+				$("td:nth-child(8) input", this).val(start);
+				$("td:nth-child(9) input", this).val(end);
+				$("td:nth-child(10) input", this).val(max);
 			});
 			if(err == 0){
 		//check ticket class
 				var atLeastOneChecked = false;
-				$("#form_tClass input:checkbox").each(function () {
+				$("#form_eDetails input:checkbox").each(function () {
 				if ($(this).is(":checked")) {
 					class_array.push($(this).val());
 					if(atLeastOneChecked == false) atLeastOneChecked = true;
@@ -205,11 +211,12 @@ $(document).ready(function() {
 				});
 				if(atLeastOneChecked == false){
 				window.alert("not check");
-					$("#tab li").removeClass('active');
+					/*$("#tab li").removeClass('active');
 					nextSibling.addClass("active");
 					$(".tab_content").hide();
 					var selected_tab = nextSibling.find("a").attr("href");
 					$(selected_tab).fadeIn();
+					*/
 					$("#error_tab2").attr("class", "errorDiv");
 					$("#error_tab2").text("Select at least one ticket class for the event.");
 					return false;
@@ -229,14 +236,13 @@ $(document).ready(function() {
 				if($('#event_image').val()!= "") info = info + "<tr><td>Image URL: </td><td>"+$('#event_image').val()+"</td></tr>";
 				info = info + "</table>";
 								
-				$("#event_info").html(info + '<form name="savemyevent" id="savemyevent" method="post"><input type="button" value="Ok" id="final_eButton"></form><input type="button" value="Cancel" id="cancel_eButton">');
+				$("#event_info").html(info + '<input type="submit" value="Ok"></form><input type="button" value="Cancel" id="cancel_eButton">');
 				el = document.getElementById("overlay");
 				el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
 				return false;
 				}
 				
 		}
-
 		
 	});
 	
@@ -244,6 +250,7 @@ $(document).ready(function() {
 		el = document.getElementById("overlay");
 		el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
 	});
+
 	
 	$("#final_eButton").live("click",function(){
 
@@ -297,8 +304,67 @@ $(document).ready(function() {
 				}
 			});
 	
-	});	
+	});
 
-}); //document.ready function
+//for browsing event
+ $('.book_ticket').live('click',function(){
+	//alert($(this).attr('name'));
+			var row = $(this).parent().parent(); // skip the header row
+			var date = $("td:nth-child(1)", row).html();
+			var time = $("td:nth-child(2)", row).html();
+			
+			el = document.getElementById("overlay2");
+			$('#event_info2 h4').html(date+" "+time);
+			el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+
+ });
+ 
+  $('#cancel_book').live('click',function(){
+			el = document.getElementById("overlay2");
+			el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+
+ });
+//end for browsing event
 	
+}); //document.ready function
 
+function show_alert(msg) {
+            alert(msg);
+}
+
+function validateBooking(){
+	$("#error_bdetails").text("");
+	var err=0;
+	var tclass = $('input[name=ticketclass]:checked', '#book_form').val();
+	var fname = $('#u_fname').val();		//from session
+	var mname = $('#u_mname').val();
+	var lname = $('#u_lname').val();
+	var gender = $('#gender_row input[name=u_gender]:checked').val();
+	var num = $('#u_num').val();
+	var email = $('#u_email').val();
+	var snum1 = $('#u_snum1').val();		//from session
+	var snum2 = $('#u_snum2').val();
+	var intRegex = /^\d+$/;
+	var emailRegex = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+	//alert(tclass + " " + fname + " " + mname + " " + lname + " " + gender + " " + num + " " + email + " " + snum1 + " " + snum2);
+	$("#book_form input.required").each(function() {
+			$(this).css("border","solid 1px #999");
+			if($(this).val()==""){
+				$(this).css("border","solid 1px red");
+				err = 1;
+			}
+	});
+	
+	if(err==1) return false;
+	else if(!intRegex.test(num)){
+				$('#error_bdetails').attr("class", "errorDiv");
+				$("#error_bdetails").text("Contact number should only contain numeric characters.");
+				return false;
+	}
+	else if(!emailRegex.test(email)){
+				$('#error_bdetails').attr("class", "errorDiv");
+				$("#error_bdetails").text("Invalid email.");
+				return false;
+	}
+	return true;
+}

@@ -69,10 +69,10 @@ include("../include/config.php");
     </div>
 	<div id="tab3" class="tab_content">
 		<div id="error_tab3" class="successDiv"><p>Upload JPG image for the event.</p></div>
-		<form action="demo_form.asp">
+		<form>
 		<input type="hidden" name="MAX_FILE_SIZE" value="100000"/>
 		<table>
-			<tr><td>Event Image</td><td><input type="file" name="e_pic" accept="image/*"  id="event_image"/></td></tr>
+			<tr><td>Event Image</td><td><input type="file" name="uploadedfile" accept="image/*"  id="event_image"/></td></tr>
 		</table>
 		</form> 
 	</div>

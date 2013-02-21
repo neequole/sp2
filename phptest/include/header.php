@@ -4,10 +4,11 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>Home | The UPLB Ticket Hub</title>
 
-<link rel="stylesheet" href="http://code.jquery.com/ui/1.9.2/themes/base/jquery-ui.css" />
+<link rel="stylesheet" href="css/jquery-ui.css" />
 <link rel="stylesheet" href="css/jquery.ptTimeSelect.css" />
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery.js"></script>
+<script type="text/javacript" src="js/index.js"></script>
 <script type="text/javascript" src="js/adminjs.js"></script>
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="js/jquery-ui.js"></script>
@@ -17,19 +18,22 @@
 <body>
 	<div id="container">
     	<div id="header">
-        	<div id="logo"><img src="images/logo.png"/></div>
+        	<div id="logo"><a href="index.php"><img src="images/logo.png"/></a></div>
             <div id="nav">
-					
+					<div id="navbar">
+					<span class="inbar">
                     <ul class="horizontal">
 						<?php
 						if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']!="")
 							echo 'Welcome! '.$_SESSION["name"];
 						else{
-							echo '<li><a href="#">Home</a></li>';
-							echo '<li><a href="#">Cart</a></li>';
-							echo '<li><a href="login.php" id="login">Log-in</a></li>';	
+							echo '<li><a href="index.php"><img src="images/ticket.png" height="50" width="50"/><span>Home</span></a></li>';
+							echo '<li><a href="#"><img src="images/cart.png" height="50" width="50"/><span>Cart</span></a></li>';
+							echo '<li><a href="login.php" id="login"><img src="images/user.png" height="50" width="50"/><span>Log-in</span></a></li>';	
 						}
 						?>
 					</ul> 
+					</span>
+					</div>
             </div>
         </div>

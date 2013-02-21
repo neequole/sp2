@@ -35,6 +35,61 @@ height: 100%;
 	float:right;
 }
 
+/*nav css*/
+#navbar{
+width:auto;
+height:70px;
+margin-top:30px;
+margin-left:30px;
+}
+#navbar .inbar{
+display:block;
+height:60px;
+}
+#navbar ul, #navbar ul li{
+border:0px;
+margin:10px;
+padding:0px;
+list-style:none;
+height:50px;
+line-height:50px; }
+#navbar ul li{
+float:left;
+display:block;
+line-height:50px;
+margin-left:10px;
+}
+#navbar ul li a{
+color:#403e32;
+text-decoration:none;
+font-weight:bold;
+display:block;
+}
+#navbar ul li a span{
+height:50px;
+line-height:50px;
+display:block;
+float:right;
+margin-left:15px;
+}
+#navbar .navhome a, #navbar .navhome a:hover{
+
+}
+#navbar .navhome a span, #navbar .navhome a:hover span{
+}
+#navbar ul li:hover{
+border:dotted 1px white;
+   border-radius: 5px 5px 5px 5px;
+   -moz-border-radius: 5px 5px 5px 5px;
+   -webkit-border-radius: 5px;
+   -webkit-border-radius: 5px;
+}
+#navbar ul li a:hover span{
+
+} 
+
+/*end*/
+
 #main {
    background-color:white;
    overflow:hidden;
@@ -178,7 +233,7 @@ clear:both;
 }
 
 /*Modal box*/
-#overlay {
+#overlay, #overlay2 {
      visibility: hidden;
      position: absolute;
      left: 0px;
@@ -191,7 +246,7 @@ clear:both;
 	
 }
 
-#overlay div {
+#overlay div, #overlay2 div {
      width:300px;
      margin: 100px auto;
      background-color: #fff;
@@ -199,3 +254,40 @@ clear:both;
      padding:15px;
      text-align:center;
 }
+#overlay2 div{
+	width:700px;
+}
+
+/*thumbnail css*/
+div.thumbnail
+{
+  margin:20px;
+  border:1px solid #0000ff;
+  height: 285px;
+  width:220px;
+  float:left;
+  text-align:center;
+}
+
+div.thumbnail:hover{
+	background-color:black;
+}
+div.thumbnail img
+  {
+  display:inline;
+  margin:3px;
+  border:1px solid #ffffff;
+  max-width:90%; 
+  max-height:90%;
+  }
+div.thumbnail a:hover img
+  {
+  border:1px solid #0000ff;
+  }
+div.desc
+  {
+  text-align:center;
+  font-weight:normal;
+  width:120px;
+  margin:2px;
+  }
