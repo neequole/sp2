@@ -1,5 +1,13 @@
 <?php
 session_start();
+if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']=="" || $_SESSION['type']!="admin"){
+?>
+<script type="text/javascript">
+    alert("You are not allowed to view this page.");
+	window.location = "index.php";
+</script>
+<?php
+}
 include("include/header.php");
 ?>
  <div id="main">
@@ -15,6 +23,7 @@ include("include/header.php");
 			<li><a href="ajax/browse.php">Browse event</a></li>
 			<li><a href="ajax/addEvent2.php">New event</a></li>
 			<li><a href="ajax/venue.php">Venue</a></li>
+			<li><a href="index.php">Preview</a></li>
 			<li><a href="php/logout.php">Log-out</a></li>
 		</ul>
 	</div>
