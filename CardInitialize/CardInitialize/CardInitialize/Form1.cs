@@ -6,6 +6,11 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
+using webService;
+using System.Reflection;
+//for JSON
+using System.Web.Script.Serialization;
+
 
 namespace WindowsFormsApplication1
 {
@@ -13,6 +18,10 @@ namespace WindowsFormsApplication1
     {
         int hContext = 0, retcode, hCard, ActiveProtocol;   //hContext -> handle for resource manager
         string rreader;
+        WebService agent = new WebService();
+        public string sURL = "http://localhost/phptest/web_service/sample2.php/UserStudent/";
+        Student stud = new Student();
+        int session_stud_id; //session id of user
 
         public Form1()
         {
@@ -21,10 +30,9 @@ namespace WindowsFormsApplication1
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            button1.Enabled = false; //disable and hide button1
-            button1.Visible = false;
-            label1.Text = "NO CARD READER DETECTED";
-            check_reader();
+            groupBox1.Hide();
+            button4.Enabled = false;
+            
         }
 
         private bool check_reader()
@@ -108,6 +116,69 @@ namespace WindowsFormsApplication1
         private void button2_Click(object sender, EventArgs e)
         {
             check_reader();
+        }
+
+        //log-in button
+        private void button3_Click(object sender, EventArgs e)
+        {
+            button4.Enabled = false;            //disable proceed
+            string username = textBox1.Text;
+            string pwd = textBox2.Text;
+            StringBuilder sb = new StringBuilder();
+            sb.Append(sURL);
+            sb.Append(textBox1.Text);
+            try
+            {
+                send_http_request("GET", sb.ToString());
+                if (stud.usrname == username && stud.pwd == pwd)
+                {
+                   logBox1.Items.Add("Found user");
+                   logBox1.Items.Add(stud.stud_status);
+                   if (stud.stud_status == "approved")
+                   {
+                       button4.Enabled = true;
+                   }
+                }
+                else logBox1.Items.Add("Username and Password does not match");
+            }
+            catch
+            {
+                //MessageBox.Show("There was an error fetching the data");
+                logBox1.Items.Add("There was an error fetching the data");
+            }
+            
+        }
+
+        public void send_http_request(string req_method, string args)
+        {
+            string data = "";
+
+                if (req_method == "GET")
+                    data = agent.HttpGet(args);
+                else data = agent.HttpPost(args, "dummy", "dummy");
+                JavaScriptSerializer jSerialize = new JavaScriptSerializer();
+                stud = jSerialize.Deserialize<Student>(data);                   //initialize student
+                //string sb = "center = " + stud.ToString();
+                //MessageBox.Show(sb);
+                //logBox1.Items.Add(sb);
+
+           
+
+      
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            //set session id
+            session_stud_id = stud.id;
+            label5.Text = stud.fname;
+            groupBox1.Show();
+            groupBox2.Hide();
+            button1.Enabled = false; //disable and hide button1
+            button1.Visible = false;
+            label1.Text = "NO CARD READER DETECTED";
+            check_reader();
+            
         }
         
  

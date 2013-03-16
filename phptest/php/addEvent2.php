@@ -23,44 +23,55 @@ else{
 $target_path = $target_path . basename(mysql_real_escape_string(($_FILES['uploadedfile']['name']))); 
 $db_path = $db_path . basename(mysql_real_escape_string(($_FILES['uploadedfile']['name']))); 
 $string = $string . ",'".$db_path."')";
-
-	if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
-		echo "File successfully uploaded";
-	} else{
-		echo "There was an error uploading the file, please try again!";
-	}
 }
-echo $string;
-$result = mysql_query($string) or die(mysql_error());
-$e_id = mysql_insert_id();
+	$fail = 0;		//0 = no error
+	echo $string;
+	mysql_query("START TRANSACTION");
+	$result = mysql_query($string) or die(mysql_error());
+	$e_id = mysql_insert_id();
 
-if($result){
-	$err = "sAddEvent";
+
 	//event ticket class
 	foreach($class as $c){
 		$string = "INSERT INTO event_tclass values(".$e_id.",'".$c."')";
 		echo $string;
 		$result = mysql_query($string) or die(mysql_error());
 		if($result){
-		echo "New event class added.";
+		
 		}
-		else echo "Error in adding event class.";
+		else{
+			mysql_query("ROLLBACK");
+			$err = "fAddEvent";
+			header('Location: ../admin.php?err='.$err);
+		}
 	}
-		//event schedule
-		for($i=0, $count = count($date); $i<$count; $i++){
+	
+	//event schedule
+	for($i=0, $count = count($date); $i<$count; $i++){
 		$foo = date('Y-m-d', strtotime($date[$i]));
 		$string = "INSERT INTO e_sched values('',".$e_id.",'".$foo."'".",'".$start[$i]."','".$end[$i]."',".$max[$i].",0)";
 		echo $string;
 		$result = mysql_query($string) or die(mysql_error());
-		if($result) echo "New event schedule added.";
-		else echo "Error in adding event schedule.";
+		if($result){}
+		else{
+			mysql_query("ROLLBACK");
+			$err = "fAddEvent";
+			header('Location: ../admin.php?err='.$err);
 		}
-}
-else{
-$err = "fAddEvent";
-}
+	}
+	
+	//upload image only if event is already added
+	if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
+		echo "File successfully uploaded";
+	} else{
+		$err = "fAddImage";
+		header('Location: ../admin.php?err='.$err);
+	}
 
-header('Location: ../admin.php?err='.$err);
+	mysql_query("COMMIT");
+	$err = "sAddEvent";
+	header('Location: ../admin.php?err='.$err);
+
 //date if conflict?
 //check for same name?
 //date schedule and event ticket class

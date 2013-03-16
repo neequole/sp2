@@ -50,7 +50,7 @@ $(document).ready(function() {
 	});
 	
 	$("#addDate").live("click",function() {
-	var newRow = jQuery('<tr><td><input type="text" class="datepicker required"/></td><td><input type="text" class="timepicker required"/></td><td>to</td><td><input type="text" class="timepicker required"/></td><td><input type="text" class="required"/></td><td><a href="#" class="deleteDate">Delete</a><td><input type="hidden" name="date[]"/></td><td><input type="hidden" name="start[]"/></td><td><input type="hidden" name="end[]"/></td><td><input type="hidden" name="max[]"/></td></tr>');
+	var newRow = jQuery('<tr><td><input type="text" class="datepicker required" required pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d" /></td><td><input type="text" class="timepicker required" required pattern="([1-9]|1[0-2]):([0-5][0-9]) ([A|P]M)" /></td><td>to</td><td><input type="text" class="timepicker required" required pattern="([1-9]|1[0-2]):([0-5][0-9]) ([A|P]M)" /></td><td><input type="text" class="required" pattern="[0-9]+" min="1" required /></td><td><a href="#" class="deleteDate">Delete</a><td><input type="hidden" name="date[]"/></td><td><input type="hidden" name="start[]"/></td><td><input type="hidden" name="end[]"/></td><td><input type="hidden" name="max[]"/></td></tr>');
     jQuery('table#eventDate').append(newRow);
     });
 
@@ -135,7 +135,8 @@ $(document).ready(function() {
 	});
 	//end function
 	//function for creating event
-	$("#create_eButton").live("click", function(){
+	$("#form_eDetails").submit(function(){
+	alert("hello");
 		var err = 0;
 		/*var listItem = $( '#tabs li' ).first(); // tab 1
 		var nextSibling = listItem.next(); // tab 2
@@ -368,6 +369,30 @@ $(document).ready(function() {
 						
 					}*/
 				});
+	});
+	
+	$('#approve_stud').live('click',function(){
+		var row = $(this).parent().parent();
+		var id = $(this).parent().parent().attr("id"); // skip the header row
+		var myData = "user_id="+id;
+		jQuery.ajax({
+					type: "POST", // Post / Get method
+					url: "php/approveUser.php", //Where form data is sent on submission
+					dataType:"text", // Data type, HTML, json etc.
+					data:myData, //Form variables
+					success:function(response){
+						if(response == "1"){
+							alert("User approved");
+							$("td:nth-child(4)", row).html("approved");
+							$("td:nth-child(5)", row).html("");
+						}
+						else alert("Error in approving requests.");
+					}
+					/*error:function (xhr, ajaxOptions, thrownError){
+						
+					}*/
+				});
+		
 	});
 	
 }); //document.ready function

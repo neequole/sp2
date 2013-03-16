@@ -45,6 +45,7 @@ else{
 			$num_rows = mysql_num_rows($result);
 			if($num_rows > 0) echo '<p>student number already exists.</p>';
 			else{
+			/*
 			// Insert sanitize string in record
 				if(mysql_query("INSERT INTO user(id,usrname,pwd,fname,mname,lname,suffix,sex,cnum,email,type) VALUES('','".$uname."','".$pwd."','".$fname."','".$mname."','".$lname."','".$suffix."','".$sex."','".$cnum."','".$email."','".$type."')"))
 				{	  
@@ -61,6 +62,22 @@ else{
 				//output error
 					echo '<p>Could not insert user record!</p>';
 				}
+				*/
+				
+				mysql_query("START TRANSACTION");
+				$qry1 = mysql_query("INSERT INTO user(id,usrname,pwd,fname,mname,lname,suffix,sex,cnum,email,type) VALUES('','".$uname."','".$pwd."','".$fname."','".$mname."','".$lname."','".$suffix."','".$sex."','".$cnum."','".$email."','".$type."')");
+				$u_id = mysql_insert_id();
+				$qry2 = mysql_query("INSERT INTO user_stud(stud_no,college,course,id,stud_status) VALUES('".$studno."','".$college."','".$course."',$u_id,'deactivated')");
+
+				if ($qry1 and $qry2) {
+					mysql_query("COMMIT");
+					echo "<p>user record inserted.</p>";
+				} else {        
+					mysql_query("ROLLBACK");
+					echo '<p>Could not insert user record!</p>';
+				}
+				
+				
 			}
 		}
 		else{
