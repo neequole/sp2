@@ -75,6 +75,24 @@ class UserStudent
    		if ( $row ) return new UserStudent( $row );
   }
   
+  public static function changeStatusById($id) {
+  		$sql = "UPDATE user_stud SET stud_status='activated' where id=".$id;
+		$result = mysql_query($sql) or die(mysql_error());
+		$sql = "SELECT * FROM user u INNER JOIN user_stud s ON u.id = s.id where u.id=".$id;	//return updated
+		$result = mysql_query($sql) or die(mysql_error());
+    	$row = mysql_fetch_array($result);
+   		if ( $row ) return new UserStudent( $row );
+  }
+  
+  public static function changeStatusByName($usrname) {
+  		$sql = "UPDATE user_stud SET stud_status='activated' where id=".$usrname;
+		$result = mysql_query($sql) or die(mysql_error());
+		$sql = "SELECT * FROM user u INNER JOIN user_stud s ON u.id = s.id where u.usrname='".$usrname."'";
+		$result = mysql_query($sql) or die(mysql_error());
+    	$row = mysql_fetch_array($result);
+   		if ( $row ) return new UserStudent( $row );
+  }
+  
 }
  
 ?>

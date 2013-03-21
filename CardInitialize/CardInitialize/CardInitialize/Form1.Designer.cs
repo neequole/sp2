@@ -37,17 +37,22 @@
             this.button2 = new System.Windows.Forms.Button();
             this.logBox1 = new System.Windows.Forms.ListBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.button4 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.textBox2 = new System.Windows.Forms.TextBox();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.button4 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.card_info = new System.Windows.Forms.ListBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.groupBox2.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -67,7 +72,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.button2);
-            this.groupBox1.Location = new System.Drawing.Point(0, 6);
+            this.groupBox1.Location = new System.Drawing.Point(16, 6);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(318, 193);
             this.groupBox1.TabIndex = 2;
@@ -114,26 +119,35 @@
             // logBox1
             // 
             this.logBox1.FormattingEnabled = true;
-            this.logBox1.Location = new System.Drawing.Point(336, 12);
+            this.logBox1.Location = new System.Drawing.Point(355, 9);
             this.logBox1.Name = "logBox1";
-            this.logBox1.Size = new System.Drawing.Size(299, 238);
+            this.logBox1.Size = new System.Drawing.Size(289, 316);
             this.logBox1.TabIndex = 3;
             // 
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.button4);
             this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Controls.Add(this.groupBox1);
             this.groupBox2.Controls.Add(this.textBox2);
             this.groupBox2.Controls.Add(this.textBox1);
             this.groupBox2.Controls.Add(this.label3);
             this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.Location = new System.Drawing.Point(12, 45);
+            this.groupBox2.Location = new System.Drawing.Point(10, 6);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(318, 193);
             this.groupBox2.TabIndex = 4;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Log-in";
+            // 
+            // button4
+            // 
+            this.button4.Location = new System.Drawing.Point(111, 134);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(112, 49);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "Proceed";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
             // button3
             // 
@@ -178,16 +192,6 @@
             this.label2.TabIndex = 0;
             this.label2.Text = "Username";
             // 
-            // button4
-            // 
-            this.button4.Location = new System.Drawing.Point(111, 134);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(112, 49);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Proceed";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
             // label4
             // 
             this.label4.AutoSize = true;
@@ -207,15 +211,41 @@
             this.label5.TabIndex = 6;
             this.label5.Text = "guest";
             // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.panel2);
+            this.panel1.Controls.Add(this.groupBox1);
+            this.panel1.Location = new System.Drawing.Point(12, 44);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(337, 206);
+            this.panel1.TabIndex = 7;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.groupBox2);
+            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(337, 206);
+            this.panel2.TabIndex = 8;
+            // 
+            // card_info
+            // 
+            this.card_info.FormattingEnabled = true;
+            this.card_info.Location = new System.Drawing.Point(650, 9);
+            this.card_info.Name = "card_info";
+            this.card_info.Size = new System.Drawing.Size(289, 316);
+            this.card_info.TabIndex = 8;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.ClientSize = new System.Drawing.Size(653, 256);
+            this.ClientSize = new System.Drawing.Size(951, 339);
+            this.Controls.Add(this.card_info);
+            this.Controls.Add(this.panel1);
             this.Controls.Add(this.label5);
             this.Controls.Add(this.label4);
-            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.logBox1);
             this.Name = "Form1";
             this.Text = "Form1";
@@ -225,6 +255,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -248,6 +280,9 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Panel panel1;
+        private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.ListBox card_info;
     }
 }
 

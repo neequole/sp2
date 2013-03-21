@@ -21,5 +21,7 @@ namespace webService
             public string course { get; set; }
             public int id { get; set; }
             public string stud_status { get; set; }
+            public string error { get; set; }
+            public string error_message { get; set; }
     }
 }

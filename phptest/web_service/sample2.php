@@ -8,7 +8,7 @@
 	$uri = $_SERVER['REQUEST_URI'];
 	
 	//check if METHOD exists
-	if(isset($method) && $method!="" && ($method=="POST" || $method == "GET")){
+	if(isset($method) && $method!="" && ($method=="POST" || $method == "GET" || $method == "PUT")){
 		
 		//check URI exists
 		$exists = remoteFileExists("http://localhost" . $uri);
@@ -19,27 +19,31 @@
 					echo "Error in CLASS";
 				else{
 					if (class_exists($resource[4])) {
-						if(isset($resource[5]) && $resource[5] != ""){
+						if(isset($resource[5]) && $resource[5] != ""){	//[5] => User Id || username
 						$results = array();
-						if(is_numeric($resource[5])) $results['student'] = UserStudent::getUserById($resource[5]); //if given is id
-						else $results['student'] = UserStudent::getUserByUsername($resource[5]);		//if given is username
-						$row = $results['student'];
-						echo json_encode($row);
+						if($method == "GET"){
+							if(is_numeric($resource[5])) $results['student'] = UserStudent::getUserById($resource[5]); //if given is id
+							else $results['student'] = UserStudent::getUserByUsername($resource[5]);		//if given is username
 						}
-						else echo "Error in USER ID";
+						else if($method == "PUT"){
+							if(is_numeric($resource[5])) $results['student'] = UserStudent::changeStatusById($resource[5]); //if given is id
+							else $results['student'] = UserStudent::changeStatusByName($resource[5]);		//if given is username
+						}
+						$row = $results['student'];
+						if($row)
+							echo json_encode($row);
+						else
+							echo json_encode(array('error'=>'true', 'error_message'=>'Student not found.'));
+						}
 					}
-					else echo "CLASS does not exists.";
-					
-				//if class exists, get parameters, use class methods
-	
-				//return json
+					else echo json_encode(array('error'=>'true', 'error_message'=>'Class does not exists.'));
 				}
 		} else {
-			echo "Error in URI";   
+			echo json_encode(array('error'=>'true', 'error_message'=>'Error in URI'));   
 		}
 	}
 
-	else "Error in REQUEST METHOD";
+	else echo json_encode(array('error'=>'true', 'error_message'=>'Error in REQUEST METHOD'));
 
 	
 //function for checking uri	

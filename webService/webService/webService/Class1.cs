@@ -64,6 +64,25 @@ namespace webService
             return sr.ReadToEnd();
         }
 
+
+        /* HTTP PUT for changing object attribute 
+        */
+        public string HttpPut(string url, object obj)
+        {
+            var request = (HttpWebRequest)WebRequest.Create(url);
+            request.Method = "PUT";
+            request.ContentType = "application/json";
+            using (var streamWriter = new StreamWriter(request.GetRequestStream()))
+            {
+                var serializer = new JavaScriptSerializer();
+                string json = serializer.Serialize(obj);
+            }
+
+            HttpWebResponse response = (HttpWebResponse)request.GetResponse();
+            StreamReader sr = new StreamReader(response.GetResponseStream());
+            return sr.ReadToEnd();
+        }
+
         /*End of web service*/
 
     }
