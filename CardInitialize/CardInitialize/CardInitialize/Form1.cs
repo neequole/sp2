@@ -126,7 +126,10 @@ namespace WindowsFormsApplication1
                     str.Append(sURL);
                     str.Append(session_stud_id.ToString());
                     send_http_request("PUT", str.ToString(), new{string_stud_status = "activated"});
-                    MessageBox.Show(str.ToString());       
+                    MessageBox.Show("Status: " + stud.stud_status);
+                    button1.Enabled = false;
+                    label6.Enabled = true;
+                    
             }
             catch {
                 logBox1.Items.Add("There was an error in initializing card");
@@ -163,6 +166,7 @@ namespace WindowsFormsApplication1
                 else if (stud.usrname == username && stud.pwd == pwd)
                 {
                    logBox1.Items.Add("Found user");
+                   //logBox1.Items.Add(stud.course + "college " + stud.college);
                    logBox1.Items.Add(stud.stud_status);
                    if (stud.stud_status == "approved")
                    {
@@ -517,7 +521,7 @@ namespace WindowsFormsApplication1
                
             }
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
-            logBox1.Items.Add("apdu!!");
+            //logBox1.Items.Add("apdu!!");
         }
 
         private void SubmitIC()
@@ -574,7 +578,7 @@ namespace WindowsFormsApplication1
             int i;
             if (caseType == 1)    // If card data is to be erased before writing new data. Re-initialize card values to $00
             {
-                logBox1.Items.Add("hello1");
+                //logBox1.Items.Add("hello1");
                 apdu.bCLA = 0x80;        // CLA
                 apdu.bINS = 0xD2;        // INS
                 apdu.bP1 = RecNo;		 // Record No
@@ -585,9 +589,9 @@ namespace WindowsFormsApplication1
                 for (i = 0; i < maxLen; i++)
                     apdu.Data[i] = ApduIn[i];
 
-                logBox1.Items.Add("hello1.5");
+                //logBox1.Items.Add("hello1.5");
                 PerformTransmitAPDU(ref apdu);
-                logBox1.Items.Add("hello2");
+                //logBox1.Items.Add("hello2");
             }
 
             //Write data to card
@@ -604,7 +608,7 @@ namespace WindowsFormsApplication1
 
             logBox1.Items.Add("Write to FF 02");
             PerformTransmitAPDU(ref apdu);
-            logBox1.Items.Add("HAHHA2");
+            //logBox1.Items.Add("HAHHA2");
 
         }
 
@@ -988,7 +992,7 @@ namespace WindowsFormsApplication1
                 return;
             }
 
-            //read email
+            //read id
             readRecord(0x00, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1008,12 +1012,12 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
             }
 
-            card_info.Items.Add(tmpStr);
+            card_info.Items.Add("User ID: " + tmpStr);
 
             logBox1.Items.Add("Data read from card is displayed");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
-            //read cnum
+            //read Name
             readRecord(0x01, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1033,12 +1037,12 @@ namespace WindowsFormsApplication1
                 indx = indx + 1;
             }
 
-            card_info.Items.Add(tmpStr);
+            card_info.Items.Add("Name: " + tmpStr);
 
             logBox1.Items.Add("Data read from card is displayed");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
-            //read course
+            //read username
             readRecord(0x02, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1058,12 +1062,12 @@ namespace WindowsFormsApplication1
                 indx = indx + 1;
             }
 
-            card_info.Items.Add(tmpStr);
+            card_info.Items.Add("Username: " + tmpStr);
 
             logBox1.Items.Add("Data read from card is displayed");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
-            //read college
+            //read password
             readRecord(0x03, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1083,7 +1087,7 @@ namespace WindowsFormsApplication1
                 indx = indx + 1;
             }
 
-            card_info.Items.Add(tmpStr);
+            card_info.Items.Add("Password: " + tmpStr);
 
             logBox1.Items.Add("Data read from card is displayed");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
@@ -1108,12 +1112,12 @@ namespace WindowsFormsApplication1
                 indx = indx + 1;
             }
 
-            card_info.Items.Add(tmpStr);
+            card_info.Items.Add("Student No: " + tmpStr);
 
             logBox1.Items.Add("Data read from card is displayed");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
-            //read password
+            //read College
             readRecord(0x05, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1133,12 +1137,12 @@ namespace WindowsFormsApplication1
                 indx = indx + 1;
             }
 
-            card_info.Items.Add(tmpStr);
+            card_info.Items.Add("College: " + tmpStr);
 
             logBox1.Items.Add("Data read from card is displayed");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
-            //read username
+            //read course
             readRecord(0x06, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1158,12 +1162,12 @@ namespace WindowsFormsApplication1
                 indx = indx + 1;
             }
 
-            card_info.Items.Add(tmpStr);
+            card_info.Items.Add("Course: " + tmpStr);
 
             logBox1.Items.Add("Data read from card is displayed");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
-            //read name
+            //read cnum
             readRecord(0x07, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1183,12 +1187,12 @@ namespace WindowsFormsApplication1
                 indx = indx + 1;
             }
 
-            card_info.Items.Add(tmpStr);
+            card_info.Items.Add("Contact number: " + tmpStr);
 
             logBox1.Items.Add("Data read from card is displayed");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
-            //read user id
+            //read email
             readRecord(0x08, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1208,7 +1212,7 @@ namespace WindowsFormsApplication1
                 indx = indx + 1;
             }
 
-            card_info.Items.Add(tmpStr);
+            card_info.Items.Add("Email: " + tmpStr);
 
             logBox1.Items.Add("Data read from card is displayed");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
