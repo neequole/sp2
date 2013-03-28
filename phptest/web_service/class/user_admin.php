@@ -4,10 +4,10 @@
  * Class to handle User
 */
  
-class UserStudent
+class UserAdmin
 {
  
-// Properties of user_student
+// Properties of user_admin
   public $id = null;
   public $usrname = null;
   public $pwd = null;
@@ -19,10 +19,7 @@ class UserStudent
   public $cnum = null;
   public $email = null;
   public $type = null;
-  public $stud_no = null;
-  public $college = null;
-  public $course = null;
-  public $stud_status = null;
+
   
   /**
   * Sets the object's properties using the values in the supplied array
@@ -42,10 +39,6 @@ class UserStudent
 	if ( isset( $data['cnum'] ) ) $this->cnum = $data['cnum'];
 	if ( isset( $data['email'] ) ) $this->email = $data['email'];
 	if ( isset( $data['type'] ) ) $this->type = $data['type'];
-	if ( isset( $data['stud_no'] ) ) $this->stud_no = $data['stud_no'];
-	if ( isset( $data['college'] ) ) $this->college = $data['college'];
-	if ( isset( $data['course'] ) ) $this->course = $data['course'];
-	if ( isset( $data['stud_status'] ) ) $this->stud_status = $data['stud_status'];
   }
  
  
@@ -62,35 +55,17 @@ class UserStudent
   }
   
    public static function getUserById($id) {
-  		$sql = "SELECT * FROM user u INNER JOIN user_stud s ON u.id = s.id where u.id=".$id;
+  		$sql = "SELECT * FROM user where id=".$id." and type='admin'";
 		$result = mysql_query($sql) or die(mysql_error());
     	$row = mysql_fetch_array($result);
-   		if ( $row ) return new UserStudent( $row );
+   		if ( $row ) return new UserAdmin( $row );
   }
   
   public static function getUserByUsername($usrname) {
-  		$sql = "SELECT * FROM user u INNER JOIN user_stud s ON u.id = s.id where u.usrname='".$usrname."'";
+  		$sql = "SELECT * FROM user where usrname='".$usrname."' and type='admin'";
 		$result = mysql_query($sql) or die(mysql_error());
     	$row = mysql_fetch_array($result);
-   		if ( $row ) return new UserStudent( $row );
-  }
-  
-  public static function changeStatusById($id) {
-  		$sql = "UPDATE user_stud SET stud_status='activated' where id=".$id;
-		$result = mysql_query($sql) or die(mysql_error());
-		$sql = "SELECT * FROM user u INNER JOIN user_stud s ON u.id = s.id where u.id=".$id;	//return updated
-		$result = mysql_query($sql) or die(mysql_error());
-    	$row = mysql_fetch_array($result);
-   		if ( $row ) return new UserStudent( $row );
-  }
-  
-  public static function changeStatusByName($usrname) {
-  		$sql = "UPDATE user_stud SET stud_status='activated' where id=".$usrname;
-		$result = mysql_query($sql) or die(mysql_error());
-		$sql = "SELECT * FROM user u INNER JOIN user_stud s ON u.id = s.id where u.usrname='".$usrname."'";
-		$result = mysql_query($sql) or die(mysql_error());
-    	$row = mysql_fetch_array($result);
-   		if ( $row ) return new UserStudent( $row );
+   		if ( $row ) return new UserAdmin( $row );
   }
   
 }

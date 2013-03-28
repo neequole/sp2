@@ -1,5 +1,7 @@
 <?php
 	include("class/user_stud.php");
+	include("class/user_admin.php");
+	include("class/booking.php");
 	include("../include/config.php");
 ?>
 
@@ -19,21 +21,54 @@
 					echo "Error in CLASS";
 				else{
 					if (class_exists($resource[4])) {
-						if(isset($resource[5]) && $resource[5] != ""){	//[5] => User Id || username
-						$results = array();
-						if($method == "GET"){
-							if(is_numeric($resource[5])) $results['student'] = UserStudent::getUserById($resource[5]); //if given is id
-							else $results['student'] = UserStudent::getUserByUsername($resource[5]);		//if given is username
+						if($resource[4] == "UserStudent"){
+							if(isset($resource[5]) && $resource[5] != ""){	//[5] => User Id || username
+								$results = array();
+								if($method == "GET"){
+									if(is_numeric($resource[5])) $results['student'] = UserStudent::getUserById($resource[5]); //if given is id
+									else $results['student'] = UserStudent::getUserByUsername($resource[5]);		//if given is username
+								}
+								else if($method == "PUT"){
+									if(is_numeric($resource[5])) $results['student'] = UserStudent::changeStatusById($resource[5]); //if given is id
+									else $results['student'] = UserStudent::changeStatusByName($resource[5]);		//if given is username
+								}
+								$row = $results['student'];
+								if($row)
+									echo json_encode($row);
+								else
+									echo json_encode(array('error'=>'true', 'error_message'=>'Student not found.'));
+							}
+							else echo json_encode(array('error'=>'true', 'error_message'=>'Not enough information were given.'));
 						}
-						else if($method == "PUT"){
-							if(is_numeric($resource[5])) $results['student'] = UserStudent::changeStatusById($resource[5]); //if given is id
-							else $results['student'] = UserStudent::changeStatusByName($resource[5]);		//if given is username
+						else if($resource[4] == "UserAdmin"){	//useradmin
+							if(isset($resource[5]) && $resource[5] != ""){	//[5] => User Id || username
+									$results = array();
+									if($method == "GET"){
+										if(is_numeric($resource[5])) $results['admin'] = UserAdmin::getUserById($resource[5]); //if given is id
+										else $results['admin'] = UserAdmin::getUserByUsername($resource[5]);		//if given is username
+									}
+									$row = $results['admin'];
+									if($row)
+										echo json_encode($row);
+									else
+										echo json_encode(array('error'=>'true', 'error_message'=>'Adminstrator not found.'));
+							}
+							else echo json_encode(array('error'=>'true', 'error_message'=>'Not enough information were given.'));
 						}
-						$row = $results['student'];
-						if($row)
-							echo json_encode($row);
-						else
-							echo json_encode(array('error'=>'true', 'error_message'=>'Student not found.'));
+						else if($resource[4] == "Booking"){	//booking
+							if(isset($resource[5]) && $resource[5] != ""){	//[5] => User Id || username
+										$results = array();
+										if($method == "GET"){
+											if(is_numeric($resource[5])) $results['booking'] = Booking::getBookingByUserId($resource[5]); //if given is id
+											else $results['booking'] = Booking::getBookingByUsername($resource[5]);		//if given is username
+										}
+										$row = $results['booking'];
+										if($row)
+											echo json_encode($row);
+										else
+											echo json_encode(array('error'=>'true', 'error_message'=>'Error in fetching student bookings.'));
+								}
+							else echo json_encode(array('error'=>'true', 'error_message'=>'Not enough information were given.'));
 						}
 					}
 					else echo json_encode(array('error'=>'true', 'error_message'=>'Class does not exists.'));

@@ -287,7 +287,7 @@ namespace WindowsFormsApplication1
 
             //  Write to second record of FF 04, 1st ticket object
             tmpArray[0] = 0x32;       // 50    Record length
-            tmpArray[1] = 0x05;       // 2     No of records (cnum, email)
+            tmpArray[1] = 0x06;       // 2     No of records (id,title,venue,sched,status,flag)
             tmpArray[2] = 0x00;       // 00    Read security attribute
             tmpArray[3] = 0x00;       // 00    Write security attribute
             tmpArray[4] = 0xBB;       // BB    File identifier
@@ -305,7 +305,7 @@ namespace WindowsFormsApplication1
 
             //  Write to third record of FF 04, 2nd ticket object
             tmpArray[0] = 0x32;       // 50     Record length
-            tmpArray[1] = 0x05;       // 5     No of records
+            tmpArray[1] = 0x06;       // 5     No of records
             tmpArray[2] = 0x00;       // 00    Read security attribute
             tmpArray[3] = 0x00;       // 00    Write security attribute
             tmpArray[4] = 0xCC;       // CC    File identifier
@@ -323,7 +323,7 @@ namespace WindowsFormsApplication1
 
             //  Write to fourth record of FF 04, 3rd ticket object
             tmpArray[0] = 0x32;       // 50     Record length
-            tmpArray[1] = 0x05;       // 5     No of records
+            tmpArray[1] = 0x06;       // 5     No of records
             tmpArray[2] = 0x00;       // 00    Read security attribute
             tmpArray[3] = 0x00;       // 00    Write security attribute
             tmpArray[4] = 0xDD;       // DD    File identifier
@@ -342,7 +342,7 @@ namespace WindowsFormsApplication1
 
             //  Write to 5th record of FF 04, 4th ticket object
             tmpArray[0] = 0x32;       // 50     Record length
-            tmpArray[1] = 0x05;       // 5     No of records
+            tmpArray[1] = 0x06;       // 5     No of records
             tmpArray[2] = 0x00;       // 00    Read security attribute
             tmpArray[3] = 0x00;       // 00    Write security attribute
             tmpArray[4] = 0xEE;       // EE    File identifier
@@ -361,7 +361,7 @@ namespace WindowsFormsApplication1
 
             //  Write to 6th record of FF 04, 5th ticket object
             tmpArray[0] = 0x32;       // 50     Record length
-            tmpArray[1] = 0x05;       // 5     No of records
+            tmpArray[1] = 0x06;       // 5     No of records
             tmpArray[2] = 0x00;       // 00    Read security attribute
             tmpArray[3] = 0x00;       // 00    Write security attribute
             tmpArray[4] = 0xFF;       // FF    File identifier

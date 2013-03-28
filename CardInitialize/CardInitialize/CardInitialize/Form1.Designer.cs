@@ -214,7 +214,6 @@
             // 
             // panel1
             // 
-            this.panel1.Controls.Add(this.panel2);
             this.panel1.Controls.Add(this.groupBox1);
             this.panel1.Location = new System.Drawing.Point(12, 44);
             this.panel1.Name = "panel1";
@@ -224,7 +223,7 @@
             // panel2
             // 
             this.panel2.Controls.Add(this.groupBox2);
-            this.panel2.Location = new System.Drawing.Point(0, 0);
+            this.panel2.Location = new System.Drawing.Point(9, 44);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(337, 206);
             this.panel2.TabIndex = 8;
@@ -254,6 +253,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.ClientSize = new System.Drawing.Size(951, 339);
+            this.Controls.Add(this.panel2);
             this.Controls.Add(this.label6);
             this.Controls.Add(this.card_info);
             this.Controls.Add(this.panel1);
