@@ -32,6 +32,7 @@ namespace WindowsFormsApplication1
         byte[] SendBuff = new byte[262];
         byte[] RecvBuff = new byte[262];
         byte[] tmpArray = new byte[56];
+        byte HiAddr, LoAddr;
         int indx, SendBuffLen, RecvBuffLen, Aprotocol;
         string sTemp;
         ModWinsCard.APDURec apdu = new ModWinsCard.APDURec();
@@ -40,8 +41,9 @@ namespace WindowsFormsApplication1
         AdminUser admin = new AdminUser();
         string session_stud_id; //session id of user
         string data;
-
+        int rowIndex; //use for determining row to write in card
         List<Booking> pendingBookings = new List<Booking>();
+        RadioButton selected = new RadioButton();
 
         public Form1()
         {
@@ -615,6 +617,135 @@ namespace WindowsFormsApplication1
             card_info.Items.Add("----------END OF CONTACT INFORMATION----------");
         }
 
+        public bool write_ticket()
+        {
+            string sdata;
+
+            //select user file
+            SelectFile(HiAddr, LoAddr);
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                return false;
+            }
+
+            sdata = "";
+            sdata = "allocated";
+            clearBuffer();
+            //user id
+            for (indx = 0; indx < sdata.Length; indx++)
+                tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+            writeRecord(0x01, 0x00, 0x32, 0x32, ref tmpArray);
+
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                return false;
+            }
+
+            logBox1.Items.Add("Flag is written.");
+            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+
+
+            sdata = "";
+            sdata = dataGridView2.Rows[rowIndex].Cells[0].Value.ToString();
+            clearBuffer();
+
+            //Book id
+            for (indx = 0; indx < sdata.Length; indx++)
+                tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+            writeRecord(0x01, 0x01, 0x32, 0x32, ref tmpArray);
+
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                return false;
+            }
+
+            logBox1.Items.Add("Book ID Written.");
+            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+
+            sdata = "";
+            sdata = dataGridView2.Rows[rowIndex].Cells[1].Value.ToString();
+            clearBuffer();
+
+            //Title
+            for (indx = 0; indx < sdata.Length; indx++)
+                tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+            writeRecord(0x01, 0x02, 0x32, 0x32, ref tmpArray);
+
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                return false;
+            }
+
+            logBox1.Items.Add("Title Written.");
+            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+
+            sdata = "";
+            sdata = dataGridView2.Rows[rowIndex].Cells[2].Value.ToString();
+            clearBuffer();
+
+            //Venue
+            for (indx = 0; indx < sdata.Length; indx++)
+                tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+            writeRecord(0x01, 0x03, 0x32, 0x32, ref tmpArray);
+
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                return false;
+            }
+
+            logBox1.Items.Add("Venue Written.");
+            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+
+            sdata = "";
+            sdata = dataGridView2.Rows[rowIndex].Cells[3].Value.ToString();
+            clearBuffer();
+
+            //Schedule
+            for (indx = 0; indx < sdata.Length; indx++)
+                tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+            writeRecord(0x01, 0x04, 0x32, 0x32, ref tmpArray);
+
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                return false;
+            }
+
+            logBox1.Items.Add("Schedule Written.");
+            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+
+            sdata = "";
+            sdata = "activated"; //from pending -> activated
+            clearBuffer();
+
+            //status
+            for (indx = 0; indx < sdata.Length; indx++)
+                tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+            writeRecord(0x01, 0x05, 0x32, 0x32, ref tmpArray);
+
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                return false;
+            }
+
+            logBox1.Items.Add("Ticket Status Written.");
+            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            return true;
+        }
+
+
         #endregion
 
 
@@ -649,6 +780,12 @@ namespace WindowsFormsApplication1
 
         private void fetch_ticket() {
 
+            string temp_book_id = "";
+            string temp_title = "";
+            string temp_venue = "";
+            string temp_sched = "";
+            string temp_status = "";
+
             //select first ticket object
             SelectFile(0xBB, 0x22);
 
@@ -658,7 +795,7 @@ namespace WindowsFormsApplication1
                 return;
             }
             
-            //read flat
+            //read flag
             readRecord(0x00, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -681,7 +818,118 @@ namespace WindowsFormsApplication1
             if (tmpStr == "unallocated")
             {
                 this.dataGridView1.Rows.Add("-", "-", "-", "-", "-");
+                radioButton1.Enabled = true;
                 //this.dataGridView1.Rows.Insert(0, "one", "two", "three", "four","five");
+            }
+
+            else { //read rest of the record
+                //read book id
+                readRecord(0x01, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_book_id = tmpStr;
+
+                //read title
+                readRecord(0x02, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_title = tmpStr;
+
+                //read venue
+                readRecord(0x03, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_venue = tmpStr;
+
+                //read sched
+                readRecord(0x04, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_sched = tmpStr;
+
+                //read status
+                readRecord(0x05, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_status = tmpStr;
+
+                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_status);
+                radioButton1.Enabled = false;
             }
 
             //select second ticket object
@@ -716,7 +964,118 @@ namespace WindowsFormsApplication1
             if (tmpStr == "unallocated")
             {
                 this.dataGridView1.Rows.Add("-", "-", "-", "-", "-");
+                radioButton2.Enabled = true;
                 //this.dataGridView1.Rows.Insert(0, "one", "two", "three", "four","five");
+            }
+            else
+            { //read rest of the record
+                //read book id
+                readRecord(0x01, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_book_id = tmpStr;
+
+                //read title
+                readRecord(0x02, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_title = tmpStr;
+
+                //read venue
+                readRecord(0x03, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_venue = tmpStr;
+
+                //read sched
+                readRecord(0x04, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_sched = tmpStr;
+
+                //read status
+                readRecord(0x05, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_status = tmpStr;
+
+                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_status);
+                radioButton2.Enabled = false;
             }
 
             //select third ticket object
@@ -751,7 +1110,118 @@ namespace WindowsFormsApplication1
             if (tmpStr == "unallocated")
             {
                 this.dataGridView1.Rows.Add("-", "-", "-", "-", "-");
+                radioButton3.Enabled = true;
                 //this.dataGridView1.Rows.Insert(0, "one", "two", "three", "four","five");
+            }
+            else
+            { //read rest of the record
+                //read book id
+                readRecord(0x01, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_book_id = tmpStr;
+
+                //read title
+                readRecord(0x02, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_title = tmpStr;
+
+                //read venue
+                readRecord(0x03, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_venue = tmpStr;
+
+                //read sched
+                readRecord(0x04, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_sched = tmpStr;
+
+                //read status
+                readRecord(0x05, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_status = tmpStr;
+
+                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_status);
+                radioButton3.Enabled = false;
             }
 
             //select 4th ticket object
@@ -786,7 +1256,118 @@ namespace WindowsFormsApplication1
             if (tmpStr == "unallocated")
             {
                 this.dataGridView1.Rows.Add("-", "-", "-", "-", "-");
+                radioButton4.Enabled = true;
                 //this.dataGridView1.Rows.Insert(0, "one", "two", "three", "four","five");
+            }
+            else
+            { //read rest of the record
+                //read book id
+                readRecord(0x01, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_book_id = tmpStr;
+
+                //read title
+                readRecord(0x02, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_title = tmpStr;
+
+                //read venue
+                readRecord(0x03, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_venue = tmpStr;
+
+                //read sched
+                readRecord(0x04, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_sched = tmpStr;
+
+                //read status
+                readRecord(0x05, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_status = tmpStr;
+
+                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_status);
+                radioButton4.Enabled = false;
             }
 
             //select 5th ticket object
@@ -821,7 +1402,118 @@ namespace WindowsFormsApplication1
             if (tmpStr == "unallocated")
             {
                 this.dataGridView1.Rows.Add("-", "-", "-", "-", "-");
+                radioButton5.Enabled = true;
                 //this.dataGridView1.Rows.Insert(0, "one", "two", "three", "four","five");
+            }
+            else
+            { //read rest of the record
+                //read book id
+                readRecord(0x01, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_book_id = tmpStr;
+
+                //read title
+                readRecord(0x02, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_title = tmpStr;
+
+                //read venue
+                readRecord(0x03, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_venue = tmpStr;
+
+                //read sched
+                readRecord(0x04, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_sched = tmpStr;
+
+                //read status
+                readRecord(0x05, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_status = tmpStr;
+
+                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_status);
+                radioButton5.Enabled = false;
             }
 
             logBox1.Items.Add("Data read from card is displayed");
@@ -829,6 +1521,27 @@ namespace WindowsFormsApplication1
         
         }
 
+
+        public void populate_pending() {
+            StringBuilder sb2 = new StringBuilder();
+            sb2.Append("http://localhost/phptest/web_service/sample2.php/Booking/");           //class is booking
+            sb2.Append(session_stud_id);                                                     //append current stud id
+            data = send_http_request("GET", sb2.ToString(), null);
+            //MessageBox.Show(data);
+            JavaScriptSerializer ser = new JavaScriptSerializer();
+            pendingBookings = ser.Deserialize<List<Booking>>(data);
+            foreach (Booking o in pendingBookings) // Loop through List with foreach
+            {
+                this.dataGridView2.Rows.Add(o.book_id, o.title, o.venue_name, o.e_date + " " + o.e_stime + " - " + o.e_etime, o.status);
+            }
+            DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
+            dataGridView2.Columns.Add(btn);
+            btn.HeaderText = "Action";
+            btn.Text = "Activate";
+            btn.Name = "btn";
+            btn.UseColumnTextForButtonValue = true;
+        
+        }
         #endregion
 
         private void button2_Click_1(object sender, EventArgs e)
@@ -863,23 +1576,7 @@ namespace WindowsFormsApplication1
             //populate pending ticket
             try
             {
-                StringBuilder sb2 = new StringBuilder();
-                sb2.Append("http://localhost/phptest/web_service/sample2.php/Booking/");           //class is booking
-                sb2.Append(session_stud_id);                                                     //append current stud id
-                data = send_http_request("GET", sb2.ToString(), null);
-                //MessageBox.Show(data);
-                JavaScriptSerializer ser = new JavaScriptSerializer();
-                pendingBookings = ser.Deserialize<List<Booking>>(data);
-                foreach (Booking o in pendingBookings) // Loop through List with foreach
-                {
-                    this.dataGridView2.Rows.Add(o.book_id,o.title,o.venue_name,o.e_date + " " + o.e_stime + " - " + o.e_etime, o.status);
-                }
-                DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
-                dataGridView2.Columns.Add(btn);
-                btn.HeaderText = "Action";
-                btn.Text = "Activate";
-                btn.Name = "btn";
-                btn.UseColumnTextForButtonValue = true;
+                populate_pending();
             }
             catch {
                 logBox1.Items.Add("Unable to fetch pending bookings");
@@ -887,6 +1584,83 @@ namespace WindowsFormsApplication1
             }
         }
 
+        //if e-ticket is to be activated
+        private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string putUrl = "http://localhost/phptest/web_service/sample2.php/Booking/";
+            string data;
+
+            if (e.ColumnIndex == 5) {   //button column 
+                //MessageBox.Show(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString());
+                MessageBox.Show("Are you sure?");
+                rowIndex = e.RowIndex;
+                //check if a user file is selected
+                if (check_radioButton())
+                {
+                    try
+                    {
+                        write_ticket();
+                        logBox1.Items.Add("Ticket successfully written on card.");
+                        selected.Enabled = false;
+                        dataGridView1.Rows.Clear();
+                        fetch_ticket();
+                        putUrl = putUrl + dataGridView2.Rows[rowIndex].Cells[0].Value.ToString();
+                        data = send_http_request("PUT", putUrl, new { string_booking_status = "activated" });  //send booking id
+                        MessageBox.Show(data);
+                        dataGridView2.Rows.Clear();
+                        populate_pending();
+
+                    }
+                    catch {
+                        logBox1.Items.Add("Fail to write ticket on card.");
+                    }
+
+                    //disable radio button
+
+                    //refresh Grid
+
+                    //make status as activated in database
+                }
+                else MessageBox.Show("Select User File!");
+               
+            }
+        }
+
+
+        /*return true when one radio button is checked else false*/
+        public bool check_radioButton() {
+            if (radioButton1.Enabled == true && radioButton1.Checked) {
+                HiAddr = 0xBB;
+                LoAddr = 0x22;
+                selected = radioButton1;
+                return true;
+            }
+            else if (radioButton2.Enabled == true && radioButton2.Checked) {
+                HiAddr = 0xCC;
+                LoAddr = 0x33;
+                selected = radioButton2;
+                return true;
+            }
+            else if(radioButton3.Enabled == true && radioButton3.Checked) {
+                HiAddr = 0xDD;
+                LoAddr = 0x44;
+                selected = radioButton3;
+                return true;
+            }
+            else if(radioButton4.Enabled == true && radioButton4.Checked) {
+                HiAddr = 0xEE;
+                LoAddr = 0x55;
+                selected = radioButton4;
+                return true;
+            }
+            else if(radioButton5.Enabled == true && radioButton5.Checked) {
+                HiAddr = 0xFF;
+                LoAddr = 0x66;
+                selected = radioButton5;
+                return true;
+            }
+            else return false;
+        }
 
 
     }

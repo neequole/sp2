@@ -58,9 +58,13 @@
 						else if($resource[4] == "Booking"){	//booking
 							if(isset($resource[5]) && $resource[5] != ""){	//[5] => User Id || username
 										$results = array();
-										if($method == "GET"){
+										if($method == "GET"){	//fetch all booking of user
 											if(is_numeric($resource[5])) $results['booking'] = Booking::getBookingByUserId($resource[5]); //if given is id
-											else $results['booking'] = Booking::getBookingByUsername($resource[5]);		//if given is username
+											else json_encode(array('error'=>'true', 'error_message'=>'Invalid User ID.'));
+										}
+										else if($method == "PUT"){ //change booking status
+											if(is_numeric($resource[5])) $results['booking'] = Booking::changeStatusById($resource[5]); //if given is id
+											else json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking ID.'));
 										}
 										$row = $results['booking'];
 										if($row)
