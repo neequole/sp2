@@ -182,7 +182,7 @@ namespace WindowsFormsApplication1
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
                 logBox1.Items.Add(retcode + ": " + ModWinsCard.GetScardErrMsg(retcode));
-                // msgBox.Items.Insert(0, "Please place contact card of user to reader and Press OK.");
+                logBox1.Items.Add("Please place contact card of user to reader and Press OK.");
                 return false;
             }
             logBox1.Items.Add("Success!");
@@ -307,7 +307,7 @@ namespace WindowsFormsApplication1
 
             apdu.IsSend = true;
 
-            //logBox1.Items.Add("Select FF 02");
+            logBox1.Items.Add("Select " + HiAddr.ToString() + " " + LoAddr.ToString());
 
             PerformTransmitAPDU(ref apdu);
         }
@@ -345,7 +345,7 @@ namespace WindowsFormsApplication1
             for (i = 0; i < maxLen; i++)
                 apdu.Data[i] = ApduIn[i];
 
-            logBox1.Items.Add("Write to FF 02");
+           // logBox1.Items.Add("Write to FF 02");
             PerformTransmitAPDU(ref apdu);
             //logBox1.Items.Add("HAHHA2");
 
@@ -1371,7 +1371,7 @@ namespace WindowsFormsApplication1
             }
 
             //select 5th ticket object
-            SelectFile(0xFF, 0x66);
+            SelectFile(0xE1, 0x66);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
@@ -1539,10 +1539,26 @@ namespace WindowsFormsApplication1
             btn.HeaderText = "Action";
             btn.Text = "Activate";
             btn.Name = "btn";
+            btn.FlatStyle = FlatStyle.Popup;
             btn.UseColumnTextForButtonValue = true;
-        
+            edit_activateButton();
         }
         #endregion
+
+        private void edit_activateButton() {
+            foreach (DataGridViewRow row in dataGridView2.Rows)
+            {
+                DataGridViewButtonCell btn = row.Cells[5] as DataGridViewButtonCell;
+                if (row.Cells[4].Value.ToString() != "pending")
+                {
+                    btn.Style.ForeColor = Color.LightGray;
+                }
+                else {
+                    btn.Style.BackColor = Color.LightSalmon;
+                    btn.Style.ForeColor = Color.Red;
+                }
+            }
+        }
 
         private void button2_Click_1(object sender, EventArgs e)
         {
@@ -1551,36 +1567,40 @@ namespace WindowsFormsApplication1
 
         private void button3_Click(object sender, EventArgs e)
         {
-            checkCard();
             //populate user information
             try
             {
-                readData();
-                logBox1.Items.Add("Information successfully read!");
-                logBox1.SelectedIndex = logBox1.Items.Count - 1;
+                if (checkCard())
+                {
+                    readData();
+                    logBox1.Items.Add("Information successfully read!");
+                    logBox1.SelectedIndex = logBox1.Items.Count - 1;
+                    //populate e-ticket
+                    try
+                    {
+                        fetch_ticket();
+                        logBox1.Items.Add("Ticket fetch!");
+                        logBox1.SelectedIndex = logBox1.Items.Count - 1;
+                    }
+                    catch
+                    {
+                        logBox1.Items.Add("Unable to fetch e-tickets");
+                        logBox1.SelectedIndex = logBox1.Items.Count - 1;
+                    }
+                    //populate pending ticket
+                    try
+                    {
+                        populate_pending();
+                    }
+                    catch
+                    {
+                        logBox1.Items.Add("Unable to fetch pending bookings");
+                        logBox1.SelectedIndex = logBox1.Items.Count - 1;
+                    }
+                }
             }
             catch {
                 card_info.Items.Add("There were no available user information");
-            }
-            //populate e-ticket
-            try
-            {
-                fetch_ticket();
-                logBox1.Items.Add("Ticket fetch!");
-                logBox1.SelectedIndex = logBox1.Items.Count - 1;
-            }
-            catch {
-                logBox1.Items.Add("Unable to fetch e-tickets");
-                logBox1.SelectedIndex = logBox1.Items.Count - 1;
-            }
-            //populate pending ticket
-            try
-            {
-                populate_pending();
-            }
-            catch {
-                logBox1.Items.Add("Unable to fetch pending bookings");
-                logBox1.SelectedIndex = logBox1.Items.Count - 1;
             }
         }
 
@@ -1590,9 +1610,12 @@ namespace WindowsFormsApplication1
             string putUrl = "http://localhost/phptest/web_service/sample2.php/Booking/";
             string data;
 
-            if (e.ColumnIndex == 5) {   //button column 
+            if (e.ColumnIndex == 5 && e.RowIndex>=0)
+            {   //button column 
                 //MessageBox.Show(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString());
-                MessageBox.Show("Are you sure?");
+                //MessageBox.Show("Are you sure?");
+                //MessageBox.Show(e.RowIndex.ToString());
+                if (dataGridView2.Rows[e.RowIndex].Cells[4].Value.ToString() != "pending") return;
                 rowIndex = e.RowIndex;
                 //check if a user file is selected
                 if (check_radioButton())
@@ -1606,7 +1629,8 @@ namespace WindowsFormsApplication1
                         fetch_ticket();
                         putUrl = putUrl + dataGridView2.Rows[rowIndex].Cells[0].Value.ToString();
                         data = send_http_request("PUT", putUrl, new { string_booking_status = "activated" });  //send booking id
-                        MessageBox.Show(data);
+                        //MessageBox.Show(data);
+                        dataGridView2.Columns.RemoveAt(5);
                         dataGridView2.Rows.Clear();
                         populate_pending();
 
@@ -1654,12 +1678,19 @@ namespace WindowsFormsApplication1
                 return true;
             }
             else if(radioButton5.Enabled == true && radioButton5.Checked) {
-                HiAddr = 0xFF;
+                HiAddr = 0xE1;
                 LoAddr = 0x66;
                 selected = radioButton5;
                 return true;
             }
             else return false;
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            dataGridView2.Columns.RemoveAt(5);
+            dataGridView2.Rows.Clear();
+            populate_pending();
         }
 
 

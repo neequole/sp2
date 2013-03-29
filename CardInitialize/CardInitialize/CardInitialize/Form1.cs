@@ -223,13 +223,13 @@ namespace WindowsFormsApplication1
             SelectFile(0xFF, 0x2);
 
             /*  Write to FF 02
-            '    This will create 7 User files, no Option registers and
+            '    This will create 6 User files, no Option registers and
             '    Security Option registers defined, Personalization bit
             '    is not set */
 
             tmpArray[0] = 0x0;      // 00    Option registers
             tmpArray[1] = 0x0;      // 00    Security option register
-            tmpArray[2] = 0x7;      // 7    No of user files
+            tmpArray[2] = 0x6;      // 7    No of user files
             tmpArray[3] = 0x0;      // 00    Personalization bit
 
             writeRecord(0x00, 0x00, 0x04, 0x04, ref tmpArray);
@@ -364,7 +364,7 @@ namespace WindowsFormsApplication1
             tmpArray[1] = 0x06;       // 5     No of records
             tmpArray[2] = 0x00;       // 00    Read security attribute
             tmpArray[3] = 0x00;       // 00    Write security attribute
-            tmpArray[4] = 0xFF;       // FF    File identifier
+            tmpArray[4] = 0xE1;       // E1    File identifier
             tmpArray[5] = 0x66;       // 66    File identifier
 
             writeRecord(0x00, 0x05, 0x06, 0x06, ref tmpArray);
@@ -375,7 +375,7 @@ namespace WindowsFormsApplication1
                 return false;
             }
 
-            logBox1.Items.Add("User File FF 66 is defined");
+            logBox1.Items.Add("User File E1 66 is defined");
 
 
             //  Select 3 User Files created previously for validation
@@ -435,7 +435,7 @@ namespace WindowsFormsApplication1
             logBox1.Items.Add("User File EE 55 is selected");
 
             //  Select User File FF 66
-            SelectFile(0xFF, 0x66);
+            SelectFile(0xE1, 0x66);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
@@ -443,7 +443,7 @@ namespace WindowsFormsApplication1
                 return false;
             }
 
-            logBox1.Items.Add("User File FF 66 is selected");
+            logBox1.Items.Add("User File E1 66 is selected");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             return true;
@@ -954,8 +954,8 @@ namespace WindowsFormsApplication1
             logBox1.Items.Add("Ticket object 4 unallocated.");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
-            //write ticket on FF 66
-            SelectFile(0xFF, 0x66);
+            //write ticket on E1 66
+            SelectFile(0xE1, 0x66);
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
                 logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
