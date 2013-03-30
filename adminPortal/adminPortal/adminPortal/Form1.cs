@@ -742,6 +742,27 @@ namespace WindowsFormsApplication1
 
             logBox1.Items.Add("Ticket Status Written.");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
+
+            sdata = "";
+            sdata = dataGridView2.Rows[rowIndex].Cells[4].Value.ToString();
+            clearBuffer();
+
+            //e_tclass
+            for (indx = 0; indx < sdata.Length; indx++)
+                tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+            writeRecord(0x01, 0x06, 0x32, 0x32, ref tmpArray);
+
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                return false;
+            }
+
+            logBox1.Items.Add("Ticket Class Written.");
+            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+
+
             return true;
         }
 
@@ -784,6 +805,7 @@ namespace WindowsFormsApplication1
             string temp_title = "";
             string temp_venue = "";
             string temp_sched = "";
+            string temp_e_tclass = "";
             string temp_status = "";
 
             //select first ticket object
@@ -817,7 +839,7 @@ namespace WindowsFormsApplication1
             tmpStr = tmpStr.Substring(0,11);    //remove trailing characters since size is 50
             if (tmpStr == "unallocated")
             {
-                this.dataGridView1.Rows.Add("-", "-", "-", "-", "-");
+                this.dataGridView1.Rows.Add("-", "-", "-", "-", "-", "-");
                 radioButton1.Enabled = true;
                 //this.dataGridView1.Rows.Insert(0, "one", "two", "three", "four","five");
             }
@@ -928,7 +950,28 @@ namespace WindowsFormsApplication1
                 }
                 temp_status = tmpStr;
 
-                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_status);
+                //read ticket class
+                readRecord(0x06, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_e_tclass = tmpStr;
+
+                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_e_tclass, temp_status);
                 radioButton1.Enabled = false;
             }
 
@@ -963,7 +1006,7 @@ namespace WindowsFormsApplication1
             tmpStr = tmpStr.Substring(0, 11);    //remove trailing characters since size is 50
             if (tmpStr == "unallocated")
             {
-                this.dataGridView1.Rows.Add("-", "-", "-", "-", "-");
+                this.dataGridView1.Rows.Add("-", "-", "-", "-", "-", "-");
                 radioButton2.Enabled = true;
                 //this.dataGridView1.Rows.Insert(0, "one", "two", "three", "four","five");
             }
@@ -1074,7 +1117,29 @@ namespace WindowsFormsApplication1
                 }
                 temp_status = tmpStr;
 
-                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_status);
+                //read ticket class
+                readRecord(0x06, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_e_tclass = tmpStr;
+
+                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_e_tclass, temp_status);
+                
                 radioButton2.Enabled = false;
             }
 
@@ -1109,7 +1174,7 @@ namespace WindowsFormsApplication1
             tmpStr = tmpStr.Substring(0, 11);    //remove trailing characters since size is 50
             if (tmpStr == "unallocated")
             {
-                this.dataGridView1.Rows.Add("-", "-", "-", "-", "-");
+                this.dataGridView1.Rows.Add("-", "-", "-", "-", "-", "-");
                 radioButton3.Enabled = true;
                 //this.dataGridView1.Rows.Insert(0, "one", "two", "three", "four","five");
             }
@@ -1220,7 +1285,29 @@ namespace WindowsFormsApplication1
                 }
                 temp_status = tmpStr;
 
-                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_status);
+                //read ticket class
+                readRecord(0x06, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_e_tclass = tmpStr;
+
+                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_e_tclass, temp_status);
+                
                 radioButton3.Enabled = false;
             }
 
@@ -1255,7 +1342,7 @@ namespace WindowsFormsApplication1
             tmpStr = tmpStr.Substring(0, 11);    //remove trailing characters since size is 50
             if (tmpStr == "unallocated")
             {
-                this.dataGridView1.Rows.Add("-", "-", "-", "-", "-");
+                this.dataGridView1.Rows.Add("-", "-", "-", "-", "-", "-");
                 radioButton4.Enabled = true;
                 //this.dataGridView1.Rows.Insert(0, "one", "two", "three", "four","five");
             }
@@ -1366,7 +1453,29 @@ namespace WindowsFormsApplication1
                 }
                 temp_status = tmpStr;
 
-                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_status);
+                //read ticket class
+                readRecord(0x06, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_e_tclass = tmpStr;
+
+                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_e_tclass, temp_status);
+                
                 radioButton4.Enabled = false;
             }
 
@@ -1401,7 +1510,7 @@ namespace WindowsFormsApplication1
             tmpStr = tmpStr.Substring(0, 11);    //remove trailing characters since size is 50
             if (tmpStr == "unallocated")
             {
-                this.dataGridView1.Rows.Add("-", "-", "-", "-", "-");
+                this.dataGridView1.Rows.Add("-", "-", "-", "-", "-", "-");
                 radioButton5.Enabled = true;
                 //this.dataGridView1.Rows.Insert(0, "one", "two", "three", "four","five");
             }
@@ -1512,7 +1621,29 @@ namespace WindowsFormsApplication1
                 }
                 temp_status = tmpStr;
 
-                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_status);
+                //read ticket class
+                readRecord(0x06, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+                temp_e_tclass = tmpStr;
+
+                this.dataGridView1.Rows.Add(temp_book_id, temp_title, temp_venue, temp_sched, temp_e_tclass, temp_status);
+                
                 radioButton5.Enabled = false;
             }
 
@@ -1526,13 +1657,14 @@ namespace WindowsFormsApplication1
             StringBuilder sb2 = new StringBuilder();
             sb2.Append("http://localhost/phptest/web_service/sample2.php/Booking/");           //class is booking
             sb2.Append(session_stud_id);                                                     //append current stud id
+            sb2.Append("/pending");
             data = send_http_request("GET", sb2.ToString(), null);
             //MessageBox.Show(data);
             JavaScriptSerializer ser = new JavaScriptSerializer();
             pendingBookings = ser.Deserialize<List<Booking>>(data);
             foreach (Booking o in pendingBookings) // Loop through List with foreach
             {
-                this.dataGridView2.Rows.Add(o.book_id, o.title, o.venue_name, o.e_date + " " + o.e_stime + " - " + o.e_etime, o.status);
+                this.dataGridView2.Rows.Add(o.book_id, o.title, o.venue_name, o.e_date + " " + o.e_stime + " - " + o.e_etime, o.e_tclass,o.status);
             }
             DataGridViewButtonColumn btn = new DataGridViewButtonColumn();
             dataGridView2.Columns.Add(btn);
@@ -1548,8 +1680,8 @@ namespace WindowsFormsApplication1
         private void edit_activateButton() {
             foreach (DataGridViewRow row in dataGridView2.Rows)
             {
-                DataGridViewButtonCell btn = row.Cells[5] as DataGridViewButtonCell;
-                if (row.Cells[4].Value.ToString() != "pending")
+                DataGridViewButtonCell btn = row.Cells[6] as DataGridViewButtonCell;
+                if (row.Cells[5].Value.ToString() != "pending")
                 {
                     btn.Style.ForeColor = Color.LightGray;
                 }
@@ -1609,13 +1741,14 @@ namespace WindowsFormsApplication1
         {
             string putUrl = "http://localhost/phptest/web_service/sample2.php/Booking/";
             string data;
-
-            if (e.ColumnIndex == 5 && e.RowIndex>=0)
+            DateTime today = DateTime.Today;
+            MessageBox.Show(today.ToString());
+            if (e.ColumnIndex == 6 && e.RowIndex>=0)
             {   //button column 
                 //MessageBox.Show(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString());
                 //MessageBox.Show("Are you sure?");
                 //MessageBox.Show(e.RowIndex.ToString());
-                if (dataGridView2.Rows[e.RowIndex].Cells[4].Value.ToString() != "pending") return;
+                if (dataGridView2.Rows[e.RowIndex].Cells[5].Value.ToString() != "pending") return;
                 rowIndex = e.RowIndex;
                 //check if a user file is selected
                 if (check_radioButton())
@@ -1630,7 +1763,7 @@ namespace WindowsFormsApplication1
                         putUrl = putUrl + dataGridView2.Rows[rowIndex].Cells[0].Value.ToString();
                         data = send_http_request("PUT", putUrl, new { string_booking_status = "activated" });  //send booking id
                         //MessageBox.Show(data);
-                        dataGridView2.Columns.RemoveAt(5);
+                        dataGridView2.Columns.RemoveAt(6);
                         dataGridView2.Rows.Clear();
                         populate_pending();
 
@@ -1688,7 +1821,7 @@ namespace WindowsFormsApplication1
 
         private void button4_Click(object sender, EventArgs e)
         {
-            dataGridView2.Columns.RemoveAt(5);
+            dataGridView2.Columns.RemoveAt(6);
             dataGridView2.Rows.Clear();
             populate_pending();
         }

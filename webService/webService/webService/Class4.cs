@@ -13,6 +13,7 @@ namespace webService
         public string e_stime { get; set; }
         public string e_etime { get; set; }
         public string venue_name { get; set; }
+        public string e_tclass { get; set; }
         public string status { get; set; }
     }
 }

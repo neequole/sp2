@@ -59,7 +59,12 @@
 							if(isset($resource[5]) && $resource[5] != ""){	//[5] => User Id || username
 										$results = array();
 										if($method == "GET"){	//fetch all booking of user
-											if(is_numeric($resource[5])) $results['booking'] = Booking::getBookingByUserId($resource[5]); //if given is id
+											if(is_numeric($resource[5])){
+											if(isset($resource[6]) && $resource[6]!= "" && $resource[6] == 'pending') 
+												$results['booking'] = Booking::getBookingByUserIdPending($resource[5]); //if given is id and pending
+											else
+												$results['booking'] = Booking::getBookingByUserId($resource[5]); //if given is id
+											}
 											else json_encode(array('error'=>'true', 'error_message'=>'Invalid User ID.'));
 										}
 										else if($method == "PUT"){ //change booking status

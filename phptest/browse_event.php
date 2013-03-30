@@ -86,7 +86,8 @@ else echo "Page not found";
 	 <div class="overlay_header">BOOK EVENT</div>
 	 <div id="error_bdetails"></div>
 	 <!--<form method='post' enctype='multipart/form-data' onsubmit='return validateBooking()' id='book_form' action='php/addBooking.php'>-->
-	 <form>
+	 <form method='post' id='book_form' action='php/addBooking.php'>
+	 <!--<form>-->
 	 <?php
 			echo "<h2>".$row['title']."</h2>";
 			echo "<h4></h4>";
@@ -124,8 +125,8 @@ else echo "Page not found";
 				else echo "<tr><td>You are logged in as Admin</td></tr>";
 				echo "<table>";
 				echo "</div>";
-		echo "</form>";
-		echo "<form method='post' id='book_form' action='php/addBooking.php'>";
+		//echo "</form>";
+		
 				//actual data to get for booking
 				echo "<input type='hidden' id='eventSched_id' name='eventSched_id'>";
 				echo "<input type='submit' value='Book!'/><input type='button' value='Cancel' id='cancel_book'/>";

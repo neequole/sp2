@@ -14,6 +14,7 @@ class Booking
 	public $e_stime = null;
 	public $e_etime = null;
 	public $venue_name = null;
+	public $e_tclass = null;
 	public $status = null;
   
   /**
@@ -29,7 +30,9 @@ class Booking
 	if ( isset( $data['e_stime'] ) ) $this->e_stime = $data['e_stime'];
 	if ( isset( $data['e_etime'] ) ) $this->e_etime = $data['e_etime'];
 	if ( isset( $data['venue_name'] ) ) $this->venue_name = $data['venue_name'];
+	if ( isset( $data['e_tclass'] ) ) $this->e_tclass = $data['e_tclass'];
 	if ( isset( $data['status'] ) ) $this->status = $data['status'];	
+	
   }
  
  
@@ -47,6 +50,16 @@ class Booking
   
    public static function getBookingByUserId($id) {
   		$sql = "SELECT * FROM booking b INNER JOIN e_sched e ON b.e_sched_id=e.e_sched_id INNER JOIN event v ON e.e_id = v.id INNER JOIN venue z ON v.venue = z.venue_id where user_id=".$id;
+		$result = mysql_query($sql) or die(mysql_error());
+		$stack = array();
+		while( $row = mysql_fetch_array($result)) {
+			array_push($stack, new Booking( $row ));
+		}
+   		if ( $stack ) return $stack;
+  }
+  
+    public static function getBookingByUserIdPending($id) {
+  		$sql = "SELECT * FROM booking b INNER JOIN e_sched e ON b.e_sched_id=e.e_sched_id INNER JOIN event v ON e.e_id = v.id INNER JOIN venue z ON v.venue = z.venue_id where user_id=".$id." and status='pending'";
 		$result = mysql_query($sql) or die(mysql_error());
 		$stack = array();
 		while( $row = mysql_fetch_array($result)) {

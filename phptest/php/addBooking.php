@@ -5,9 +5,10 @@ include("../include/config.php");
 <?php
 $user_id = $_SESSION['id'];
 $event_id = $_POST['eventSched_id'];
+$e_tclass = $_POST['ticketclass'];
 
 		mysql_query("START TRANSACTION");
-		$string = "INSERT INTO booking values('',".$user_id.",".$event_id.",'pending')";
+		$string = "INSERT INTO booking values('',".$user_id.",".$event_id.",'".$e_tclass."','pending')";
 		$qry1 =  mysql_query($string) or die(mysql_error());
 		$string2 = "UPDATE e_sched SET e_book = e_book + 1 WHERE e_sched_id = ".$event_id;
 		$qry2 = mysql_query($string2) or die(mysql_error());
