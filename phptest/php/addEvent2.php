@@ -6,6 +6,7 @@ $venue = mysql_real_escape_string($_POST['event_venue']);
 $name = mysql_real_escape_string($_POST['event_name']);
 $desc = mysql_real_escape_string($_POST['event_desc']);
 $date = $_POST['date'];			//return to object
+print_r($date);
 $start = $_POST['start'];
 $end = $_POST['end'];
 $max = $_POST['max'];

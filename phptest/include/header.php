@@ -5,14 +5,20 @@
 <title>Home | The UPLB Ticket Hub</title>
 
 <link rel="stylesheet" href="css/jquery-ui.css" />
-<link rel="stylesheet" href="css/jquery.ptTimeSelect.css" />
+<!--<link rel="stylesheet" href="css/jquery.ptTimeSelect.css" />-->
 <link href="css/style.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="js/jquery.js"></script>
 <script type="text/javacript" src="js/index.js"></script>
 <script type="text/javascript" src="js/adminjs.js"></script>
 <script type="text/javascript" src="js/jquery-1.8.2.js"></script>
 <script type="text/javascript" src="js/jquery-ui.js"></script>
-<script type="text/javascript" src="js/jquery.ptTimeSelect.js"></script>
+<!--<script type="text/javascript" src="js/jquery.ptTimeSelect.js"></script>-->
+<!--for time-->
+<link rel="stylesheet" href="jquery-ui-timepicker-0.3.2/include/ui-1.10.0/ui-lightness/jquery-ui-1.10.0.custom.min.css" type="text/css" />
+<link rel="stylesheet" href="jquery-ui-timepicker-0.3.2/jquery.ui.timepicker.css?v=0.3.2" type="text/css" />
+<script type="text/javascript" src="jquery-ui-timepicker-0.3.2/jquery.ui.timepicker.js?v=0.3.2"></script>
+<script type="text/javascript" src="jquery-ui-timepicker-0.3.2/plusone.js"></script>
+<!--end for time-->
 </head>
 
 <body>

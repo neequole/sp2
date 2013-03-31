@@ -313,3 +313,21 @@ div.desc
   width:120px;
   margin:2px;
   }
+  
+ .blueHeader{
+background-color:#99CC99;
+ }
+ 
+ .table_center{
+ margin-left:auto; 
+ margin-right:auto;
+ border:solid 1px #F0F0F0;
+ border-collapse:collapse;
+ }
+ .table_center th{
+ background-color:#F0F0F0;
+ }
+ 
+ .table_center tr:nth-child(odd) {
+    background-color: #F0F0F0;
+}

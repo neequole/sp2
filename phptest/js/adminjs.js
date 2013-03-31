@@ -1,5 +1,4 @@
 $(document).ready(function() {
-
 	$("#nav-tabs li a").click(function() {
 	if($(this).text() == "Log-out") {}		//excempt log-out from ajax
 	else if($(this).text() == "Preview") {}
@@ -42,16 +41,34 @@ $(document).ready(function() {
     });
 	
 	$('body').on('click', 'input.datepicker',function() {
-		$(this).datepicker().focus();
+		$(this).datepicker({ minDate: '0' }).focus();
 	});
 	
-	$('body').on('click', 'input.timepicker',function() {
+	/*$('body').on('click', 'input.timepicker',function() {
 			$(this).ptTimeSelect().focus();
+	});
+	*/
+	
+	$('body').on('click', 'input.timepicker_start',function() {
+			$(this).timepicker({
+			showLeadingZero: false,
+			onHourShow: tpStartOnHourShowCallback,
+			onMinuteShow: tpStartOnMinuteShowCallback
+			}).focus();
+	});
+	
+	
+    $('body').on('click', 'input.timepicker_end',function() {
+		$(this).timepicker({
+        showLeadingZero: false,
+        onHourShow: tpEndOnHourShowCallback,
+        onMinuteShow: tpEndOnMinuteShowCallback
+		}).focus();
 	});
 	
 	$("#addDate").live("click",function() {
-	var newRow = jQuery('<tr><td><input type="text" class="datepicker required" required pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)\d\d" /></td><td><input type="text" class="timepicker required" required pattern="([1-9]|1[0-2]):([0-5][0-9]) ([A|P]M)" /></td><td>to</td><td><input type="text" class="timepicker required" required pattern="([1-9]|1[0-2]):([0-5][0-9]) ([A|P]M)" /></td><td><input type="text" class="required" pattern="[0-9]+" min="1" required /></td><td><a href="#" class="deleteDate">Delete</a><td><input type="hidden" name="date[]"/></td><td><input type="hidden" name="start[]"/></td><td><input type="hidden" name="end[]"/></td><td><input type="hidden" name="max[]"/></td></tr>');
-    jQuery('table#eventDate').append(newRow);
+	var newRow = '<tr><td><input type="text" name="date[]" class="datepicker required" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]" required /></td><td><input type="text" name="start[]" style="width: 70px" class="timepicker_start required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" required /></td><td>to</td><td><input type="text" name="end[]" style="width: 70px" class="timepicker_end required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])"  required /></td><td><input type="text" name="max[]" class="required" pattern="[0-9]+" min="1" required /></td></tr>';
+	$('table#eventDate').append(newRow);
     });
 
 	$(".deleteDate").live("click", function(){
@@ -436,4 +453,53 @@ function validateBooking(){
 				return false;
 	}
 	return true;
+}
+
+function tpStartOnHourShowCallback(hour) {
+	var row = $(this).parent().parent();
+    var tpEndHour = $('.timepicker_end',row).timepicker('getHour');
+    // all valid if no end time selected
+    if ($('.timepicker_end',row).val() == '') { return true; }
+	//if(tpEndHour == "-1"){ return true; }
+    // Check if proposed hour is prior or equal to selected end time hour
+    if (hour <= tpEndHour) { return true; }
+    // if hour did not match, it can not be selected
+    return false;
+}
+function tpStartOnMinuteShowCallback(hour, minute) {
+	var row = $(this).parent().parent();
+    var tpEndHour = $('.timepicker_end',row).timepicker('getHour');
+    var tpEndMinute = $('.timepicker_end',row).timepicker('getMinute');
+    // all valid if no end time selected
+    if ($('.timepicker_end',row).val() == '') { return true; }
+    // Check if proposed hour is prior to selected end time hour
+    if (hour < tpEndHour) { return true; }
+    // Check if proposed hour is equal to selected end time hour and minutes is prior
+    if ( (hour == tpEndHour) && (minute < tpEndMinute) ) { return true; }
+    // if minute did not match, it can not be selected
+    return false;
+}
+
+function tpEndOnHourShowCallback(hour) {
+	var row = $(this).parent().parent();
+    var tpStartHour = $('.timepicker_start',row).timepicker('getHour');
+    // all valid if no start time selected
+    if ($('.timepicker_start',row).val() == '') { return true; }
+    // Check if proposed hour is after or equal to selected start time hour
+    if (hour >= tpStartHour) { return true; }
+    // if hour did not match, it can not be selected
+    return false;
+}
+function tpEndOnMinuteShowCallback(hour, minute) {
+	var row = $(this).parent().parent();
+    var tpStartHour = $('.timepicker_start',row).timepicker('getHour');
+    var tpStartMinute = $('.timepicker_start',row).timepicker('getMinute');
+    // all valid if no start time selected
+    if ($('.timepicker_start',row).val() == '') { return true; }
+    // Check if proposed hour is after selected start time hour
+    if (hour > tpStartHour) { return true; }
+    // Check if proposed hour is equal to selected start time hour and minutes is after
+    if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
+    // if minute did not match, it can not be selected
+    return false;
 }
