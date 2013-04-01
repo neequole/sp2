@@ -123,10 +123,22 @@ else echo "Page not found";
 				echo "<tr><td>E-mail: </td><td><input type='email' name='u_email' id='u_email' placeholder='".$row3['email']."' value='".$row3['email']."' class='required' required/></td></tr>";
 				if($row3['type']=="student")echo "<tr><td>Student number: </td><td><input type='text' maxlength='4' placeholder='".$studnum1."' value='".$studnum1."' name='u_snum1' id='u_snum1' class='required' pattern='[0-9]+' required readonly></td><td><input type='text' maxlength='5' placeholder='".$studnum2."' value='".$studnum2."' name='u_snum2' id='u_snum2' class='required' pattern='[0-9]+' required readonly></td></td></tr>";
 				else echo "<tr><td>You are logged in as Admin</td></tr>";
-				echo "<table>";
+				echo "</table>";
 				echo "</div>";
-		//echo "</form>";
-		
+		//echo "</form>";	
+				echo "<div class='overlay_table'>";
+				echo "<table>";
+				echo "<tr style='background-color:#eee'><td>Course</td></tr>";
+				$result4 = mysql_query("SELECT * FROM event_course c JOIN req_course r ON c.class_id=r.id JOIN user u ON r.faculty_id=u.id where c.event_id=".$id) or die(mysql_error());
+				$count=mysql_num_rows($result4);
+				if(isset($count) && $count>0){
+					while($row4 = mysql_fetch_array($result4)){
+						echo "<tr><td><input type='checkbox' name='bookClass[]' value='".$row4['class_id']."'></td><td>".$row4['courseTitle'].$row4['courseNo']." ".$row4['lecSec']." ".$row4['labSec']."</td><td>Professor ".$row4['lname']."</td></tr>";
+					}
+				}
+				else echo "<tr><td>There was no class associated in this event.</td></tr>";
+				echo "</table>";
+				echo "</div>";
 				//actual data to get for booking
 				echo "<input type='hidden' id='eventSched_id' name='eventSched_id'>";
 				echo "<input type='submit' value='Book!'/><input type='button' value='Cancel' id='cancel_book'/>";

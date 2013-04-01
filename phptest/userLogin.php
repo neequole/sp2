@@ -123,6 +123,7 @@ session_start();
 							<p>
                                 <label for="type">Register as*</label>
                                 Administrator:<input type="radio" name="type" value="admin" id="admintypeButton" checked/>
+								Faculty:<input type="radio" name="type" value="faculty" id="facultytypeButton"/>
 								Student:<input type="radio" name="type" value="student" id="studtypeButton"/>
                             </p>
 							<div id="usertype">

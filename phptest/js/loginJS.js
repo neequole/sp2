@@ -73,6 +73,10 @@ $(document).ready(function() {
 				$("#usertype").html("");
 	});
 	
+	$("#facultytypeButton").live("click",function() {
+				$("#usertype").html("");
+	});
+	
 	
 		
 	$("#formElem").submit(function(event) {
@@ -114,6 +118,10 @@ $(document).ready(function() {
 						else if(data.toString()=="student"){
 							alert("You are now logged-in.");
 							window.location.replace("index.php");
+						}
+						else if(data.toString()=="faculty"){
+							alert("You are now logged-in.");
+							window.location.replace("faculty.php");
 						}
 						else{
 						$("#ajax_result2").append("<p>Error in processing request. Try again.</p>"); 
@@ -201,7 +209,7 @@ $(document).ready(function() {
 				//alert(uname + " " + pwd + " " + fname + " " + mname + " " + lname + " " +suffix + " " +email + " " +cnum + " " +sex+ " " +type);
 				
 								//Verify data fetched
-				if(alphanumeric($("#reg_uname"),"Username",uname) && alphanumeric($("#reg_pwd"),"Password",pwd) && allLetter($("#reg_fname"),"Firstname",fname) && allLetter($("#reg_mname"),"Middlename",mname) && allLetter($("#reg_lname"),"Lastname",fname) && allDigit($("#reg_cnum"),"Contact no",cnum) && ValidateEmail($("#reg_email"),email)){
+				if(alphanumeric($("#reg_uname"),"Username",uname) && alphanumeric($("#reg_pwd"),"Password",pwd) && allLetterSpace($("#reg_fname"),"Firstname",fname) && allLetterSpace($("#reg_mname"),"Middlename",mname) && allLetterSpace($("#reg_lname"),"Lastname",fname) && allDigit($("#reg_cnum"),"Contact no",cnum) && ValidateEmail($("#reg_email"),email)){
 					var dataString = "username=" + uname + "&password=" + pwd + "&fname=" + fname + "&mname=" + mname + "&lname=" + lname + "&suffix=" +suffix + "&email=" +email + "&cnum=" +cnum + "&sex=" +sex+ "&type=" +type;
 					//alert(dataString);
 					$.ajax({

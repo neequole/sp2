@@ -32,8 +32,9 @@
 						<?php
 							if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']!="" && $_SESSION['type']=="admin")
 								echo '<li><a href="admin.php"><img src="images/ticket.png" height="50" width="50"/><span>Admin</span></a></li>';
-							else
-								echo '<li><a href="index.php"><img src="images/ticket.png" height="50" width="50"/><span>Home</span></a></li>';
+							else if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']!="" && $_SESSION['type']=="faculty")
+								echo '<li><a href="faculty.php"><img src="images/ticket.png" height="50" width="50"/><span>Faculty</span></a></li>';
+							else echo '<li><a href="index.php"><img src="images/ticket.png" height="50" width="50"/><span>Home</span></a></li>';
 							echo '<li><a href="userBooking.php"><img src="images/cart.png" height="50" width="50"/><span>Bookings</span></a></li>';
 							if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']!="")
 								echo '<li><a href="php/logout.php" id="logout"><img src="images/user.png" height="50" width="50"/><span>'.$_SESSION["name"].'[log-out]</span></a></li>';
