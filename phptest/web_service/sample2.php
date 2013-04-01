@@ -56,20 +56,32 @@
 							else echo json_encode(array('error'=>'true', 'error_message'=>'Not enough information were given.'));
 						}
 						else if($resource[4] == "Booking"){	//booking
-							if(isset($resource[5]) && $resource[5] != ""){	//[5] => User Id || username
+							if(isset($resource[5]) && $resource[5] != ""){	//[5] => UserId || BookingId
 										$results = array();
 										if($method == "GET"){	//fetch all booking of user
-											if(is_numeric($resource[5])){
-											if(isset($resource[6]) && $resource[6]!= "" && $resource[6] == 'pending') 
-												$results['booking'] = Booking::getBookingByUserIdPending($resource[5]); //if given is id and pending
-											else
-												$results['booking'] = Booking::getBookingByUserId($resource[5]); //if given is id
+											if($resource[5] == 'UserId'){	 
+												if(isset($resource[6]) && $resource[6] != "" && is_numeric($resource[6])){ //[6] => user id
+													if(isset($resource[7]) && $resource[7]!= "" && $resource[7] == 'pending') 
+														$results['booking'] = Booking::getBookingByUserIdPending($resource[6]); //if given is id and pending
+													else
+														$results['booking'] = Booking::getBookingByUserId($resource[6]); //if given is id
+												}
+												//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid User ID.'));
 											}
-											else json_encode(array('error'=>'true', 'error_message'=>'Invalid User ID.'));
+											else if($resource[5] == 'BookingId'){
+												if(isset($resource[6]) && $resource[6] != "" && is_numeric($resource[6])){ //[6] => booking id
+														$results['booking'] = Booking::getBookingById($resource[6]); //if given is id and pending
+												}
+												//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking ID.'));
+											}
+											//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking Parameter.'));
 										}
 										else if($method == "PUT"){ //change booking status
-											if(is_numeric($resource[5])) $results['booking'] = Booking::changeStatusById($resource[5]); //if given is id
-											else json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking ID.'));
+											if($resource[5] == 'BookingId'){
+												if(is_numeric($resource[6])) $results['booking'] = Booking::changeStatusById($resource[6]); //if given is id
+												//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking ID.'));
+											}
+											//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking Parameter.'));
 										}
 										$row = $results['booking'];
 										if($row)

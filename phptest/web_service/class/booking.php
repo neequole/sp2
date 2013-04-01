@@ -48,6 +48,13 @@ class Booking
 
   }
   
+  public static function getBookingById($id) {
+  		$sql = "SELECT * FROM booking b INNER JOIN e_sched e ON b.e_sched_id=e.e_sched_id INNER JOIN event v ON e.e_id = v.id INNER JOIN venue z ON v.venue = z.venue_id where book_id=".$id;
+		$result = mysql_query($sql) or die(mysql_error());
+		$row = mysql_fetch_array($result);
+   		if ( $row ) return new Booking($row);
+  }
+  
    public static function getBookingByUserId($id) {
   		$sql = "SELECT * FROM booking b INNER JOIN e_sched e ON b.e_sched_id=e.e_sched_id INNER JOIN event v ON e.e_id = v.id INNER JOIN venue z ON v.venue = z.venue_id where user_id=".$id;
 		$result = mysql_query($sql) or die(mysql_error());

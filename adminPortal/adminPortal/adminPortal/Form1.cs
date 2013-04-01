@@ -807,7 +807,11 @@ namespace WindowsFormsApplication1
             string temp_sched = "";
             string temp_e_tclass = "";
             string temp_status = "";
-
+            string temp_book_id2 = "";
+            string bData;
+            string sb3 = "http://localhost/phptest/web_service/sample2.php/Booking/BookingId/";
+            JavaScriptSerializer ser2 = new JavaScriptSerializer();
+            Booking userBooking = new Booking();
             //select first ticket object
             SelectFile(0xBB, 0x22);
 
@@ -865,7 +869,8 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_book_id = tmpStr;
-
+                temp_book_id2 = Regex.Replace(tmpStr, "[^.0-9]", ""); 
+                //MessageBox.Show(temp_book_id.Length.ToString());
                 //read title
                 readRecord(0x02, 0x32);
 
@@ -928,8 +933,9 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_sched = tmpStr;
-
+                
                 //read status
+                /*
                 readRecord(0x05, 0x32);
 
                 if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -949,6 +955,19 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_status = tmpStr;
+                */
+
+                //try to get status in web service
+                try
+                {
+                    bData = send_http_request("GET", sb3 + temp_book_id2, null);
+                    userBooking = ser2.Deserialize<Booking>(bData);
+                    temp_status = userBooking.status;
+                }
+                catch {
+                    temp_status = "Unavailable";
+                }
+
 
                 //read ticket class
                 readRecord(0x06, 0x32);
@@ -1032,7 +1051,7 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_book_id = tmpStr;
-
+                temp_book_id2 = Regex.Replace(tmpStr, "[^.0-9]", "");
                 //read title
                 readRecord(0x02, 0x32);
 
@@ -1097,6 +1116,7 @@ namespace WindowsFormsApplication1
                 temp_sched = tmpStr;
 
                 //read status
+                /*
                 readRecord(0x05, 0x32);
 
                 if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1116,6 +1136,18 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_status = tmpStr;
+                */
+                //try to get status in web service
+                try
+                {
+                    bData = send_http_request("GET", sb3 + temp_book_id2, null);
+                    userBooking = ser2.Deserialize<Booking>(bData);
+                    temp_status = userBooking.status;
+                }
+                catch
+                {
+                    temp_status = "Unavailable";
+                }
 
                 //read ticket class
                 readRecord(0x06, 0x32);
@@ -1200,7 +1232,7 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_book_id = tmpStr;
-
+                temp_book_id2 = Regex.Replace(tmpStr, "[^.0-9]", ""); 
                 //read title
                 readRecord(0x02, 0x32);
 
@@ -1265,6 +1297,7 @@ namespace WindowsFormsApplication1
                 temp_sched = tmpStr;
 
                 //read status
+                /*
                 readRecord(0x05, 0x32);
 
                 if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1284,6 +1317,17 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_status = tmpStr;
+                */
+                try
+                {
+                    bData = send_http_request("GET", sb3 + temp_book_id2, null);
+                    userBooking = ser2.Deserialize<Booking>(bData);
+                    temp_status = userBooking.status;
+                }
+                catch
+                {
+                    temp_status = "Unavailable";
+                }
 
                 //read ticket class
                 readRecord(0x06, 0x32);
@@ -1368,6 +1412,7 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_book_id = tmpStr;
+                temp_book_id2 = Regex.Replace(tmpStr, "[^.0-9]", ""); 
 
                 //read title
                 readRecord(0x02, 0x32);
@@ -1433,6 +1478,7 @@ namespace WindowsFormsApplication1
                 temp_sched = tmpStr;
 
                 //read status
+                /*
                 readRecord(0x05, 0x32);
 
                 if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1452,6 +1498,18 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_status = tmpStr;
+                */
+                //try to get status in web service
+                try
+                {
+                    bData = send_http_request("GET", sb3 + temp_book_id2, null);
+                    userBooking = ser2.Deserialize<Booking>(bData);
+                    temp_status = userBooking.status;
+                }
+                catch
+                {
+                    temp_status = "Unavailable";
+                }
 
                 //read ticket class
                 readRecord(0x06, 0x32);
@@ -1536,7 +1594,7 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_book_id = tmpStr;
-
+                temp_book_id2 = Regex.Replace(tmpStr, "[^.0-9]", ""); 
                 //read title
                 readRecord(0x02, 0x32);
 
@@ -1601,6 +1659,7 @@ namespace WindowsFormsApplication1
                 temp_sched = tmpStr;
 
                 //read status
+                /*
                 readRecord(0x05, 0x32);
 
                 if (retcode != ModWinsCard.SCARD_S_SUCCESS)
@@ -1620,7 +1679,18 @@ namespace WindowsFormsApplication1
                     indx = indx + 1;
                 }
                 temp_status = tmpStr;
-
+                */
+                //try to get status in web service
+                try
+                {
+                    bData = send_http_request("GET", sb3 + temp_book_id2, null);
+                    userBooking = ser2.Deserialize<Booking>(bData);
+                    temp_status = userBooking.status;
+                }
+                catch
+                {
+                    temp_status = "Unavailable";
+                }
                 //read ticket class
                 readRecord(0x06, 0x32);
 
@@ -1655,7 +1725,7 @@ namespace WindowsFormsApplication1
 
         public void populate_pending() {
             StringBuilder sb2 = new StringBuilder();
-            sb2.Append("http://localhost/phptest/web_service/sample2.php/Booking/");           //class is booking
+            sb2.Append("http://localhost/phptest/web_service/sample2.php/Booking/UserId/");           //class is booking
             sb2.Append(session_stud_id);                                                     //append current stud id
             sb2.Append("/pending");
             data = send_http_request("GET", sb2.ToString(), null);
@@ -1739,10 +1809,10 @@ namespace WindowsFormsApplication1
         //if e-ticket is to be activated
         private void dataGridView2_CellClick(object sender, DataGridViewCellEventArgs e)
         {
-            string putUrl = "http://localhost/phptest/web_service/sample2.php/Booking/";
+            string putUrl = "http://localhost/phptest/web_service/sample2.php/Booking/BookingId/";
             string data;
-            DateTime today = DateTime.Today;
-            MessageBox.Show(today.ToString());
+            //DateTime today = DateTime.Today;
+            //MessageBox.Show(today.ToString());
             if (e.ColumnIndex == 6 && e.RowIndex>=0)
             {   //button column 
                 //MessageBox.Show(dataGridView2.Rows[e.RowIndex].Cells[0].Value.ToString());
@@ -1758,10 +1828,10 @@ namespace WindowsFormsApplication1
                         write_ticket();
                         logBox1.Items.Add("Ticket successfully written on card.");
                         selected.Enabled = false;
-                        dataGridView1.Rows.Clear();
-                        fetch_ticket();
                         putUrl = putUrl + dataGridView2.Rows[rowIndex].Cells[0].Value.ToString();
                         data = send_http_request("PUT", putUrl, new { string_booking_status = "activated" });  //send booking id
+                        dataGridView1.Rows.Clear();
+                        fetch_ticket();
                         //MessageBox.Show(data);
                         dataGridView2.Columns.RemoveAt(6);
                         dataGridView2.Rows.Clear();

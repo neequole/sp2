@@ -12,13 +12,13 @@ $select = mysql_select_db($db) or die(mysql_error());
 <?php
 date_default_timezone_set('Asia/Manila');
 $dt = date('Y-m-d');
-$time = date('h:i:s');
+$time = date('H:i:s');
 //file log
 $fp = fopen("schedule_log/{$dt}_file.txt",'a') or die('Cannot open file:  '.$my_file);
 
 $flag = true;
 
-$sql = mysql_query("SELECT * FROM booking b JOIN e_sched s ON(b.e_sched_id=s.e_sched_id)") or die(mysql_error());
+$sql = mysql_query("SELECT * FROM booking b JOIN e_sched s ON(b.e_sched_id=s.e_sched_id) where b.status!='expired' and b.status!='done'") or die(mysql_error());
 $count=mysql_num_rows($sql);
 	if($count>0){
 	mysql_query("START TRANSACTION");
