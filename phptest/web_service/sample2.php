@@ -2,6 +2,7 @@
 	include("class/user_stud.php");
 	include("class/user_admin.php");
 	include("class/booking.php");
+	include("class/event.php");
 	include("../include/config.php");
 ?>
 
@@ -74,6 +75,11 @@
 												}
 												//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking ID.'));
 											}
+											else if($resource[5] == 'EventSchedId'){
+												if(isset($resource[6]) && $resource[6] != "" && is_numeric($resource[6])){ //[6] => event id
+														$results['booking'] = Booking::getBookingByEventSchedId($resource[6]); //if given is id and pending
+												}
+											}
 											//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking Parameter.'));
 										}
 										else if($method == "PUT"){ //change booking status
@@ -90,6 +96,20 @@
 											echo json_encode(array('error'=>'true', 'error_message'=>'Error in fetching student bookings.'));
 								}
 							else echo json_encode(array('error'=>'true', 'error_message'=>'Not enough information were given.'));
+						}
+						else if($resource[4] == "Event"){
+							if(!isset($resource[5]) || $resource[5] == ""){
+								$results = array();
+								if($method == "GET"){
+									$results['event'] = Event::getAllEvent();		
+								}
+								$row = $results['event'];
+								if($row)
+										echo json_encode($row);
+								else
+										echo json_encode(array('error'=>'true', 'error_message'=>'Error in retrieving events.'));
+							}
+							else echo json_encode(array('error'=>'true', 'error_message'=>'Error in event.'));
 						}
 					}
 					else echo json_encode(array('error'=>'true', 'error_message'=>'Class does not exists.'));

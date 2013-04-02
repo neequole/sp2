@@ -5,16 +5,15 @@ using System.Text;
 
 namespace webService
 {
-    public class Booking
+    public class Event
     {
-        public string book_id { get; set; }
+        public string id { get; set; }
         public string title { get; set; }
+        public string venue_name { get; set; }
+        public string e_sched_id { get; set; }
         public string e_date { get; set; }
         public string e_stime { get; set; }
         public string e_etime { get; set; }
-        public string venue_name { get; set; }
-        public string e_tclass { get; set; }
-        public string status { get; set; }
         public string error { get; set; }
         public string error_message { get; set; }
     }

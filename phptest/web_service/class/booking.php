@@ -16,6 +16,10 @@ class Booking
 	public $venue_name = null;
 	public $e_tclass = null;
 	public $status = null;
+	public $fname = null;
+    public $mname = null;
+    public $lname = null;
+	public $stud_no = null;
   
   /**
   * Sets the object's properties using the values in the supplied array
@@ -31,7 +35,11 @@ class Booking
 	if ( isset( $data['e_etime'] ) ) $this->e_etime = $data['e_etime'];
 	if ( isset( $data['venue_name'] ) ) $this->venue_name = $data['venue_name'];
 	if ( isset( $data['e_tclass'] ) ) $this->e_tclass = $data['e_tclass'];
-	if ( isset( $data['status'] ) ) $this->status = $data['status'];	
+	if ( isset( $data['status'] ) ) $this->status = $data['status'];
+	if ( isset( $data['fname'] ) ) $this->fname = ucwords(strtolower($data['fname']));
+	if ( isset( $data['mname'] ) ) $this->mname = ucwords(strtolower($data['mname']));
+    if ( isset( $data['lname'] ) )$this->lname = ucwords(strtolower($data['lname']));
+	if ( isset( $data['stud_no'] ) ) $this->stud_no = $data['stud_no'];	
 	
   }
  
@@ -57,6 +65,16 @@ class Booking
   
    public static function getBookingByUserId($id) {
   		$sql = "SELECT * FROM booking b INNER JOIN e_sched e ON b.e_sched_id=e.e_sched_id INNER JOIN event v ON e.e_id = v.id INNER JOIN venue z ON v.venue = z.venue_id where user_id=".$id;
+		$result = mysql_query($sql) or die(mysql_error());
+		$stack = array();
+		while( $row = mysql_fetch_array($result)) {
+			array_push($stack, new Booking( $row ));
+		}
+   		if ( $stack ) return $stack;
+  }
+  
+  public static function getBookingByEventSchedId($id) {
+  		$sql = "SELECT * FROM event e INNER JOIN e_sched s ON e.id=s.e_id INNER JOIN booking b ON s.e_sched_id = b.e_sched_id INNER JOIN user u on b.user_id=u.id INNER JOIN venue z ON e.venue = z.venue_id INNER JOIN user_stud h on u.id=h.id where s.e_sched_id=".$id;
 		$result = mysql_query($sql) or die(mysql_error());
 		$stack = array();
 		while( $row = mysql_fetch_array($result)) {
