@@ -80,6 +80,11 @@
 														$results['booking'] = Booking::getBookingByEventSchedId($resource[6]); //if given is id and pending
 												}
 											}
+											else if($resource[5] == 'BookSched'){
+												if(isset($resource[6]) && $resource[6] != "" && is_numeric($resource[6]) && isset($resource[7]) && $resource[7] != "" && is_numeric($resource[7])){ //[6] => book id [7] => sched id
+														$results['booking'] = Booking::getBookingByBookSched($resource[6], $resource[7]); //if given is id and pending
+												}
+											}
 											//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking Parameter.'));
 										}
 										else if($method == "PUT"){ //change booking status

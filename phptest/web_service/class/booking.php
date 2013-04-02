@@ -83,6 +83,13 @@ class Booking
    		if ( $stack ) return $stack;
   }
   
+  public static function getBookingByBookSched($bookId, $schedId){
+	$sql = "SELECT * FROM booking where book_id=".$bookId." and e_sched_id=".$schedId." and status='activated'";
+	$result = mysql_query($sql) or die(mysql_error());
+	$row = mysql_fetch_array($result);
+	if ( $row ) return new Booking($row);
+  }
+  
     public static function getBookingByUserIdPending($id) {
   		$sql = "SELECT * FROM booking b INNER JOIN e_sched e ON b.e_sched_id=e.e_sched_id INNER JOIN event v ON e.e_id = v.id INNER JOIN venue z ON v.venue = z.venue_id where user_id=".$id." and status='pending'";
 		$result = mysql_query($sql) or die(mysql_error());
