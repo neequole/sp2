@@ -3,12 +3,15 @@
 	include("class/user_admin.php");
 	include("class/booking.php");
 	include("class/event.php");
+	include("class/bookingclass.php");
 	include("../include/config.php");
 ?>
 
 <?php
 	$method = $_SERVER['REQUEST_METHOD'];
 	$uri = $_SERVER['REQUEST_URI'];
+	date_default_timezone_set('Asia/Manila');
+
 	
 	//check if METHOD exists
 	if(isset($method) && $method!="" && ($method=="POST" || $method == "GET" || $method == "PUT")){
@@ -115,6 +118,30 @@
 										echo json_encode(array('error'=>'true', 'error_message'=>'Error in retrieving events.'));
 							}
 							else echo json_encode(array('error'=>'true', 'error_message'=>'Error in event.'));
+						}
+						else if($resource[4] == "BookingClass"){
+							if(isset($resource[5]) && $resource[5] != "" && isset($resource[6]) && $resource[6] != "" && is_numeric($resource[6])){
+								$results = array();
+								if($method == "PUT"){
+									if($resource[5] == "entry"){ //[5] => entry
+										//$date = json_decode($_SERVER['QUERY_STRING'], true);
+											$dt = date('Y-m-d H:i:s');
+											$results['bookingclass'] = BookingClass::updateEntry($resource[6],$dt);		
+									}
+									else if($resource[5] == "exit"){ //[5] => entry
+										//$date = json_decode($_SERVER['QUERY_STRING'], true);
+											$dt = date('Y-m-d H:i:s');
+											$results['bookingclass'] = BookingClass::updateExit($resource[6],$dt);		
+									}
+									else echo json_encode(array('error'=>'true', 'error_message'=>'Error in updating attendance entry.'));
+								}
+								$row = $results['bookingclass'];
+								if($row)
+										echo json_encode($row);
+								else
+										echo json_encode(array('error'=>'true', 'error_message'=>'Error in updating attendance entry.'));
+							}
+							else echo json_encode(array('error'=>'true', 'error_message'=>'Error in updating attendance entry.'));
 						}
 					}
 					else echo json_encode(array('error'=>'true', 'error_message'=>'Class does not exists.'));

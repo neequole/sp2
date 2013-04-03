@@ -832,6 +832,7 @@ namespace facilitatorPortal
             //NOTE : Never play with the UI thread here...
             string data;
             bool flag;
+            BookingClass bClass = new BookingClass();
             for (int i = 0; i < 1000; i++)
             {
                 Thread.Sleep(1000);
@@ -850,10 +851,20 @@ namespace facilitatorPortal
                         else
                         {
                             flag = true;
-                            //send http put change to done
-                            //data = send_http_request("PUT", "http://localhost/phptest/web_service/sample2.php/Booking/BookingId/" + b, null);
+                            //send http put to update attendance entry
+                            DateTime date = DateTime.Now;
+                            string date2 = date.ToString("yyyy-MM-dd HH:mm:ss"); // for 24hr format
+                            if(radioButton1.Checked) data = send_http_request("PUT", "http://localhost/phptest/web_service/sample2.php/BookingClass/entry/" + b, new { string_entry_attendance = date2 });
+                            else data = send_http_request("PUT", "http://localhost/phptest/web_service/sample2.php/BookingClass/exit/" + b, new { string_entry_attendance = date2 });
+                            bClass = jser.Deserialize<BookingClass>(data);
+                            //MessageBox.Show(data);
                             //messagebox to show that student gains entry
-                            MessageBox.Show("User Accepted!");
+                            if (bClass.error == "true") MessageBox.Show("Error in updating attendance, insert card again!");
+                            else
+                            {
+                                if (radioButton1.Checked)  MessageBox.Show("User Accepted!");
+                                else MessageBox.Show("User Exit!");
+                            }
                             break;
                         }
                         
