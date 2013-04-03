@@ -47,9 +47,21 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.panel4 = new System.Windows.Forms.Panel();
             this.dataGridView2 = new System.Windows.Forms.DataGridView();
+            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.panel3 = new System.Windows.Forms.Panel();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
+            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.button3 = new System.Windows.Forms.Button();
@@ -64,18 +76,6 @@
             this.radioButton2 = new System.Windows.Forms.RadioButton();
             this.radioButton1 = new System.Windows.Forms.RadioButton();
             this.button4 = new System.Windows.Forms.Button();
-            this.Column6 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column7 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column8 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column9 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column10 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column12 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column1 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column2 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column3 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column4 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column5 = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.Column11 = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.panel1.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.panel2.SuspendLayout();
@@ -276,6 +276,46 @@
             this.dataGridView2.TabIndex = 0;
             this.dataGridView2.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView2_CellClick);
             // 
+            // Column6
+            // 
+            this.Column6.HeaderText = "Booking ID";
+            this.Column6.Name = "Column6";
+            this.Column6.ReadOnly = true;
+            this.Column6.Width = 200;
+            // 
+            // Column7
+            // 
+            this.Column7.HeaderText = "Title";
+            this.Column7.Name = "Column7";
+            this.Column7.ReadOnly = true;
+            this.Column7.Width = 200;
+            // 
+            // Column8
+            // 
+            this.Column8.HeaderText = "Venue";
+            this.Column8.Name = "Column8";
+            this.Column8.ReadOnly = true;
+            this.Column8.Width = 200;
+            // 
+            // Column9
+            // 
+            this.Column9.HeaderText = "Schedule";
+            this.Column9.Name = "Column9";
+            this.Column9.ReadOnly = true;
+            this.Column9.Width = 200;
+            // 
+            // Column10
+            // 
+            this.Column10.HeaderText = "Ticket Class";
+            this.Column10.Name = "Column10";
+            this.Column10.ReadOnly = true;
+            this.Column10.Width = 200;
+            // 
+            // Column12
+            // 
+            this.Column12.HeaderText = "Status";
+            this.Column12.Name = "Column12";
+            // 
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.panel3);
@@ -311,6 +351,47 @@
             this.dataGridView1.Name = "dataGridView1";
             this.dataGridView1.Size = new System.Drawing.Size(728, 201);
             this.dataGridView1.TabIndex = 0;
+            this.dataGridView1.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dataGridView1_CellContentClick);
+            // 
+            // Column1
+            // 
+            this.Column1.HeaderText = "Booking ID";
+            this.Column1.Name = "Column1";
+            this.Column1.ReadOnly = true;
+            this.Column1.Width = 200;
+            // 
+            // Column2
+            // 
+            this.Column2.HeaderText = "Title";
+            this.Column2.Name = "Column2";
+            this.Column2.ReadOnly = true;
+            this.Column2.Width = 200;
+            // 
+            // Column3
+            // 
+            this.Column3.HeaderText = "Venue";
+            this.Column3.Name = "Column3";
+            this.Column3.ReadOnly = true;
+            this.Column3.Width = 200;
+            // 
+            // Column4
+            // 
+            this.Column4.HeaderText = "Sched";
+            this.Column4.Name = "Column4";
+            this.Column4.ReadOnly = true;
+            this.Column4.Width = 200;
+            // 
+            // Column5
+            // 
+            this.Column5.HeaderText = "Ticket Class";
+            this.Column5.Name = "Column5";
+            this.Column5.ReadOnly = true;
+            this.Column5.Width = 200;
+            // 
+            // Column11
+            // 
+            this.Column11.HeaderText = "Status";
+            this.Column11.Name = "Column11";
             // 
             // tabPage3
             // 
@@ -406,10 +487,10 @@
             this.radioButton5.Enabled = false;
             this.radioButton5.Location = new System.Drawing.Point(95, 121);
             this.radioButton5.Name = "radioButton5";
-            this.radioButton5.Size = new System.Drawing.Size(53, 17);
+            this.radioButton5.Size = new System.Drawing.Size(85, 17);
             this.radioButton5.TabIndex = 4;
             this.radioButton5.TabStop = true;
-            this.radioButton5.Text = "E1 66";
+            this.radioButton5.Text = "Ticket Slot 5";
             this.radioButton5.UseVisualStyleBackColor = true;
             // 
             // radioButton4
@@ -418,10 +499,10 @@
             this.radioButton4.Enabled = false;
             this.radioButton4.Location = new System.Drawing.Point(95, 98);
             this.radioButton4.Name = "radioButton4";
-            this.radioButton4.Size = new System.Drawing.Size(54, 17);
+            this.radioButton4.Size = new System.Drawing.Size(85, 17);
             this.radioButton4.TabIndex = 3;
             this.radioButton4.TabStop = true;
-            this.radioButton4.Text = "EE 55";
+            this.radioButton4.Text = "Ticket Slot 4";
             this.radioButton4.UseVisualStyleBackColor = true;
             // 
             // radioButton3
@@ -430,10 +511,10 @@
             this.radioButton3.Enabled = false;
             this.radioButton3.Location = new System.Drawing.Point(95, 75);
             this.radioButton3.Name = "radioButton3";
-            this.radioButton3.Size = new System.Drawing.Size(56, 17);
+            this.radioButton3.Size = new System.Drawing.Size(85, 17);
             this.radioButton3.TabIndex = 2;
             this.radioButton3.TabStop = true;
-            this.radioButton3.Text = "DD 44";
+            this.radioButton3.Text = "Ticket Slot 3";
             this.radioButton3.UseVisualStyleBackColor = true;
             // 
             // radioButton2
@@ -442,10 +523,10 @@
             this.radioButton2.Enabled = false;
             this.radioButton2.Location = new System.Drawing.Point(95, 52);
             this.radioButton2.Name = "radioButton2";
-            this.radioButton2.Size = new System.Drawing.Size(54, 17);
+            this.radioButton2.Size = new System.Drawing.Size(85, 17);
             this.radioButton2.TabIndex = 1;
             this.radioButton2.TabStop = true;
-            this.radioButton2.Text = "CC 33";
+            this.radioButton2.Text = "Ticket Slot 2";
             this.radioButton2.UseVisualStyleBackColor = true;
             // 
             // radioButton1
@@ -454,10 +535,10 @@
             this.radioButton1.Enabled = false;
             this.radioButton1.Location = new System.Drawing.Point(95, 29);
             this.radioButton1.Name = "radioButton1";
-            this.radioButton1.Size = new System.Drawing.Size(54, 17);
+            this.radioButton1.Size = new System.Drawing.Size(85, 17);
             this.radioButton1.TabIndex = 0;
             this.radioButton1.TabStop = true;
-            this.radioButton1.Text = "BB 22";
+            this.radioButton1.Text = "Ticket Slot 1";
             this.radioButton1.UseVisualStyleBackColor = true;
             // 
             // button4
@@ -469,86 +550,6 @@
             this.button4.Text = "Refresh Pending";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // Column6
-            // 
-            this.Column6.HeaderText = "Booking ID";
-            this.Column6.Name = "Column6";
-            this.Column6.ReadOnly = true;
-            this.Column6.Width = 200;
-            // 
-            // Column7
-            // 
-            this.Column7.HeaderText = "Title";
-            this.Column7.Name = "Column7";
-            this.Column7.ReadOnly = true;
-            this.Column7.Width = 200;
-            // 
-            // Column8
-            // 
-            this.Column8.HeaderText = "Venue";
-            this.Column8.Name = "Column8";
-            this.Column8.ReadOnly = true;
-            this.Column8.Width = 200;
-            // 
-            // Column9
-            // 
-            this.Column9.HeaderText = "Schedule";
-            this.Column9.Name = "Column9";
-            this.Column9.ReadOnly = true;
-            this.Column9.Width = 200;
-            // 
-            // Column10
-            // 
-            this.Column10.HeaderText = "Ticket Class";
-            this.Column10.Name = "Column10";
-            this.Column10.ReadOnly = true;
-            this.Column10.Width = 200;
-            // 
-            // Column12
-            // 
-            this.Column12.HeaderText = "Status";
-            this.Column12.Name = "Column12";
-            // 
-            // Column1
-            // 
-            this.Column1.HeaderText = "Booking ID";
-            this.Column1.Name = "Column1";
-            this.Column1.ReadOnly = true;
-            this.Column1.Width = 200;
-            // 
-            // Column2
-            // 
-            this.Column2.HeaderText = "Title";
-            this.Column2.Name = "Column2";
-            this.Column2.ReadOnly = true;
-            this.Column2.Width = 200;
-            // 
-            // Column3
-            // 
-            this.Column3.HeaderText = "Venue";
-            this.Column3.Name = "Column3";
-            this.Column3.ReadOnly = true;
-            this.Column3.Width = 200;
-            // 
-            // Column4
-            // 
-            this.Column4.HeaderText = "Sched";
-            this.Column4.Name = "Column4";
-            this.Column4.ReadOnly = true;
-            this.Column4.Width = 200;
-            // 
-            // Column5
-            // 
-            this.Column5.HeaderText = "Ticket Class";
-            this.Column5.Name = "Column5";
-            this.Column5.ReadOnly = true;
-            this.Column5.Width = 200;
-            // 
-            // Column11
-            // 
-            this.Column11.HeaderText = "Status";
-            this.Column11.Name = "Column11";
             // 
             // Form1
             // 

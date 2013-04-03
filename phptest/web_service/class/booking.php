@@ -101,7 +101,7 @@ class Booking
   }
   
   public static function getBookingByUsername($usrname) {
-
+		
   }
   
   public static function changeStatusById($id){
@@ -111,6 +111,22 @@ class Booking
 		$result = mysql_query($sql) or die(mysql_error());
     	$row = mysql_fetch_array($result);
    		if ( $row ) return new Booking( $row );
+  }
+  
+  public static function deleteBookingById($id){
+		mysql_query("START TRANSACTION");
+		$sql = "SELECT * FROM booking b INNER JOIN e_sched e ON b.e_sched_id=e.e_sched_id where book_id=".$id;
+		$result = mysql_query($sql) or die(mysql_error());
+		$row = mysql_fetch_array($result);
+		$qry1 = mysql_query("DELETE from booking where book_id=".$id);
+		$qry2 = mysql_query("UPDATE e_sched SET e_book = e_book - 1 WHERE e_sched_id = ".$row['e_sched_id']);
+
+			if ($result and $qry1 and $qry2) {
+				mysql_query("COMMIT");
+				return array('error'=>'false', 'error_message'=>'Booking deleted.');
+			} else {        
+				mysql_query("ROLLBACK");
+			}
   }
     
 }

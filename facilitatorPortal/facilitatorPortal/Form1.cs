@@ -837,6 +837,7 @@ namespace facilitatorPortal
             {
                 Thread.Sleep(1000);
                 if (checkCard2()) {
+                    eTicket.Clear();
                     MessageBox.Show("Card inserted!");
                     flag = false;
                     //fetch booking ids from the card

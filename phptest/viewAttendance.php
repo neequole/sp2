@@ -19,6 +19,9 @@ header( 'Location: index.php' );
 					while($row3 = mysql_fetch_array($qry)){
 						//print_r($row3);
 						echo "<tr><td>".$row3["title"]."</td><td>".$row3["courseTitle"].$row3["courseNo"]."</td><td>".$row3["lecSec"]." ".$row3["labSec"]."</td><td>".$row3["term"]." ".$row3['acadYear']."</td><td>".$row3["comment"]."</td></tr>";
+					//$qry2 = mysql_query("SELECT * FROM  booking_class c INNER JOIN booking b on c.booking_id=b.book_id INNER JOIN user u on u.id=b.user_id INNER JOIN e_sched s on b.e_sched_id=s.e_sched_id INNER JOIN event v on v.id=s.event_id where v.id=".$row3['id']." and ".$ro") or die(mysql_error());
+			
+					
 					}
 			}
 			else echo "<tr><td>You have not created any class yet.</td></tr>";

@@ -93,7 +93,8 @@
 										else if($method == "PUT"){ //change booking status
 											if($resource[5] == 'BookingId'){
 												if(is_numeric($resource[6])) $results['booking'] = Booking::changeStatusById($resource[6]); //if given is id
-												//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking ID.'));
+												else if($resource[6] == "delete" && isset($resource[7]) && $resource[7]!="" && is_numeric($resource[7])) $results['booking'] = Booking::deleteBookingById($resource[7]);
+												//else echo json_encode(array('error'=>'true', 'error_message'=>$resource[7]));
 											}
 											//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking Parameter.'));
 										}

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -15,6 +16,8 @@ using System.Web.Script.Serialization;
 using webService;
 //for Regex
 using System.Text.RegularExpressions;
+//for transaction
+using System.Transactions;
 
 
 namespace WindowsFormsApplication1
@@ -39,11 +42,16 @@ namespace WindowsFormsApplication1
         /*end of elements for smart card*/
         Student stud = new Student();
         AdminUser admin = new AdminUser();
+        Booking uBook = new Booking();
         string session_stud_id; //session id of user
         string data;
         int rowIndex; //use for determining row to write in card
         List<Booking> pendingBookings = new List<Booking>();
         RadioButton selected = new RadioButton();
+        JavaScriptSerializer jser = new JavaScriptSerializer();
+        byte[] list1 = { 0xBB, 0xCC, 0xDD, 0xEE, 0xE1 }; //holds high address
+        byte[] list2 = { 34, 51, 68, 85, 102 }; //holds low address
+
 
         public Form1()
         {
@@ -1719,7 +1727,217 @@ namespace WindowsFormsApplication1
 
             logBox1.Items.Add("Data read from card is displayed");
             logBox1.SelectedIndex = logBox1.Items.Count - 1;
+
+            DataGridViewButtonColumn btn2 = new DataGridViewButtonColumn();
+            dataGridView1.Columns.Add(btn2);
+            btn2.HeaderText = "Action";
+            btn2.Text = "Delete";
+            btn2.Name = "btn2";
+            btn2.FlatStyle = FlatStyle.Popup;
+            btn2.UseColumnTextForButtonValue = true;
+            edit_deleteButton();
+
+        }
+
+        public bool delete_ticket(string bookingId) { 
         
+
+            int i = 0;
+            string tmpStr, temp_book_id, sdata;
+            //loop through the ticket files
+            for (i = 0; i < 5; i++)
+            {
+                //select first ticket object
+                SelectFile(list1[i], list2[i]);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return false;
+                }
+
+                //read flag
+                readRecord(0x00, 0x32);
+
+                if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                {
+                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    return false;
+                }
+
+                // Display data read from card to textbox
+                tmpStr = "";
+                indx = 0;
+
+                while (RecvBuff[indx] != 0x00)
+                {
+
+                    tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                    indx = indx + 1;
+                }
+
+                tmpStr = tmpStr.Substring(0, 11);    //remove trailing characters since size is 50
+                if (tmpStr == "unallocated")
+                {
+
+                }
+
+                else
+                { 
+                    //read rest of the record
+                    //read book id
+                    readRecord(0x01, 0x32);
+
+                    if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                    {
+                        logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                        return false;
+                    }
+
+                    // Display data read from card to textbox
+                    tmpStr = "";
+                    indx = 0;
+
+                    while (RecvBuff[indx] != 0x00)
+                    {
+
+                        tmpStr = tmpStr + Chr(RecvBuff[indx]);
+                        indx = indx + 1;
+                    }
+                    temp_book_id = Regex.Replace(tmpStr, "[^.0-9]", "");
+                    
+                    if (temp_book_id == bookingId) {
+                        //set to unallocated
+                        sdata = "";
+                        sdata = "unallocated";
+                        clearBuffer();
+                        for (indx = 0; indx < sdata.Length; indx++)
+                            tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+                        writeRecord(0x01, 0x00, 0x32, 0x32, ref tmpArray);
+
+                        if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                        {
+                            logBox1.Items.Add("4" + ModWinsCard.GetScardErrMsg(retcode));
+                            return false;
+                        }
+                 
+                        logBox1.Items.Add("Flag set to unallocated.");
+                        logBox1.SelectedIndex = logBox1.Items.Count - 1;
+
+
+                        sdata = "";
+                        clearBuffer();
+
+                        //Book id
+                        for (indx = 0; indx < sdata.Length; indx++)
+                            tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+                        writeRecord(0x01, 0x01, 0x32, 0x32, ref tmpArray);
+
+                        if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                        {
+                            logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                            return false;
+                        }
+
+                        logBox1.Items.Add("Book ID deleted.");
+                        logBox1.SelectedIndex = logBox1.Items.Count - 1;
+                        clearBuffer();
+
+                        //Title
+                        for (indx = 0; indx < sdata.Length; indx++)
+                            tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+                        writeRecord(0x01, 0x02, 0x32, 0x32, ref tmpArray);
+
+                        if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                        {
+                            logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                            return false;
+                        }
+
+                        logBox1.Items.Add("Title deleted.");
+                        logBox1.SelectedIndex = logBox1.Items.Count - 1;
+                        clearBuffer();
+
+                        //Venue
+                        for (indx = 0; indx < sdata.Length; indx++)
+                            tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+                        writeRecord(0x01, 0x03, 0x32, 0x32, ref tmpArray);
+
+                        if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                        {
+                            logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                            return false;
+                        }
+
+                        logBox1.Items.Add("Venue deleted.");
+                        logBox1.SelectedIndex = logBox1.Items.Count - 1;
+                        clearBuffer();
+
+                        //Schedule
+                        for (indx = 0; indx < sdata.Length; indx++)
+                            tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+                        writeRecord(0x01, 0x04, 0x32, 0x32, ref tmpArray);
+
+                        if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                        {
+                            logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                            return false;
+                        }
+
+                        logBox1.Items.Add("Schedule deleted.");
+                        logBox1.SelectedIndex = logBox1.Items.Count - 1;
+                        clearBuffer();
+
+                        //status
+                        for (indx = 0; indx < sdata.Length; indx++)
+                            tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+                        writeRecord(0x01, 0x05, 0x32, 0x32, ref tmpArray);
+
+                        if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                        {
+                            logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                            return false;
+                        }
+
+                        logBox1.Items.Add("Ticket Status deleted.");
+                        logBox1.SelectedIndex = logBox1.Items.Count - 1;
+                        clearBuffer();
+
+                        //e_tclass
+                        for (indx = 0; indx < sdata.Length; indx++)
+                            tmpArray[indx] = (byte)Asc(sdata.Substring(indx, 1));
+
+                        writeRecord(0x01, 0x06, 0x32, 0x32, ref tmpArray);
+
+                        if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+                        {
+                            logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                            return false;
+                        }
+
+                        logBox1.Items.Add("Ticket Class deleted.");
+                        logBox1.SelectedIndex = logBox1.Items.Count - 1;
+
+                        logBox1.Items.Add("Successfully deleted ticket");
+                        if (list1[i] == 0xBB && list2[i] == 22) radioButton1.Enabled = true;
+                        else if (list1[i] == 0xCC && list2[i] == 33) radioButton1.Enabled = true;
+                        else if (list1[i] == 0xDD && list2[i] == 44) radioButton1.Enabled = true;
+                        else if (list1[i] == 0xEE && list2[i] == 55) radioButton1.Enabled = true;
+                        else if (list1[i] == 0xE1 && list2[i] == 66) radioButton1.Enabled = true;
+                        return true;
+                     
+                    }
+                    
+                }
+                
+            }
+            return false;
         }
 
 
@@ -1756,6 +1974,23 @@ namespace WindowsFormsApplication1
                     btn.Style.ForeColor = Color.LightGray;
                 }
                 else {
+                    btn.Style.BackColor = Color.LightSalmon;
+                    btn.Style.ForeColor = Color.Red;
+                }
+            }
+        }
+
+        private void edit_deleteButton()
+        {
+            foreach (DataGridViewRow row in dataGridView1.Rows)
+            {
+                DataGridViewButtonCell btn = row.Cells[6] as DataGridViewButtonCell;
+                if (row.Cells[5].Value.ToString() == "" || row.Cells[5].Value.ToString() == "-")
+                {
+                    btn.Style.ForeColor = Color.LightGray;
+                }
+                else
+                {
                     btn.Style.BackColor = Color.LightSalmon;
                     btn.Style.ForeColor = Color.Red;
                 }
@@ -1831,7 +2066,9 @@ namespace WindowsFormsApplication1
                         putUrl = putUrl + dataGridView2.Rows[rowIndex].Cells[0].Value.ToString();
                         data = send_http_request("PUT", putUrl, new { string_booking_status = "activated" });  //send booking id
                         dataGridView1.Rows.Clear();
+                        dataGridView1.Columns.RemoveAt(6);
                         fetch_ticket();
+                        
                         //MessageBox.Show(data);
                         dataGridView2.Columns.RemoveAt(6);
                         dataGridView2.Rows.Clear();
@@ -1895,6 +2132,55 @@ namespace WindowsFormsApplication1
             dataGridView2.Rows.Clear();
             populate_pending();
         }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            string putUrl = "http://localhost/phptest/web_service/sample2.php/Booking/BookingId/";
+            string data;
+            string id;
+            //DateTime today = DateTime.Today;
+            //MessageBox.Show(today.ToString());
+            if (e.ColumnIndex == 6 && e.RowIndex >= 0)
+            {
+                if (dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString() == "" || dataGridView1.Rows[e.RowIndex].Cells[5].Value.ToString() == "-") return;
+                else{
+                //delete booking on card and on database
+                    try
+                    {
+       
+                       id = Regex.Replace(dataGridView1.Rows[e.RowIndex].Cells[0].Value.ToString(), "[^.0-9]", "");
+                       data = send_http_request("PUT", "http://localhost/phptest/web_service/sample2.php/Booking/BookingId/delete/" + id, new { string_delete = "delete" });
+                       //MessageBox.Show(data);
+                        uBook = jser.Deserialize<Booking>(data);
+                     
+                            if (uBook.error == "true")
+                            {
+                                MessageBox.Show("Fail to delete booking1");
+                            }
+                            else
+                            {
+                                //delete ticket on card, update radio button
+                                if (delete_ticket(id))
+                                {
+                                    MessageBox.Show("Ticket Deleted!");
+                                    dataGridView1.Rows.Clear();
+                                    dataGridView1.Columns.RemoveAt(6);
+                                    fetch_ticket();
+                                    
+                                    //MessageBox.Show(data);
+                                }
+                                else MessageBox.Show("Fail to delete booking on card!");
+                            }
+                    }
+                    catch
+                    {
+                        logBox1.Items.Add("Fail to delete booking!");
+                    }
+                }
+            }
+           
+        }
+
 
 
     }
