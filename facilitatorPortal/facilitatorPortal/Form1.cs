@@ -197,6 +197,20 @@ namespace facilitatorPortal
             return true;
         }
 
+        private void disconnect_card() {
+            //Disconnect  and unpower card
+            retcode = ModWinsCard.SCardDisconnect(hCard, ModWinsCard.SCARD_UNPOWER_CARD);
+
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                MessageBox.Show("Disconnection Error!");
+            }
+            else
+            {
+                MessageBox.Show("Card Disconnected");
+            }
+        }
+
         private void PerformTransmitAPDU(ref ModWinsCard.APDURec apdu)
         {
 
@@ -843,7 +857,9 @@ namespace facilitatorPortal
                     //fetch booking ids from the card
                     fetch_bookingId();
                     foreach(string b in eTicket){
-                        data = send_http_request("GET", "http://localhost/phptest/web_service/sample2.php/Booking/BookSched/" + b + "/" + event_sched_id, null);
+                        if (radioButton1.Checked) data = send_http_request("GET", "http://localhost/phptest/web_service/sample2.php/Booking/BookSched/entry/" + b + "/" + event_sched_id, null);
+                        else data = send_http_request("GET", "http://localhost/phptest/web_service/sample2.php/Booking/BookSched/exit/" + b + "/" + event_sched_id, null);
+                        //MessageBox.Show(data);
                         Booking bb = jser.Deserialize<Booking>(data);
                         if (bb.error == "true")
                         {
@@ -857,10 +873,11 @@ namespace facilitatorPortal
                             string date2 = date.ToString("yyyy-MM-dd HH:mm:ss"); // for 24hr format
                             if(radioButton1.Checked) data = send_http_request("PUT", "http://localhost/phptest/web_service/sample2.php/BookingClass/entry/" + b, new { string_entry_attendance = date2 });
                             else data = send_http_request("PUT", "http://localhost/phptest/web_service/sample2.php/BookingClass/exit/" + b, new { string_entry_attendance = date2 });
+                            //MessageBox.Show(data);
                             bClass = jser.Deserialize<BookingClass>(data);
                             //MessageBox.Show(data);
                             //messagebox to show that student gains entry
-                            if (bClass.error == "true") MessageBox.Show("Error in updating attendance, insert card again!");
+                            if (bClass.error == "true") MessageBox.Show("User Rejected!");
                             else
                             {
                                 if (radioButton1.Checked)  MessageBox.Show("User Accepted!");
@@ -871,6 +888,7 @@ namespace facilitatorPortal
                         
                     }
                     if (flag == false) MessageBox.Show("User Rejected!");
+                    //disconnect_card();
                 } 
                 // Periodically report progress to the main thread so that it can
                 // update the UI.  In most cases you'll just need to send an

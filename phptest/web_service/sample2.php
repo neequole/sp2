@@ -84,8 +84,10 @@
 												}
 											}
 											else if($resource[5] == 'BookSched'){
-												if(isset($resource[6]) && $resource[6] != "" && is_numeric($resource[6]) && isset($resource[7]) && $resource[7] != "" && is_numeric($resource[7])){ //[6] => book id [7] => sched id
-														$results['booking'] = Booking::getBookingByBookSched($resource[6], $resource[7]); //if given is id and pending
+												if(isset($resource[6]) && $resource[6] != "" && isset($resource[7]) && $resource[7] != "" && is_numeric($resource[7]) && isset($resource[8]) && $resource[8] != "" && is_numeric($resource[8])){ //[6] => entry/exit [7] => book id [8] => sched id
+														if($resource[6] == "entry")
+															$results['booking'] = Booking::getBookingByBookSched($resource[7], $resource[8], "activated"); //if given is id and pending
+														else if($resource[6] == "exit") $results['booking'] = Booking::getBookingByBookSched($resource[7], $resource[8], "admitted");
 												}
 											}
 											//else echo json_encode(array('error'=>'true', 'error_message'=>'Invalid Booking Parameter.'));
@@ -127,7 +129,7 @@
 									if($resource[5] == "entry"){ //[5] => entry
 										//$date = json_decode($_SERVER['QUERY_STRING'], true);
 											$dt = date('Y-m-d H:i:s');
-											$results['bookingclass'] = BookingClass::updateEntry($resource[6],$dt);		
+											$results['bookingclass'] = BookingClass::updateEntry($resource[6],$dt);										
 									}
 									else if($resource[5] == "exit"){ //[5] => entry
 										//$date = json_decode($_SERVER['QUERY_STRING'], true);

@@ -83,8 +83,8 @@ class Booking
    		if ( $stack ) return $stack;
   }
   
-  public static function getBookingByBookSched($bookId, $schedId){
-	$sql = "SELECT * FROM booking where book_id=".$bookId." and e_sched_id=".$schedId." and status='activated'";
+  public static function getBookingByBookSched($bookId, $schedId, $option){
+	$sql = "SELECT * FROM booking where book_id=".$bookId." and e_sched_id=".$schedId." and status='".$option."'";
 	$result = mysql_query($sql) or die(mysql_error());
 	$row = mysql_fetch_array($result);
 	if ( $row ) return new Booking($row);

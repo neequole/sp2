@@ -42,28 +42,35 @@ class BookingClass
   }
   
   public static function updateEntry($id,$date){
-		$sql = "UPDATE booking_class SET timein='".$date."' where booking_id=".$id;
-		$result = mysql_query($sql) or die(mysql_error());
-		$sql = "SELECT * FROM booking_class where booking_id=".$id;
-		$result = mysql_query($sql) or die(mysql_error());
-		$row = mysql_fetch_array($result);
-   		if ( $row ) return new BookingClass($row);
+		mysql_query("START TRANSACTION");
+		$string1 = "UPDATE booking SET status='admitted' where book_id=".$id." and status='activated'";
+		$qry1 =  mysql_query($string1) or die(mysql_error());
+		if($qry1 and mysql_affected_rows()>0){
+			$string2 = "UPDATE booking_class SET timein='".$date."' where booking_id=".$id;
+			$qry2 =  mysql_query($string2) or die(mysql_error());
+			if($qry2){
+				mysql_query("COMMIT");
+				return array('error'=>'false', 'error_message'=>'User Entered.');
+			}
+			else mysql_query("ROLLBACK");
+		}
+		else mysql_query("ROLLBACK");
   }
   
   public static function updateExit($id,$date){
 		mysql_query("START TRANSACTION");
-		$string1 = "UPDATE booking SET status='done' where book_id=".$id." and status='activated'";
+		$string1 = "UPDATE booking SET status='done' where book_id=".$id." and status='admitted'";
 		$qry1 =  mysql_query($string1) or die(mysql_error());
-		$string2 = "UPDATE booking_class SET timeout='".$date."' where booking_id=".$id;
-		$qry2 =  mysql_query($string2) or die(mysql_error());
-		if ($qry1 and $qry2) {
-			$sql = "SELECT * FROM booking_class where booking_id=".$id;
-			$result = mysql_query($sql) or die(mysql_error());
-			$row = mysql_fetch_array($result);
+		if($qry1 and mysql_affected_rows()>0){
+			$string2 = "UPDATE booking_class SET timeout='".$date."' where booking_id=".$id;
+			$qry2 =  mysql_query($string2) or die(mysql_error());
+			if ($qry2) {
 			mysql_query("COMMIT");
+			return array('error'=>'false', 'error_message'=>'User Exit.');
+			}
+			else mysql_query("ROLLBACK");
 		}
 		else mysql_query("ROLLBACK");
-		if ( $row ) return new BookingClass($row);
   }
     
 }

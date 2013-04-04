@@ -1310,7 +1310,7 @@ namespace WindowsFormsApplication1
 
                 if (retcode != ModWinsCard.SCARD_S_SUCCESS)
                 {
-                    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                    logBox13.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                     return;
                 }
 

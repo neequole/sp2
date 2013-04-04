@@ -66,6 +66,10 @@ $(document).ready(function() {
 		}).focus();
 	});
 	
+	 $(function() {
+		$( "#accordion" ).accordion();
+	});
+	
 	$("#addDate").live("click",function() {
 	var newRow = '<tr><td><input type="text" name="date[]" class="datepicker required" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]" required /></td><td><input type="text" name="start[]" style="width: 70px" class="timepicker_start required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" required /></td><td>to</td><td><input type="text" name="end[]" style="width: 70px" class="timepicker_end required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])"  required /></td><td><input type="text" name="max[]" class="required" pattern="[0-9]+" min="1" required /></td></tr>';
 	$('table#eventDate').append(newRow);
