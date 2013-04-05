@@ -6,6 +6,9 @@ include("include/config.php");
     <div id="main">
 <?php
 $id = $_GET['id'];
+$dt = date('Y-m-d');
+$time = date('H:i:s');
+
 if(isset($id)){
 	$result = mysql_query("SELECT * FROM event where id=$id limit 1 ;") or die(mysql_error());
 
@@ -54,7 +57,9 @@ if(isset($id)){
 				if($count>0){
 						
 					while($row2 = mysql_fetch_array($result2)){
-						if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']=="YES" && (int)$row2['e_book']<(int)$row2['e_max']) echo "<tr name=".$row2['e_sched_id']."><td>".$row2['e_date']."</td><td>".$row2['e_stime']." - ".$row2['e_etime']."</td><td>".$row2['e_book']." out of ".$row2['e_max']."</td><td><input type='button' class='book_ticket' value='Book me!' name='".$row2['e_sched_id']."'/></td></tr>";
+						//check if event is expired
+						if($row2['e_date']<$dt || ($row2['e_date'] == $dt && $row2['e_etime'] < $time)) echo "<tr name=".$row2['e_sched_id']."><td>".$row2['e_date']."</td><td>".$row2['e_stime']." - ".$row2['e_etime']."</td><td>".$row2['e_book']." out of ".$row2['e_max']."</td><td>Events in the past cannot be reserved</td></tr>";
+						else if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']=="YES" && (int)$row2['e_book']<(int)$row2['e_max']) echo "<tr name=".$row2['e_sched_id']."><td>".$row2['e_date']."</td><td>".$row2['e_stime']." - ".$row2['e_etime']."</td><td>".$row2['e_book']." out of ".$row2['e_max']."</td><td><input type='button' class='book_ticket' value='Book me!' name='".$row2['e_sched_id']."'/></td></tr>";
 						else if((int)$row2['e_book']>=(int)$row2['e_max']) echo "<tr name=".$row2['e_sched_id']."><td>".$row2['e_date']."</td><td>".$row2['e_stime']." - ".$row2['e_etime']."</td><td>".$row2['e_book']." out of ".$row2['e_max']."</td><td>Full house</td></tr>";
 						//else echo "<tr name=".$row2['e_sched_id']."><td>".$row2['e_date']."</td><td>".$row2['e_stime']." - ".$row2['e_etime']."</td><td>".$row2['e_book']." out of ".$row2['e_max']."</td><td>You have to <a href='userLogin.php'>logged-in</a> to book.</td></tr>";
 					}

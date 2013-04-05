@@ -233,7 +233,7 @@ clear:both;
 }
 
 /*Modal box*/
-#overlay, #overlay2, #overlay3 {
+#overlay, #overlay2, #overlay3, #edit_eventForm {
      visibility: hidden;
      position: absolute;
      left: 0px;
@@ -254,7 +254,7 @@ clear:both;
      text-align:center;
 }
 
-#overlay2 div#event_info2{
+#overlay2 div#event_info2, #edit_eventForm div#event_info{
 	width:700px;
 	margin: 100px auto;
      background-color: #fff;

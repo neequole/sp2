@@ -1,5 +1,6 @@
 <?php
 session_start();
+include("include/config.php");
 if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']=="" || $_SESSION['type']!="admin"){
 ?>
 <script type="text/javascript">
@@ -31,6 +32,7 @@ include("include/header.php");
 	</div>
 	<div id="ajax-content">
 	</div>
+	
  </div>
  </div>		<!--this is for container-->
 <?php	

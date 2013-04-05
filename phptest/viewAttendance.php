@@ -9,7 +9,7 @@ header( 'Location: index.php' );
 <div id="main">
 	<a href="faculty.php">Create Class</a><a href="viewAttendance.php">View attendance</a>
 	<div class="blueHeader"><h3>View Attendance</h3></div>
-	<div id="accordion">
+	<div class="accordion">
 	<?php
 			//check all classes made by the logged faculty
 			$qry = mysql_query("SELECT * FROM req_course r INNER JOIN event_course c ON r.id=c.class_id INNER JOIN event e ON c.event_id=e.id where r.faculty_id=".$_SESSION['id']) or die(mysql_error());

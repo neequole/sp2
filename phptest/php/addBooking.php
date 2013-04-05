@@ -9,6 +9,9 @@ $e_tclass = $_POST['ticketclass'];
 
 
 		mysql_query("START TRANSACTION");
+		$sql = "SELECT * from e_sched where e_sched_id=".$event_id;
+		$qry =  mysql_query($sql) or die(mysql_error());
+		if($qry and mysql_num_rows($qry)>0){
 		$string = "INSERT INTO booking values('',".$user_id.",".$event_id.",'".$e_tclass."','pending')";
 		$qry1 =  mysql_query($string) or die(mysql_error());
 		$b_id = mysql_insert_id();
@@ -58,6 +61,16 @@ $e_tclass = $_POST['ticketclass'];
 			window.location = "../browse_event.php?id=".$event_id;
 		</script>
 <?php	
+		}
+		}
+		else{
+						mysql_query("ROLLBACK");
+?>
+						<script type="text/javascript">
+							alert("Reservation failed. Try again later.");
+							window.location = "../browse_event.php?id=".$event_id;
+						</script>
+<?php
 		}
 ?>
 

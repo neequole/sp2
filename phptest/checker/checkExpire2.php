@@ -15,9 +15,9 @@ $dt = date('Y-m-d');
 $time = date('H:i:s');
 //file log
 chmod("C:/xampp/htdocs/phptest/tester_dir", 0600);
-$fp = fopen("C:/xampp/htdocs/phptest/tester_dir/{$dt}.txt",'w') or die('Cannot open file:  '.$my_file);
-//fwrite($fp, "\n\n-----Log for ".$dt."-----\n\n");
-$flag = true;
+if($fp = fopen("C:/xampp/htdocs/phptest/tester_dir/{$dt}.txt",'w') or die('Cannot open file:  '.$my_file)){
+fwrite($fp, "\n\n-----Log for ".$dt."-----\n\n");
+/*$flag = true;
 
 $sql = mysql_query("SELECT * FROM booking b JOIN e_sched s ON(b.e_sched_id=s.e_sched_id) where b.status!='expired' and b.status!='done'") or die(mysql_error());
 $count=mysql_num_rows($sql);
@@ -61,7 +61,10 @@ $count=mysql_num_rows($sql);
 		
 		}
 		if($flag == true) mysql_query("COMMIT");
-	}
-	else fwrite($fp, "No update for Bookings\n");
+	}*/
 fclose($fp);
+}
+else{
+fprintf("Fail to open");
+}
 ?>

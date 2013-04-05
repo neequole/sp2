@@ -9,6 +9,7 @@ $(document).ready(function() {
  
         $.ajax({ url: this.href, success: function(php) {
             $("#ajax-content").empty().append(php);
+			$( ".accordion" ).accordion();
             }
     });
     return false;
@@ -17,6 +18,7 @@ $(document).ready(function() {
     $("#ajax-content").empty().append("<div id='loading'><img src='images/loading.gif' alt='Loading...' /></div>");
     $.ajax({ url: 'ajax/browse.php', success: function(php) {
             $("#ajax-content").empty().append(php);
+						$( ".accordion" ).accordion();
     }
     });
 	
@@ -67,7 +69,7 @@ $(document).ready(function() {
 	});
 	
 	 $(function() {
-		$( "#accordion" ).accordion();
+		$( ".accordion" ).accordion();
 	});
 	
 	$("#addDate").live("click",function() {
@@ -350,6 +352,39 @@ $(document).ready(function() {
 
  });
 //end for browsing event
+	$('#cancel_booking2').live('click',function(){
+		var id = $(this).attr('name');
+		 $( "#dialog-confirm" ).dialog({
+				resizable: false,
+				height:140,
+				modal: true,
+				buttons: {
+				"Delete": function() {
+					$( this ).dialog( "close" );
+					var myData = "book_id="+id;
+					jQuery.ajax({
+						type: "POST", // Post / Get method
+						url: "php/cancel_book.php", //Where form data is sent on submission
+						dataType:"text", // Data type, HTML, json etc.
+						data:myData, //Form variables
+						success:function(response){
+							if(response == "1"){					//cancel_book.php returns 1=cancelled
+								alert("Booking cancelled!");
+								window.location.replace("admin.php");
+							}
+							else alert("Error in cancellatin of Booking.");	//2=not
+						}
+					/*error:function (xhr, ajaxOptions, thrownError){
+						
+					}*/
+					});
+				},
+				Cancel: function() {
+				$( this ).dialog( "close" );
+				}
+				}
+				});
+	});
 	
 	$('#cancel_booking').live('click',function(){
 		var id = $(this).attr('name');
@@ -368,6 +403,94 @@ $(document).ready(function() {
 		el = document.getElementById("overlay3");
 		el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
 	});
+	
+	$('.edit_event').live('click',function(){
+		var id = $(this).attr('name');
+	        $("#ajax-content").empty().append("<div id='loading'><img src='images/loading.gif' alt='Loading...'/></div>");
+            $.ajax({ 
+				url: 'ajax/editEvent.php',
+				data: 'id='+id, //Form variable
+				success: function(php) {
+					$("#ajax-content").empty().append(php);
+					$( ".accordion" ).accordion();
+				}
+			})
+	});
+	
+	$('.delete_event').live('click',function(){
+	var id = $(this).attr("name");
+				$( "#dialog-confirm2" ).dialog({
+				resizable: false,
+				height:140,
+				modal: true,
+				buttons: {
+				"Delete": function() {
+					$( this ).dialog( "close" );
+					var myData = "event_id="+id;
+					jQuery.ajax({
+						type: "POST", // Post / Get method
+						url: "php/delete_event.php", //Where form data is sent on submission
+						dataType:"text", // Data type, HTML, json etc.
+						data:myData, //Form variables
+						success:function(response){
+							if(response == "1"){					//cancel_book.php returns 1=cancelled
+								alert("Event cancelled!");
+								window.location.replace("admin.php");
+							}
+							else alert("Error in cancellatin of Event.");	//2=not
+						}
+					/*error:function (xhr, ajaxOptions, thrownError){
+						
+					}*/
+					});
+				},
+				Cancel: function() {
+				$( this ).dialog( "close" );
+				}
+				}
+				});
+	});
+	
+	$('.delete_stud').live('click',function(){
+	var id = $(this).attr("name");
+				$( "#dialog-confirm3" ).dialog({
+				resizable: false,
+				height:140,
+				modal: true,
+				buttons: {
+				"Delete": function() {
+					$( this ).dialog( "close" );
+					var myData = "user_id="+id;
+					jQuery.ajax({
+						type: "POST", // Post / Get method
+						url: "php/delete_user.php", //Where form data is sent on submission
+						dataType:"text", // Data type, HTML, json etc.
+						data:myData, //Form variables
+						success:function(response){
+							if(response == "1"){					//cancel_book.php returns 1=cancelled
+								alert("User deleted!");
+								$.ajax({ 
+									url: 'ajax/userMgt.php',
+									success: function(php) {
+										$("#ajax-content").empty().append(php);
+										$( ".accordion" ).accordion();
+									}
+								})
+							}
+							else alert("Error in deletion of User.");	//2=not
+						}
+					/*error:function (xhr, ajaxOptions, thrownError){
+						
+					}*/
+					});
+				},
+				Cancel: function() {
+				$( this ).dialog( "close" );
+				}
+				}
+				});
+	});
+	
 	
 	$('#yes_booking').live('click',function(){
 	var id = $("#cancel_book_id").val();
