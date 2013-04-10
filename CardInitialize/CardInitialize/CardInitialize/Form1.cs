@@ -1219,6 +1219,16 @@ namespace WindowsFormsApplication1
         }
         #endregion
 
+        private void label5_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox3_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
     }
 }
