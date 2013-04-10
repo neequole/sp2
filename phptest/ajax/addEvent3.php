@@ -3,7 +3,7 @@ include("../include/config.php");
 ?>
 
 <form method="post" enctype="multipart/form-data" action="php/addEvent2.php" id="form_eDetails">
-    <div class="blueHeader"><h3>ADD NEW EVENT . . .</h3></div>
+    <h2 class='ribbonHeader'>ADD NEW EVENT . . .</h2>
 	<div id="error_edetails" class="errordiv"></div>
 	<table id="eventDetails">
 			<tr><td>Venue*:</td>

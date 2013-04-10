@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("../include/config.php");
-
+echo "<h2 class='ribbonHeader'>USER MANAGEMENT . . .</h2>";
 $result = mysql_query("SELECT * FROM user u LEFT JOIN user_stud s ON (u.id=s.id) where u.type='student';") or die(mysql_error());
 
 // Mysql_num_row is counting table row

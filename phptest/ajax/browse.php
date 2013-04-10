@@ -1,7 +1,7 @@
 <?php
 session_start();
 include("../include/config.php");
-
+echo "<h2 class='ribbonHeader'>EVENTS . . .</h2>";
 $result = mysql_query("SELECT * FROM event order by title;") or die(mysql_error());
 
 // Mysql_num_row is counting table row
@@ -11,7 +11,7 @@ if($count>0){
 echo "<div class='accordion'>";
 //echo "<tr><th>Name</th><th>Bookings</th><th>Schedule</th></tr>";
 while($row = mysql_fetch_array($result)){
-	echo "<h3>".$row['title']." | <input type='image' src='images/delete2.gif' name='".$row['id']."' class='delete_event' width='10' height='10' alt='Delete'> | <input type='image' src='images/edit.png' name='".$row['id']."' class='edit_event' width='15' height='15' alt='Modify'></h3>";
+	echo "<h3>".$row['title']." | <input type='image' src='images/delete2.gif' name='".$row['id']."' class='delete_event' width='10' height='10' alt='Delete'> | </h3>";
 	//echo "<h3>".$row['title']." | ".$row['e_book']." out of ".$row['e_max']." | ".$row['e_date']." ".$row['e_stime']."-".$row['e_etime']." | <input type='image' src='images/deletebutton.png' name='".$row['id']."' class='delete_event' width='50' height='30' alt='Delete'></h3>";
 	echo "<div><p>";
 	
@@ -21,11 +21,11 @@ while($row = mysql_fetch_array($result)){
 	if($count2>0){
 	echo "<ol>";
 		while($row2 = mysql_fetch_array($result2)){
-			echo "<li>".$row2['e_book']." out of ".$row2['e_max']." | ".$row2['e_date']." ".$row2['e_stime']."-".$row2['e_etime']."</li>";
+			echo "<li>".$row2['e_book']." out of ".$row2['e_max']." | ".$row2['e_date']." ".$row2['e_stime']."-".$row2['e_etime']."</li><br>";
 			$result3 = mysql_query("SELECT * FROM booking b INNER JOIN user u ON b.user_id=u.id where e_sched_id=".$row2['e_sched_id']) or die(mysql_error());
 			$count3=mysql_num_rows($result3);
 			if($count3>0){
-				echo "<table>";
+				echo "<table class='table_center2' cellpadding='5'>";
 				echo "<tr><th>Booking ID</th><th>Ticket Holder</th><th>Status</th><th>Action</th></tr>";
 				while($row3 = mysql_fetch_array($result3)){
 					if($row3["status"] == "pending") echo "<tr><td>".$row3['book_id']."</td><td>".$row3['fname']." ".$row3['mname']." ".$row3['lname']."</td><td>".$row3['status']."</td><td><input type='button' id='cancel_booking2' name='".$row3["book_id"]."'value='Cancel'/></td></tr>";

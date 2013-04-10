@@ -1,6 +1,7 @@
 <?php
 include("../include/config.php");
 ?>
+<h2 class='ribbonHeader'>ADD NEW VENUE . . .</h2>
 <div id="errorVenue"></div>
 <table>
 <tr><th>Venue</th><th>Action</th></tr>

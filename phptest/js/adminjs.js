@@ -1,5 +1,7 @@
 $(document).ready(function() {
 	$("#nav-tabs li a").click(function() {
+	$('#nav-tabs li a').css('background-color','#A4C639');
+	$(this).css('background-color','#99CC99');
 	if($(this).text() == "Log-out") {}		//excempt log-out from ajax
 	else if($(this).text() == "Preview") {}
 	else{
@@ -16,11 +18,12 @@ $(document).ready(function() {
     }});
  
     $("#ajax-content").empty().append("<div id='loading'><img src='images/loading.gif' alt='Loading...' /></div>");
-    $.ajax({ url: 'ajax/browse.php', success: function(php) {
-            $("#ajax-content").empty().append(php);
-						$( ".accordion" ).accordion();
-    }
-    });
+		$.ajax({ url: 'ajax/browse.php', success: function(php) {
+				$("#nav-tabs li a:first").css('background-color','#99CC99');
+				$("#ajax-content").empty().append(php);
+							$( ".accordion" ).accordion();
+		}
+		});
 	
 	$("#tabs li").live("click",function() {
         //  First remove class "active" from currently active tab
@@ -71,6 +74,11 @@ $(document).ready(function() {
 	 $(function() {
 		$( ".accordion" ).accordion();
 	});
+	
+	$(function() {
+    $( "#eventtabs" ).tabs();
+  });
+	
 	
 	$("#addDate").live("click",function() {
 	var newRow = '<tr><td><input type="text" name="date[]" class="datepicker required" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]" required /></td><td><input type="text" name="start[]" style="width: 70px" class="timepicker_start required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" required /></td><td>to</td><td><input type="text" name="end[]" style="width: 70px" class="timepicker_end required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])"  required /></td><td><input type="text" name="max[]" class="required" pattern="[0-9]+" min="1" required /></td></tr>';
@@ -387,21 +395,47 @@ $(document).ready(function() {
 	});
 	
 	$('#cancel_booking').live('click',function(){
-		var id = $(this).attr('name');
+		var id2 = $(this).attr('name');
 		var row = $(this).parent().parent(); // skip the header row
 		var event = $("td:nth-child(1)", row).html();
 		var date = $("td:nth-child(2)", row).html();
 		var time1 = $("td:nth-child(3)", row).html();
-		var dataString = "<input type='hidden' value='"+id+"' id='cancel_book_id'/>" + event + " " + date + " " + time1;
+		var dataString = "<input type='hidden' value='"+id2+"' id='cancel_book_id'/>" + event + " " + date + " " + time1;
 		$("#book_infoHead").html(dataString);
-		el = document.getElementById("overlay3");
+		/*el = document.getElementById("overlay3");
 		el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
-		$("#overlay3").css("height",$(document).height());
-	});
-	
-	$('#no_booking').live('click',function(){
-		el = document.getElementById("overlay3");
-		el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+		$("#overlay3").css("height",$(document).height());*/
+		$( "#dialog-confirm4" ).dialog({
+				resizable: false,
+				height:200,
+				modal: true,
+				buttons: {
+				"Delete": function() {
+					$( this ).dialog( "close" );
+					var id = $("#cancel_book_id").val();
+					var myData = "book_id="+id;
+					jQuery.ajax({
+								type: "POST", // Post / Get method
+								url: "php/cancel_book.php", //Where form data is sent on submission
+								dataType:"text", // Data type, HTML, json etc.
+								data:myData, //Form variables
+								success:function(response){
+									if(response == "1"){					//cancel_book.php returns 1=cancelled
+										alert("Booking cancelled!");
+										$("#listBooking tr#" + id).remove();
+									}
+									else alert("Error in cancellatin of Booking.");	//2=not
+								}
+								/*error:function (xhr, ajaxOptions, thrownError){
+									
+								}*/
+					});
+				},
+				Cancel: function() {
+				$( this ).dialog( "close" );
+				}
+				}
+				});
 	});
 	
 	$('.edit_event').live('click',function(){
@@ -491,29 +525,6 @@ $(document).ready(function() {
 				});
 	});
 	
-	
-	$('#yes_booking').live('click',function(){
-	var id = $("#cancel_book_id").val();
-	var myData = "book_id="+id;
-		jQuery.ajax({
-					type: "POST", // Post / Get method
-					url: "php/cancel_book.php", //Where form data is sent on submission
-					dataType:"text", // Data type, HTML, json etc.
-					data:myData, //Form variables
-					success:function(response){
-						el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
-						//alert(response);
-						if(response == "1"){					//cancel_book.php returns 1=cancelled
-							alert("Booking cancelled!");
-							$("#listBooking tr#" + id).remove();
-						}
-						else alert("Error in cancellatin of Booking.");	//2=not
-					}
-					/*error:function (xhr, ajaxOptions, thrownError){
-						
-					}*/
-				});
-	});
 	
 	$('#approve_stud').live('click',function(){
 		var row = $(this).parent().parent();

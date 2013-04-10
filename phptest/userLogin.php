@@ -54,6 +54,7 @@ session_start();
 								<li>Username and Password accepts only alphanumeric characters.</li>
 								</ul>
 							</div>
+							<br>
                             <p>
                                 <label for="uname">Username*</label>
                                 <input type="text" id="log_uname" placeholder="Username" pattern="[a-zA-Z0-9]+" required/>
@@ -117,14 +118,14 @@ session_start();
                             </p>
 							<p>
                                 <label for="sex">Sex*</label>
-                                Male:<input type="radio" name="sex" value="m" checked/>
-								Female:<input type="radio" name="sex" value="f"/>
+                                <input type="radio" name="sex" value="m" checked/>Male
+								<input type="radio" name="sex" value="f"/>Female
                             </p>
 							<p>
                                 <label for="type">Register as*</label>
-                                Administrator:<input type="radio" name="type" value="admin" id="admintypeButton" checked/>
-								Faculty:<input type="radio" name="type" value="faculty" id="facultytypeButton"/>
-								Student:<input type="radio" name="type" value="student" id="studtypeButton"/>
+                                <input type="radio" name="type" value="admin" id="admintypeButton" checked/>Administrator
+								<input type="radio" name="type" value="faculty" id="facultytypeButton"/>Faculty<br>
+								<input type="radio" name="type" value="student" id="studtypeButton"/>Student
                             </p>
 							<div id="usertype">
 							

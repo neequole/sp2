@@ -19,6 +19,10 @@
 <script type="text/javascript" src="jquery-ui-timepicker-0.3.2/jquery.ui.timepicker.js?v=0.3.2"></script>
 <script type="text/javascript" src="jquery-ui-timepicker-0.3.2/plusone.js"></script>
 <!--end for time-->
+<!--for slider-->
+<link href="css/slider.css" rel="stylesheet" type="text/css" />
+    <script src="js/thumbnail-slider.js" type="text/javascript"></script>
+<!--end for slider-->
 </head>
 
 <body>
@@ -46,3 +50,4 @@
 					</div>
             </div>
         </div>
+		

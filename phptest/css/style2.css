@@ -9,6 +9,10 @@ body{
     font-family:"Century Gothic", Helvetica, sans-serif;
 	/*background-image:url('images/bg1.jpg');*/
 }
+
+a :hover{
+ color: #FE8402;
+}
 #content{
     margin:15px auto;
     text-align:center;
@@ -219,3 +223,4 @@ background-color:#86C67C;
 #ajax_result p, #ajax_result2 p{
 background-color: #F5DEB3;
 }
+
