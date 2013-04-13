@@ -47,17 +47,17 @@ namespace WindowsFormsApplication1
         {
 
         //SCardEstablishContext
-            logBox1.Items.Add("Calling SCardEstablishContext...");
+            //logBox1.Items.Add("Calling SCardEstablishContext...");
             retcode = ModWinsCard.SCardEstablishContext(ModWinsCard.SCARD_SCOPE_USER, 0, 0, ref hContext);
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-            logBox1.Items.Add("Success!");
+            // logBox1.Items.Add("Success!");
 
             //SCardListReaders
-            logBox1.Items.Add("Calling SCardListReaders...");
+            // logBox1.Items.Add("Calling SCardListReaders...");
             int pcchReaders = 0;
 
             // List PCSC card readers installed 
@@ -65,7 +65,7 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
@@ -74,7 +74,7 @@ namespace WindowsFormsApplication1
 
             //Get the list of reader present again but this time add sReaderGroup, retData as 2rd & 3rd parameter respectively.
             retcode = ModWinsCard.SCardListReaders(hContext, sReaderGroup, ReaderList, ref pcchReaders);
-            logBox1.Items.Add("Success!");
+            // logBox1.Items.Add("Success!");
             
             //used to split null delimited strings into string arrays
             char[] delimiter = new char[1];
@@ -88,7 +88,7 @@ namespace WindowsFormsApplication1
             {
                 if (readerName != null && readerName.Length > 1)
                 {
-                    logBox1.Items.Add("Found: " + readerName);
+                    // logBox1.Items.Add("Found: " + readerName);
                     comboBox1.Items.Add(readerName);
                 }
             }
@@ -104,22 +104,22 @@ namespace WindowsFormsApplication1
         }
 
         private bool initCard() {
-            logBox1.Items.Add("Calling SCardConnect...");
+            // logBox1.Items.Add("Calling SCardConnect...");
             // Connect to the reader using hContext handle and obtain hCard handle  
             retcode = ModWinsCard.SCardConnect(hContext, comboBox1.SelectedItem.ToString(), ModWinsCard.SCARD_SHARE_EXCLUSIVE, 0 | 1, ref hCard, ref ActiveProtocol);
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-            logBox1.Items.Add("Success!");
+            // logBox1.Items.Add("Success!");
             //start putting the data on the card
             try
             {
                     personalization_stage();
-                    logBox1.Items.Add("Personalization stage finished.");
+                    // logBox1.Items.Add("Personalization stage finished.");
                     writeData();
-                    logBox1.Items.Add("Student info on card successfully written.");
+                    // logBox1.Items.Add("Student info on card successfully written.");
                     readData();
                     //update database, set user_stud::stud_status to activated
                     StringBuilder str = new StringBuilder();
@@ -132,7 +132,7 @@ namespace WindowsFormsApplication1
                     
             }
             catch {
-                logBox1.Items.Add("There was an error in initializing card");
+                // logBox1.Items.Add("There was an error in initializing card");
                 return false;
             }
             return true;
@@ -162,24 +162,25 @@ namespace WindowsFormsApplication1
             try
             {
                 send_http_request("GET", sb.ToString(), null);
-                if (stud.error == "true") logBox1.Items.Add(stud.error_message);
+                if (stud.error == "true") listBox1.Items.Add(stud.error_message);
                 else if (stud.usrname == username && stud.pwd == pwd)
                 {
-                   logBox1.Items.Add("Found user");
-                   //logBox1.Items.Add(stud.course + "college " + stud.college);
-                   logBox1.Items.Add(stud.stud_status);
-                   if (stud.stud_status == "approved")
-                   {
-                       button4.Enabled = true;
-                   }
+                    listBox1.Items.Add("Found user: " + stud.stud_status);
+                    // logBox1.Items.Add(stud.course + "college " + stud.college);
+                    // logBox1.Items.Add();
+                    if (stud.stud_status == "approved")
+                    {
+                        button4.Enabled = true;
+                    }
                 }
-                else logBox1.Items.Add("Username and Password does not match");
+                else listBox1.Items.Add("Username and Password does not match");
             }
             catch
             {
                 //MessageBox.Show("There was an error fetching the data");
-                logBox1.Items.Add("There was an error fetching the data");
+                listBox1.Items.Add("There was an error fetching the data");
             }
+            listBox1.SelectedIndex = (listBox1.Items.Count - 1);
             
         }
 
@@ -234,27 +235,27 @@ namespace WindowsFormsApplication1
 
             writeRecord(0x00, 0x00, 0x04, 0x04, ref tmpArray);
 
-            logBox1.Items.Add("FF 02 (Personalization file) is updated");
+            // logBox1.Items.Add("FF 02 (Personalization file) is updated");
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
             else
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
-                logBox1.Items.Add("Card is successful.");
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add("Card is successful.");
             }
 
             // Select FF 04
-            logBox1.Items.Add("Select FF 04");
+            // logBox1.Items.Add("Select FF 04");
 
             SelectFile(0xFF, 0x04);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
@@ -262,7 +263,7 @@ namespace WindowsFormsApplication1
             SubmitIC();
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
@@ -279,11 +280,11 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File AA 11 is defined");
+            // logBox1.Items.Add("User File AA 11 is defined");
 
             //  Write to second record of FF 04, 1st ticket object
             tmpArray[0] = 0x32;       // 50    Record length
@@ -297,11 +298,11 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File BB 22 is defined");
+            // logBox1.Items.Add("User File BB 22 is defined");
 
             //  Write to third record of FF 04, 2nd ticket object
             tmpArray[0] = 0x32;       // 50     Record length
@@ -315,11 +316,11 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File CC 33 is defined");
+            // logBox1.Items.Add("User File CC 33 is defined");
 
             //  Write to fourth record of FF 04, 3rd ticket object
             tmpArray[0] = 0x32;       // 50     Record length
@@ -333,11 +334,11 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File DD 44 is defined");
+            // logBox1.Items.Add("User File DD 44 is defined");
 
 
             //  Write to 5th record of FF 04, 4th ticket object
@@ -352,11 +353,11 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File EE 55 is defined");
+            // logBox1.Items.Add("User File EE 55 is defined");
 
 
             //  Write to 6th record of FF 04, 5th ticket object
@@ -371,11 +372,11 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File E1 66 is defined");
+            // logBox1.Items.Add("User File E1 66 is defined");
 
 
             //  Select 3 User Files created previously for validation
@@ -384,67 +385,67 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File AA 11 is selected");
+            // logBox1.Items.Add("User File AA 11 is selected");
 
             //  Select User File BB 22
             SelectFile(0xBB, 0x22);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File BB 22 is selected");
+            // logBox1.Items.Add("User File BB 22 is selected");
 
             //  Select User File CC 33
             SelectFile(0xCC, 0x33);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File CC 33 is selected");
+            // logBox1.Items.Add("User File CC 33 is selected");
             
             //  Select User File DD 44
             SelectFile(0xDD, 0x44);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File DD 44 is selected");
+            // logBox1.Items.Add("User File DD 44 is selected");
 
             //  Select User File EE 55
             SelectFile(0xEE, 0x55);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File EE 55 is selected");
+            // logBox1.Items.Add("User File EE 55 is selected");
 
             //  Select User File FF 66
             SelectFile(0xE1, 0x66);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User File E1 66 is selected");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            // logBox1.Items.Add("User File E1 66 is selected");
+            // logBox1.SelectedIndex = // logBox1.Items.Count - 1;
 
             return true;
 
@@ -487,12 +488,12 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
-                logBox1.Items.Add("SCardTransmit Error!");
+                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                // logBox1.Items.Add("SCardTransmit Error!");
             }
             else
             {
-                logBox1.Items.Add("SCardTransmit OK...");
+                // logBox1.Items.Add("SCardTransmit OK...");
             }
 
             sTemp = "";
@@ -502,8 +503,8 @@ namespace WindowsFormsApplication1
 
 
             // Display Send Buffer Value
-            logBox1.Items.Add("Send Buffer : " + sTemp);
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            // logBox1.Items.Add("Send Buffer : " + sTemp);
+            // logBox1.SelectedIndex = // logBox1.Items.Count - 1;
 
             sTemp = "";
             // do loop for RecvbuffLen
@@ -511,8 +512,8 @@ namespace WindowsFormsApplication1
                 sTemp = sTemp + " " + string.Format("{0:X2}", RecvBuff[indx]);
 
             // Display Receive Buffer Value
-            logBox1.Items.Add("Receive Buffer:" + sTemp);
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Receive Buffer:" + sTemp);
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             if (apdu.IsSend == false)
             {
@@ -520,7 +521,7 @@ namespace WindowsFormsApplication1
                     apdu.Data[indx] = RecvBuff[indx];
                
             }
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
             //logBox1.Items.Add("apdu!!");
         }
 
@@ -546,7 +547,7 @@ namespace WindowsFormsApplication1
             apdu.Data[7] = 0x54;       // T
 
             apdu.IsSend = true;
-            logBox1.Items.Add("Submit IC");
+           // logBox1.Items.Add("Submit IC");
 
             PerformTransmitAPDU(ref apdu);
         }
@@ -606,7 +607,7 @@ namespace WindowsFormsApplication1
             for (i = 0; i < maxLen; i++)
                 apdu.Data[i] = ApduIn[i];
 
-            logBox1.Items.Add("Write to FF 02");
+           // logBox1.Items.Add("Write to FF 02");
             PerformTransmitAPDU(ref apdu);
             //logBox1.Items.Add("HAHHA2");
 
@@ -669,7 +670,7 @@ namespace WindowsFormsApplication1
             SelectFile(0xAA, 0x11);
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
@@ -684,12 +685,13 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+
+               // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("User Id Written.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1; 
+           // logBox1.Items.Add("User Id Written.");
+           // logBox1.SelectedIndex = logBox1.Items.Count - 1; 
 
 
             sdata = "";
@@ -704,12 +706,12 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+             //   logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Name Written.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+           // logBox1.Items.Add("Name Written.");
+           // logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             sdata = "";
             sdata = stud.usrname;
@@ -723,12 +725,12 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+             //   logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Username Written.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+          //  logBox1.Items.Add("Username Written.");
+          //  logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             sdata = "";
             sdata = stud.pwd;
@@ -742,12 +744,12 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+             //   logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Password Written.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+          //  logBox1.Items.Add("Password Written.");
+           // logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             sdata = "";
             sdata = stud.stud_no;
@@ -761,12 +763,12 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+            //    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Student number Written.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Student number Written.");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             sdata = "";
             sdata = stud.college;
@@ -780,12 +782,12 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+              //  logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("College Written.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("College Written.");
+           // logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             sdata = "";
             sdata = stud.course;
@@ -799,12 +801,12 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+              //  logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Course Written.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Course Written.");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             sdata = "";
             sdata = stud.cnum;
@@ -818,12 +820,12 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+               // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Contact number Written.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Contact number Written.");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             sdata = "";
             sdata = stud.email;
@@ -837,12 +839,12 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+               // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Email Written.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1; 
+            //logBox1.Items.Add("Email Written.");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1; 
 
             //initialize ticket file -> flag -> allocated
 
@@ -850,7 +852,7 @@ namespace WindowsFormsApplication1
             SelectFile(0xBB, 0x22);
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+               // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
@@ -866,18 +868,18 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+               // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Ticket object 1 unallocated.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+           // logBox1.Items.Add("Ticket object 1 unallocated.");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //write ticket on CC 33
             SelectFile(0xCC, 0x33);
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+              //  logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
@@ -893,18 +895,18 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+             //   logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Ticket object 2 unallocated.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Ticket object 2 unallocated.");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //write ticket on DD 44
             SelectFile(0xDD, 0x44);
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
@@ -920,18 +922,18 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+               // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Ticket object 3 unallocated.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Ticket object 3 unallocated.");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //write ticket on EE 55
             SelectFile(0xEE, 0x55);
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
@@ -947,18 +949,18 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Ticket object 4 unallocated.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Ticket object 4 unallocated.");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //write ticket on E1 66
             SelectFile(0xE1, 0x66);
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
@@ -974,12 +976,12 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
 
-            logBox1.Items.Add("Ticket object 5 unallocated.");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1; 
+            //logBox1.Items.Add("Ticket object 5 unallocated.");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1; 
             return true;
         }
         public void readData() {
@@ -988,7 +990,7 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return;
             }
 
@@ -997,7 +999,7 @@ namespace WindowsFormsApplication1
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return;
             }
 
@@ -1014,15 +1016,15 @@ namespace WindowsFormsApplication1
 
             card_info.Items.Add("User ID: " + tmpStr);
 
-            logBox1.Items.Add("Data read from card is displayed");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Data read from card is displayed");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //read Name
             readRecord(0x01, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return;
             }
 
@@ -1039,15 +1041,15 @@ namespace WindowsFormsApplication1
 
             card_info.Items.Add("Name: " + tmpStr);
 
-            logBox1.Items.Add("Data read from card is displayed");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Data read from card is displayed");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //read username
             readRecord(0x02, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return;
             }
 
@@ -1064,15 +1066,15 @@ namespace WindowsFormsApplication1
 
             card_info.Items.Add("Username: " + tmpStr);
 
-            logBox1.Items.Add("Data read from card is displayed");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Data read from card is displayed");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //read password
             readRecord(0x03, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return;
             }
 
@@ -1089,15 +1091,15 @@ namespace WindowsFormsApplication1
 
             card_info.Items.Add("Password: " + tmpStr);
 
-            logBox1.Items.Add("Data read from card is displayed");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+           // logBox1.Items.Add("Data read from card is displayed");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //read student number
             readRecord(0x04, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return;
             }
 
@@ -1114,15 +1116,15 @@ namespace WindowsFormsApplication1
 
             card_info.Items.Add("Student No: " + tmpStr);
 
-            logBox1.Items.Add("Data read from card is displayed");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Data read from card is displayed");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //read College
             readRecord(0x05, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return;
             }
 
@@ -1139,15 +1141,15 @@ namespace WindowsFormsApplication1
 
             card_info.Items.Add("College: " + tmpStr);
 
-            logBox1.Items.Add("Data read from card is displayed");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Data read from card is displayed");
+           // logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //read course
             readRecord(0x06, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return;
             }
 
@@ -1164,15 +1166,15 @@ namespace WindowsFormsApplication1
 
             card_info.Items.Add("Course: " + tmpStr);
 
-            logBox1.Items.Add("Data read from card is displayed");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Data read from card is displayed");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //read cnum
             readRecord(0x07, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return;
             }
 
@@ -1189,15 +1191,15 @@ namespace WindowsFormsApplication1
 
             card_info.Items.Add("Contact number: " + tmpStr);
 
-            logBox1.Items.Add("Data read from card is displayed");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Data read from card is displayed");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
             //read email
             readRecord(0x08, 0x32);
 
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
-                logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
+                //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return;
             }
 
@@ -1214,8 +1216,8 @@ namespace WindowsFormsApplication1
 
             card_info.Items.Add("Email: " + tmpStr);
 
-            logBox1.Items.Add("Data read from card is displayed");
-            logBox1.SelectedIndex = logBox1.Items.Count - 1;
+            //logBox1.Items.Add("Data read from card is displayed");
+            //logBox1.SelectedIndex = logBox1.Items.Count - 1;
         }
         #endregion
 

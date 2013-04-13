@@ -56,7 +56,7 @@ namespace WindowsFormsApplication1
         public Form1()
         {
             InitializeComponent();
-            panel2.Hide();
+            panel2.Enabled = false;
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -92,8 +92,9 @@ namespace WindowsFormsApplication1
                     logBox1.Items.Add("Found user");
                     //enabled reader section
                     label5.Text = admin.fname;
+                    panel1.Enabled = false;
                     groupBox1.Enabled = false;
-                    panel2.Show();
+                    panel2.Enabled = true;
                 }
                 else logBox1.Items.Add("Username and Password does not match");
             }
