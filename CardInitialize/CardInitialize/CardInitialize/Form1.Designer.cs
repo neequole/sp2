@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.button1 = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -41,27 +42,26 @@
             this.pictureBox3 = new System.Windows.Forms.PictureBox();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.label6 = new System.Windows.Forms.Label();
+            this.panel2 = new System.Windows.Forms.Panel();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.card_info = new System.Windows.Forms.ListBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
-            this.panel2 = new System.Windows.Forms.Panel();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).BeginInit();
             this.tabControl1.SuspendLayout();
             this.tabPage2.SuspendLayout();
-            this.tabPage1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // button1
@@ -71,7 +71,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Pristina", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.AliceBlue;
-            this.button1.Location = new System.Drawing.Point(72, 173);
+            this.button1.Location = new System.Drawing.Point(72, 167);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(166, 50);
             this.button1.TabIndex = 1;
@@ -94,6 +94,18 @@
             this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "User Portal";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.BackColor = System.Drawing.SystemColors.ButtonHighlight;
+            this.label6.Enabled = false;
+            this.label6.ForeColor = System.Drawing.Color.Red;
+            this.label6.Location = new System.Drawing.Point(122, 275);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(77, 13);
+            this.label6.TabIndex = 9;
+            this.label6.Text = "Card Activated";
             // 
             // comboBox1
             // 
@@ -129,7 +141,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Pristina", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.AliceBlue;
-            this.button2.Location = new System.Drawing.Point(72, 174);
+            this.button2.Location = new System.Drawing.Point(72, 167);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(166, 49);
             this.button2.TabIndex = 4;
@@ -200,17 +212,104 @@
             this.tabPage2.Text = "Log";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // label6
+            // panel2
             // 
-            this.label6.AutoSize = true;
-            this.label6.BackColor = System.Drawing.SystemColors.ButtonHighlight;
-            this.label6.Enabled = false;
-            this.label6.ForeColor = System.Drawing.Color.Red;
-            this.label6.Location = new System.Drawing.Point(122, 275);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(77, 13);
-            this.label6.TabIndex = 9;
-            this.label6.Text = "Card Activated";
+            this.panel2.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.panel2.Controls.Add(this.groupBox2);
+            this.panel2.Location = new System.Drawing.Point(6, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(331, 331);
+            this.panel2.TabIndex = 13;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.groupBox2.Controls.Add(this.listBox1);
+            this.groupBox2.Controls.Add(this.button4);
+            this.groupBox2.Controls.Add(this.button3);
+            this.groupBox2.Controls.Add(this.textBox2);
+            this.groupBox2.Controls.Add(this.textBox1);
+            this.groupBox2.Controls.Add(this.label3);
+            this.groupBox2.Controls.Add(this.label2);
+            this.groupBox2.ForeColor = System.Drawing.Color.AliceBlue;
+            this.groupBox2.Location = new System.Drawing.Point(15, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(304, 325);
+            this.groupBox2.TabIndex = 4;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Log-in";
+            // 
+            // listBox1
+            // 
+            this.listBox1.BackColor = System.Drawing.SystemColors.WindowFrame;
+            this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Location = new System.Drawing.Point(36, 288);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(256, 13);
+            this.listBox1.TabIndex = 6;
+            // 
+            // button4
+            // 
+            this.button4.BackColor = System.Drawing.Color.DarkSeaGreen;
+            this.button4.FlatAppearance.BorderSize = 0;
+            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button4.Font = new System.Drawing.Font("Pristina", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(84, 197);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(166, 58);
+            this.button4.TabIndex = 5;
+            this.button4.Text = "Proceed";
+            this.button4.UseVisualStyleBackColor = false;
+            this.button4.Click += new System.EventHandler(this.button4_Click);
+            // 
+            // button3
+            // 
+            this.button3.BackColor = System.Drawing.Color.Teal;
+            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateGray;
+            this.button3.FlatAppearance.BorderSize = 0;
+            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button3.Font = new System.Drawing.Font("Pristina", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button3.Location = new System.Drawing.Point(87, 127);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(166, 54);
+            this.button3.TabIndex = 4;
+            this.button3.Text = "Log-in";
+            this.button3.UseVisualStyleBackColor = false;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(84, 81);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.PasswordChar = '*';
+            this.textBox2.Size = new System.Drawing.Size(193, 20);
+            this.textBox2.TabIndex = 3;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(84, 46);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(193, 20);
+            this.textBox1.TabIndex = 2;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(25, 81);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(53, 13);
+            this.label3.TabIndex = 1;
+            this.label3.Text = "Password";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(23, 53);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(55, 13);
+            this.label2.TabIndex = 0;
+            this.label2.Text = "Username";
             // 
             // tabPage1
             // 
@@ -230,112 +329,13 @@
             this.card_info.Size = new System.Drawing.Size(344, 342);
             this.card_info.TabIndex = 9;
             // 
-            // groupBox2
-            // 
-            this.groupBox2.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.groupBox2.Controls.Add(this.listBox1);
-            this.groupBox2.Controls.Add(this.button4);
-            this.groupBox2.Controls.Add(this.button3);
-            this.groupBox2.Controls.Add(this.textBox2);
-            this.groupBox2.Controls.Add(this.textBox1);
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.label2);
-            this.groupBox2.ForeColor = System.Drawing.Color.AliceBlue;
-            this.groupBox2.Location = new System.Drawing.Point(11, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(304, 325);
-            this.groupBox2.TabIndex = 4;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Log-in";
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(23, 53);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(55, 13);
-            this.label2.TabIndex = 0;
-            this.label2.Text = "Username";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(25, 81);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(53, 13);
-            this.label3.TabIndex = 1;
-            this.label3.Text = "Password";
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(84, 46);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(193, 20);
-            this.textBox1.TabIndex = 2;
-            // 
-            // textBox2
-            // 
-            this.textBox2.Location = new System.Drawing.Point(84, 81);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.PasswordChar = '*';
-            this.textBox2.Size = new System.Drawing.Size(193, 20);
-            this.textBox2.TabIndex = 3;
-            // 
-            // button3
-            // 
-            this.button3.BackColor = System.Drawing.Color.Teal;
-            this.button3.FlatAppearance.BorderColor = System.Drawing.Color.DarkSlateGray;
-            this.button3.FlatAppearance.BorderSize = 0;
-            this.button3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button3.Font = new System.Drawing.Font("Pristina", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button3.Location = new System.Drawing.Point(87, 127);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(166, 54);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Log-in";
-            this.button3.UseVisualStyleBackColor = false;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // button4
-            // 
-            this.button4.BackColor = System.Drawing.Color.DarkSeaGreen;
-            this.button4.FlatAppearance.BorderSize = 0;
-            this.button4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button4.Font = new System.Drawing.Font("Pristina", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(84, 197);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(166, 58);
-            this.button4.TabIndex = 5;
-            this.button4.Text = "Proceed";
-            this.button4.UseVisualStyleBackColor = false;
-            this.button4.Click += new System.EventHandler(this.button4_Click);
-            // 
-            // listBox1
-            // 
-            this.listBox1.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.listBox1.BorderStyle = System.Windows.Forms.BorderStyle.None;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(36, 288);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(256, 13);
-            this.listBox1.TabIndex = 6;
-            // 
-            // panel2
-            // 
-            this.panel2.BackColor = System.Drawing.SystemColors.WindowFrame;
-            this.panel2.Controls.Add(this.groupBox2);
-            this.panel2.Location = new System.Drawing.Point(8, 5);
-            this.panel2.Name = "panel2";
-            this.panel2.Size = new System.Drawing.Size(331, 331);
-            this.panel2.TabIndex = 13;
-            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(382, 510);
+            this.ClientSize = new System.Drawing.Size(920, 510);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.label5);
@@ -351,10 +351,10 @@
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox3)).EndInit();
             this.tabControl1.ResumeLayout(false);
             this.tabPage2.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            this.panel2.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 

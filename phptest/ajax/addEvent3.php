@@ -18,7 +18,7 @@ include("../include/config.php");
 						echo "<option value='".$row['venue_id']."'>".$row['venue_name']."</option>";
 					}
 				}
-				else echo "<td>No data available.</td>";
+				//else echo "<td>No data available.</td>";
 			?>
 			</td></select>
 			<tr><td>Event Name*:</td><td><input type="text" id="event_name" class="required" name="event_name" required/></td></tr>
@@ -51,7 +51,7 @@ include("../include/config.php");
 						echo "<tr><td>".$row['e_class'] ."</td><td>". $row['e_price']."</td><td><input type='checkbox' name='select_tclass[]' value='".$row['e_class']."'/></td></tr>";
 					}
 				}
-				else echo "<tr><td colspan='3'>There are no data available.</td></tr>";
+				//else echo "<tr><td colspan='3'>There are no data available.</td></tr>";
 			?>
 			<tr><td><input type="text" id="t_class" placeholder="Class"/></td><td><input type="text"id="t_price" placeholder="Price"/></td><td><input type="button" value="Add Ticket Class" id="addTicketClass" /></td></tr>
 	</table>

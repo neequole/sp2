@@ -192,6 +192,8 @@ namespace WindowsFormsApplication1
             label5.Text = stud.fname;
             panel2.Hide();
             panel1.Show();
+            panel1.Enabled = true;
+            groupBox1.Enabled = true;
             button1.Enabled = false; //disable and hide button1
             button1.Visible = false;
             label1.Text = "NO CARD READER DETECTED";

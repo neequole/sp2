@@ -6,13 +6,22 @@ $venue = mysql_real_escape_string($_POST['event_venue']);
 $name = mysql_real_escape_string($_POST['event_name']);
 $desc = mysql_real_escape_string($_POST['event_desc']);
 $date = $_POST['date'];			//return to object
-print_r($date);
 $start = $_POST['start'];
 $end = $_POST['end'];
 $max = $_POST['max'];
-$class = $_POST['select_tclass'];
 $target_path = "../images/poster/";
 $db_path = "images/poster/";
+
+
+if(!isset($_POST['select_tclass']) || $_POST['select_tclass'] == "" || count($_POST['select_tclass']) < 1){
+		$err = "fAddEvent2";
+		header('Location: ../admin.php?err='.$err);
+}
+
+else{
+$class = $_POST['select_tclass'];
+
+
 //if desc is null
 if(isset($desc) && $desc != '') $string = "INSERT INTO event(id,title,abstract,venue,pay_due,start_sdate,end_sdate,emgr_id,filepath) VALUES('','".$name."','".$desc."'";
 else $string = "INSERT INTO event(id,title,abstract,venue,pay_due,start_sdate,end_sdate,emgr_id,filepath) VALUES('','".$name."',''";
@@ -76,4 +85,5 @@ $string = $string . ",'".$db_path."')";
 //date if conflict?
 //check for same name?
 //date schedule and event ticket class
+}
 ?>

@@ -80,8 +80,18 @@ $(document).ready(function() {
   });
 	
 	
+	$(function() {
+	  $(".accordion2 tr:not(.accordionbaby)").hide();
+	  $(".accordion2 tr.accordionbaby").show();
+
+	  $(".accordion2 tr.accordionbaby").click(function(){
+		  $(this).next("tr:not(.accordionbaby)").toggle(500);
+	  });
+	});
+	
+	
 	$("#addDate").live("click",function() {
-	var newRow = '<tr><td><input type="text" name="date[]" class="datepicker required" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]" required /></td><td><input type="text" name="start[]" style="width: 70px" class="timepicker_start required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" required /></td><td>to</td><td><input type="text" name="end[]" style="width: 70px" class="timepicker_end required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])"  required /></td><td><input type="text" name="max[]" class="required" pattern="[0-9]+" min="1" required /></td></tr>';
+	var newRow = '<tr><td><input type="text" name="date[]" class="datepicker required" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]" required /></td><td><input type="text" name="start[]" style="width: 70px" class="timepicker_start required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" required /></td><td>to</td><td><input type="text" name="end[]" style="width: 70px" class="timepicker_end required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])"  required /></td><td><input type="text" name="max[]" class="required" pattern="[0-9]+" min="1" required /></td><td><a href="#" class="deleteDate">Delete</a></td></tr>';
 	$('table#eventDate').append(newRow);
     });
 
@@ -92,7 +102,7 @@ $(document).ready(function() {
 	
 	
 	//function for adding new ticket class
-	$("#addTicketClass").live("click", function (e) {
+	$("#addcClass").live("click", function (e) {
 			e.preventDefault();
 			var t_class = $("#t_class").val();
 			var t_price = $("#t_price").val();
@@ -393,6 +403,28 @@ $(document).ready(function() {
 				}
 				});
 	});
+
+	
+	$('.viewClass').live('click',function(){
+		var row = $(this).parent().parent(); // skip the header row
+		var id = $(this).parent().parent().attr("id"); // skip the header row
+		var studId = $("#studidClass").val();
+		var myData = "id="+id+"&studId="+studId;
+		//$(this).parent().parent().after("<tr><td>sample</td></tr><tr><td>sample</td></tr>");
+		jQuery.ajax({
+						type: "POST", // Post / Get method
+						url: "php/viewStudClass.php", //Where form data is sent on submission
+						dataType:"text", // Data type, HTML, json etc.
+						data:myData, //Form variables
+						success:function(response){
+							alert(id);
+							row.innerHTML = row.innerHTML + "<tr><td>haha/td></tr>";
+						}
+					/*error:function (xhr, ajaxOptions, thrownError){
+						
+					}*/
+					});
+	});
 	
 	$('#cancel_booking').live('click',function(){
 		var id2 = $(this).attr('name');
@@ -494,7 +526,47 @@ $(document).ready(function() {
 				buttons: {
 				"Delete": function() {
 					$( this ).dialog( "close" );
-					var myData = "user_id="+id;
+					var myData = "user_id="+id+"&type=stud";
+					jQuery.ajax({
+						type: "POST", // Post / Get method
+						url: "php/delete_user.php", //Where form data is sent on submission
+						dataType:"text", // Data type, HTML, json etc.
+						data:myData, //Form variables
+						success:function(response){
+							if(response == "1"){					//cancel_book.php returns 1=cancelled
+								alert("User deleted!");
+								$.ajax({ 
+									url: 'ajax/userMgt.php',
+									success: function(php) {
+										$("#ajax-content").empty().append(php);
+										$( ".accordion" ).accordion();
+									}
+								})
+							}
+							else alert("Error in deletion of User.");	//2=not
+						}
+					/*error:function (xhr, ajaxOptions, thrownError){
+						
+					}*/
+					});
+				},
+				Cancel: function() {
+				$( this ).dialog( "close" );
+				}
+				}
+				});
+	});
+	
+	$('.delete_fac').live('click',function(){
+	var id = $(this).attr("name");
+				$( "#dialog-confirm3" ).dialog({
+				resizable: false,
+				height:140,
+				modal: true,
+				buttons: {
+				"Delete": function() {
+					$( this ).dialog( "close" );
+					var myData = "user_id="+id+"&type=fac";
 					jQuery.ajax({
 						type: "POST", // Post / Get method
 						url: "php/delete_user.php", //Where form data is sent on submission
@@ -530,17 +602,20 @@ $(document).ready(function() {
 		var row = $(this).parent().parent();
 		var id = $(this).parent().parent().attr("id"); // skip the header row
 		var myData = "user_id="+id;
+		$("#loading2").empty().append("<img src='images/loader.gif' alt='Loading...'/>");
 		jQuery.ajax({
 					type: "POST", // Post / Get method
 					url: "php/approveUser.php", //Where form data is sent on submission
 					dataType:"text", // Data type, HTML, json etc.
 					data:myData, //Form variables
 					success:function(response){
+						$("#loading2").empty();
 						if(response == "1"){
 							alert("User approved");
 							$("td:nth-child(4)", row).html("approved");
 							$("td:nth-child(5)", row).html("");
 						}
+						else if(response == "3") alert("Error in sending mail, requests not approved.");
 						else alert("Error in approving requests.");
 					}
 					/*error:function (xhr, ajaxOptions, thrownError){
@@ -550,6 +625,42 @@ $(document).ready(function() {
 		
 	});
 	
+	$(document).on('submit', '#addFaculty', function(event) {
+		event.preventDefault(); 
+		$("#loading3").empty().append("<img src='images/loader.gif' alt='Loading...'/>");
+		$("#fac_result").html("");
+	
+		$.ajax({
+						type: "POST",
+						url: "php/user_register2.php",  //where u want to send the data.
+						data: $(this).serialize(),
+						dataType: "html",
+						success: function(data)
+						{
+							//write ur code which u want to perform after submittion of form.
+							if(data == "1"){
+							$("#fac_result").html("<tr><td colspan=4><p>Username already exists!</p></td></tr>");
+							$("#fac_result p").css("background-color","#F5DEB3");
+							}
+							else if(data == "2"){
+							$("#fac_result").html("<tr><td colspan=4><p>Name already exists!</p></td></tr>");
+							$("#fac_result p").css("background-color","#F5DEB3");
+							}
+							else if(data == "3"){
+							$("#fac_result").html("<tr><td colspan=4><p>Error in adding faculty, try again later!</p></td></tr>");
+							$("#fac_result p").css("background-color","#F5DEB3");
+							}								
+							else $("#facList tr:last").after(data);
+							
+							//$("#ajax_result").focus();
+						}	
+		});
+		$("#loading3").empty();   
+		return false;
+		
+	});
+	
+
 }); //document.ready function
 
 function show_alert(msg) {

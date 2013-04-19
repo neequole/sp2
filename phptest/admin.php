@@ -17,6 +17,7 @@ include("include/header.php");
 	if(isset($_GET['err'])){
 		$err = $_GET['err'];
 		if($err=="sAddEvent") echo '<script type="text/javascript"> show_alert("Event added."); </script>';
+		else if($err=="fAddEvent2") echo '<script type="text/javascript"> show_alert("Select at least one ticket class."); </script>';
 		else if($err=="fAddEvent") echo '<script type="text/javascript"> show_alert("Fail to add event."); </script>';
 		else if($err=="fAddImage") echo '<script type="text/javascript"> show_alert("There was an error uploading the file, please try again!"); </script>';
 	}

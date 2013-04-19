@@ -15,13 +15,26 @@ $count=mysql_num_rows($result);
 // If result matched $myusername and $mypassword
 
 if(isset($count) && $count>0){
-$row = mysql_fetch_array($result);
- 
-$_SESSION["loggedin"] = "YES";
-$_SESSION["name"] = $row['fname']." ".$row['lname'];
-$_SESSION["id"] = $row['id'];
-$_SESSION["type"] = $row['type'];
-echo $_SESSION["type"];
+	$row = mysql_fetch_array($result);
+
+	if($row['type']=='student'){
+		$result = mysql_query("SELECT * FROM user_stud WHERE id=".$row['id']." and stud_status='activated' limit 1") or die(mysql_error());
+		if($result and mysql_num_rows($result)>0){
+			$_SESSION["loggedin"] = "YES";
+			$_SESSION["name"] = $row['fname']." ".$row['lname'];
+			$_SESSION["id"] = $row['id'];
+			$_SESSION["type"] = $row['type'];
+			echo $_SESSION["type"];
+		}
+		else echo "2";
+	}
+	else{
+	$_SESSION["loggedin"] = "YES";
+	$_SESSION["name"] = $row['fname']." ".$row['lname'];
+	$_SESSION["id"] = $row['id'];
+	$_SESSION["type"] = $row['type'];
+	echo $_SESSION["type"];
+	}
 }
 
 else {

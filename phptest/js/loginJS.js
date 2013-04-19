@@ -111,6 +111,10 @@ $(document).ready(function() {
 							$("#ajax_result2").html("<p>Username and Password does not match. Try again.</p>");
 							$("#ajax_result2 p").css("background-color","#F5DEB3");
 						}
+						else if(data.toString()==2){
+							$("#ajax_result2").html("<p>Account is still not activated.</p>");
+							$("#ajax_result2 p").css("background-color","#F5DEB3");
+						}
 						else if(data.toString()=="admin"){
 							alert("You are now logged-in.");
 							window.location.replace("admin.php");
@@ -124,7 +128,7 @@ $(document).ready(function() {
 							window.location.replace("faculty.php");
 						}
 						else{
-						$("#ajax_result2").append("<p>Error in processing request. Try again.</p>"); 
+						$("#ajax_result2").html("<p>Error in processing request. Try again.</p>"); 
 						$("#ajax_result2 p").css("background-color","#F5DEB3");
 						}
 					}
