@@ -27,6 +27,7 @@ include("include/header.php");
 			<li><a href="ajax/addEvent3.php">New event</a></li>
 			<li><a href="ajax/userMgt.php">User</a></li>
 			<li><a href="ajax/venue.php">Venue</a></li>
+			<li><a href="ajax/class.php">Class</a></li>
 			<li><a href="index.php">Preview</a></li>
 			<li><a href="php/logout.php">Log-out</a></li>
 		</ul>

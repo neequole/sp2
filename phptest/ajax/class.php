@@ -1,23 +1,11 @@
 <?php
 session_start();
-include("include/header.php");
-include("include/config.php");
+include("../include/config.php");
+echo "<h2 class='ribbonHeader'>ASSOCIATE CLASS . . .</h2>";
 
-if(!isset($_SESSION['loggedin']) || $_SESSION['loggedin']!="YES" || $_SESSION['type']!="faculty") 
-header( 'Location: index.php' );
 ?>
-
-<div id="main">
-	<a href="faculty.php">Create Class</a><a href="viewAttendance.php">View attendance</a>
-	<div class="blueHeader"><h3>Create Class</h3></div>
-	<div>
-	<?php if(isset($_GET['error'])){
-	if($_GET['error']==1) echo "Class not created!";
-	else if($_GET['error']==2) echo "Class successfulyy created!";
-	}
-	?>
-	</div>
-	<form method="POST" action="php/createClass.php">
+<div id='class_result' class='returnBox'></div>
+<form method="POST" action="php/createClass.php" id='assocClassForm'>
 		<table class="table_center">
 			<tr><th>Class Details</th><th>Fields with * are required</th></tr>
 			<tr><td>Course Title:*</td><td><input type="text" name="cTitle" pattern="[a-zA-Z]+" required/></td></tr>
@@ -37,11 +25,20 @@ header( 'Location: index.php' );
 				}
 			}
 			?>
+			<tr>
+			<td>Faculty:*</td><td><select name='facultyAssoc' required>
+			
+			<?php
+			$sql = mysql_query("SELECT * FROM user where type='faculty'") or die(mysql_error());
+			$count=mysql_num_rows($sql);
+			if($count>0){
+				while($row = mysql_fetch_array($sql)){
+					echo "<option value='".$row['id']."'>Prof.".substr($row['fname'],0,1).".".substr($row['mname'],0,1).".".$row['lname']."</option>";
+				}
+			}
+			?>
+			</select></td></tr>
 			<tr><td></td><td><input type="submit" value="Create Class"/></td></tr>
 		</table>
 		
 	</form>
-	
-	
-</div>
-</div><!--This is for container-->

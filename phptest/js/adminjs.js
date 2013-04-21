@@ -91,7 +91,7 @@ $(document).ready(function() {
 	
 	
 	$("#addDate").live("click",function() {
-	var newRow = '<tr><td><input type="text" name="date[]" class="datepicker required" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]" required /></td><td><input type="text" name="start[]" style="width: 70px" class="timepicker_start required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" required /></td><td>to</td><td><input type="text" name="end[]" style="width: 70px" class="timepicker_end required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])"  required /></td><td><input type="text" name="max[]" class="required" pattern="[0-9]+" min="1" required /></td><td><a href="#" class="deleteDate">Delete</a></td></tr>';
+	var newRow = '<tr><td><input type="text" name="date[]" class="datepicker required" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]" readonly /></td><td><input type="text" name="start[]" style="width: 70px" class="timepicker_start required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" readonly /></td><td>to</td><td><input type="text" name="end[]" style="width: 70px" class="timepicker_end required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" readonly /></td><td><input type="number" name="max[]" class="required" pattern="[1-9][0-9]*" required /></td><td><a href="#" class="deleteDate">Delete</a></td></tr>';
 	$('table#eventDate').append(newRow);
     });
 
@@ -176,117 +176,73 @@ $(document).ready(function() {
 	});
 	//end function
 	//function for creating event
-	$("#form_eDetails").submit(function(){
-	alert("hello");
-		var err = 0;
-		/*var listItem = $( '#tabs li' ).first(); // tab 1
-		var nextSibling = listItem.next(); // tab 2
-		*/
+	$(document).on('submit', '#form_eDetails', function(e){
+		e.preventDefault();
+		
 		var date_array = new Array();
 		var start_array = new Array();
 		var end_array = new Array();
 		var max_array = new Array();
 		var class_array = new Array();
 		
-		/*
-		$("#tabs li").removeClass('active');
-		listItem.addClass("active");
-		$(".tab_content").hide();
-		var selected_tab = listItem.find("a").attr("href");
-		$(selected_tab).fadeIn();
-		*/
-		//highlight fields that are blank
-		$("#form_eDetails input.required").each(function() {
-			$(this).css("border","solid 1px #999");
-			if($(this).val()==""){
-				$(this).css("border","solid 1px red");
-				err = 1;
-			}
-		});
-		
-		if(err == 1 ){
-			$("#error_edetails").attr("class", "errorDiv");
-			$("#error_edetails").text("Please complete the required fields.");
-			return false;
-		}
-
-		else{
-			var e_venue = $("#event_venue option:selected").val();	//get venue, must not be null
-			var e_name = $("#event_name").val();
-			var e_desc = $("#event_desc").val();
-			var intRegex = /^\d+$/;
-		
-		//check schdedule
+		//check schedule
 			var rows = $("#eventDate tr:gt(0)"); // skip the header row
 			rows.each(function(index){
 				var date = $("td:nth-child(1) input", this).val();
 				var start = $("td:nth-child(2) input", this).val();
 				var end = $("td:nth-child(4) input", this).val();
 				var max = $("td:nth-child(5) input", this).val();
-				
-				
-				/*check if schedule is valid*/
-				if(!intRegex.test(max)){
-					$("#error_edetails").attr("class", "errorDiv");
-					$("#error_edetails").text("Max ticket should be a number.");
-					err = 1;
-					return false;
+				if(date=="" || start=="" || end == ""){
+				$("#error_edetails").html("<p style='background-color:#F5DEB3;'>Please complete schedule details.</p>");
+				exit;
 				}
 				date_array.push(date);
 				start_array.push(start);
 				end_array.push(end);
 				max_array.push(max);
-				
-				
+								
 				$("td:nth-child(7) input", this).val(date);
 				$("td:nth-child(8) input", this).val(start);
 				$("td:nth-child(9) input", this).val(end);
 				$("td:nth-child(10) input", this).val(max);
 			});
-			if(err == 0){
-		//check ticket class
-				var atLeastOneChecked = false;
+
 				$("#form_eDetails input:checkbox").each(function () {
-				if ($(this).is(":checked")) {
-					class_array.push($(this).val());
-					if(atLeastOneChecked == false) atLeastOneChecked = true;
-				}
+					if ($(this).is(":checked")) {
+						class_array.push($(this).val());
+					}
 				});
-				if(atLeastOneChecked == false){
-				window.alert("not check");
-					/*$("#tab li").removeClass('active');
-					nextSibling.addClass("active");
-					$(".tab_content").hide();
-					var selected_tab = nextSibling.find("a").attr("href");
-					$(selected_tab).fadeIn();
-					*/
-					$("#error_tab2").attr("class", "errorDiv");
-					$("#error_tab2").text("Select at least one ticket class for the event.");
+
+				if(jQuery('#form_eDetails input[type=checkbox]:checked').length<1){
+					$("#error_edetails").html("<p style='background-color:#F5DEB3;'>Select at least one ticket class for the event.</p>");
 					return false;
 				}
+				else{
 		//show dialog box
-				var info = "<p>Event information:</p><table><tr><td>Venue: </td><td>"+ $("#event_venue option:selected").text(); +"</td></tr><tr><td>Name: </td><td>"+ e_name+"</td></tr>";
+				var info = "<h3>Event information</h3><table class='table_center'><tr><td>Venue</td></tr><tr><td>"+ $("#event_venue option:selected").text(); +"</td></tr><tr><td>Name</td></tr><tr><td>"+ $('#event_name').val() +"</td></tr>";
 				var i;
-				if(e_desc!="") info = info + "<tr><td>Description: </td><td>"+ e_desc +"</td></tr>";
-				info = info + "<tr><td>Schedule:</td></tr>";
+				if($('#event_desc').val() != "") info = info + "<tr><td>Description</td></tr><tr><td>"+ $('#event_desc').val() +"</td></tr>";
+				info = info + "<tr><td>Schedule</td></tr>";
+				info = info + "<tr><td><ul>";
 				for(i = 0; i< date_array.length; i++){
-					info = info + "<tr><td>"+ date_array[i] +"</td><td>"+ start_array[i] +"</td><td>"+ end_array[i] +"</td><td>"+ max_array[i] +"</td></tr>";
+					info = info + "<li>"+ date_array[i] +" | "+ start_array[i] +" | "+ end_array[i] +" | "+ max_array[i] +"</li>";
 				}
+				info = info + "</ul></td></tr>";
 				info = info + "<tr><td>Ticket class:</td></tr>";
+				info = info + "<tr><td><ol>";
 				for(i=0;i<class_array.length;i++){
-					info = info + "<tr><td>"+ class_array[i] +"</td></tr>";
+					info = info + "<li>" + class_array[i] + "</li>";
 				}
-				if($('#event_image').val()!= "") info = info + "<tr><td>Image URL: </td><td>"+$('#event_image').val()+"</td></tr>";
+				info = info + "</ol></td></tr>";
+				if($('#event_image').val()!= "") info = info + "<tr><td>Image URL: </td></tr><tr><td>"+$('#event_image').val()+"</td></tr>";
 				info = info + "</table>";
 								
-				$("#event_info").html(info + '<input type="submit" value="Ok"></form><input type="button" value="Cancel" id="cancel_eButton">');
+				$("#event_info").html(info + '<button id="final_eButton">Ok</button><input type="button" value="Cancel" id="cancel_eButton">');
 				el = document.getElementById("overlay");
 				el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+				$("#overlay").css("height",$(document).height());
 				return false;
 				}
-				
-		}
-		
 	});
 	
 	$("#cancel_eButton").live("click",function(){
@@ -296,8 +252,7 @@ $(document).ready(function() {
 
 	
 	$("#final_eButton").live("click",function(){
-
-			var e_venue = $("#event_venue option:selected").val();	//get venue, must not be null
+			/*var e_venue = $("#event_venue option:selected").val();	//get venue, must not be null
 			var e_name = $("#event_name").val();
 			var e_desc = $("#event_desc").val();
 			var intRegex = /^\d+$/;
@@ -334,16 +289,16 @@ $(document).ready(function() {
 			var emax = JSON.stringify(max_array);
 			//emax = encodeURIComponent(emax);
 			var eclass = JSON.stringify(class_array);
-			
+		*/	
 			$.ajax({
 				type: "POST",
-				url: "php/addEvent.php",
-				data : { venue : e_venue, name : e_name, desc : e_desc, date : edate, start : estart, end : eend, max : emax, eclass : eclass},
+				url: "php/addEvent2.php",
+				//data : { venue : e_venue, name : e_name, desc : e_desc, date : edate, start : estart, end : eend, max : emax, eclass : eclass},
+				data: $("#form_eDetails").serialize(),
 				success: function(msg){
 				el = document.getElementById("overlay");
 				el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
-				alert( msg );
-				window.location = "admin.php";
+				$("#error_edetails").html(msg);
 				}
 			});
 	
@@ -658,6 +613,29 @@ $(document).ready(function() {
 		$("#loading3").empty();   
 		return false;
 		
+	});
+	
+	$(document).on('submit', '#assocClassForm', function(event) {
+		event.preventDefault(); 
+		$("#class_result").html("");
+		if(jQuery('#assocClassForm input[type=checkbox]:checked').length<1) {
+			$("#class_result").html("<p>Check at least one event to associate with your class.</p>");
+			$("#class_result p").css("background-color","#F5DEB3");
+		}
+		else{
+			$.ajax({
+						type: "POST",
+						url: "php/assocClass.php",  //where u want to send the data.
+						data: $(this).serialize(),
+						dataType: "html",
+						success: function(data)
+						{
+							//write ur code which u want to perform after submittion of form.
+							$("#class_result").html(data);
+							
+						}	
+			});
+		}
 	});
 	
 

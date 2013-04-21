@@ -1,10 +1,11 @@
 <?php
 include("../include/config.php");
+date_default_timezone_set('Asia/Manila');
 ?>
 
 <form method="post" enctype="multipart/form-data" action="php/addEvent2.php" id="form_eDetails">
     <h2 class='ribbonHeader'>ADD NEW EVENT . . .</h2>
-	<div id="error_edetails" class="errordiv"></div>
+	<div id="error_edetails" class="errorDiv"></div>
 	<table id="eventDetails">
 			<tr><td>Venue*:</td>
 			<td><select id = "event_venue" class="required" name = "event_venue" required>
@@ -28,13 +29,13 @@ include("../include/config.php");
 			</table>
 			<table id="eventDate" class="table_center">
 			<tr><th>Date</th><th colspan='3'>Showing Time</th><th>Max tickets to sell</th><th>Action</th></tr>
-			<tr><td><input type="text" class="datepicker required" name="date[]" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]" required /></td><td><input type="text" style="width: 70px" name="start[]" class="timepicker_start required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" required /></td><td>to</td><td><input type="text" style="width: 70px" name="end[]" class="timepicker_end required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" required /></td><td><input type="text" name="max[]" class="required" pattern="[0-9]+" min="1" required /></td><td><a href="#" class="deleteDate">Delete</a></td></tr>
+			<tr><td><input type="text" class="datepicker required" name="date[]" pattern="(0[1-9]|1[012])[- /.](0[1-9]|[12][0-9]|3[01])[- /.](19|20)[0-9][0-9]" readonly /></td><td><input type="text" style="width: 70px" name="start[]" class="timepicker_start required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" readonly /></td><td>to</td><td><input type="text" style="width: 70px" name="end[]" class="timepicker_end required" pattern="([0-9]|1[0-9]|2[0-3]):([0-5][0-9])" readonly /></td><td><input type="number" name="max[]" class="required" pattern="[1-9][0-9]*" required /></td><td><a href="#" class="deleteDate">Delete</a></td></tr>
 			</table>
 			<table class="table_center">
 			<tr><td><input type="button" value="Add Date" id="addDate"/></td></tr>
 			</table>
 			<br>
-	<div id="error_tab2"></div>
+
 	<table>
 	<tr><td>Ticket Class(s)*:</td><td>If event requires new ticket classes just click on Add Ticket Class icon below and fill up needed informations.</td></tr>
 	</table>
@@ -63,6 +64,7 @@ include("../include/config.php");
 	</table>
 
 <input type="submit" value="Create Event"/>	
+</form>
 <div id="overlay">
      <div id="event_info">
      </div>

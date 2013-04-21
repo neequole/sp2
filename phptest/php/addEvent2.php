@@ -14,8 +14,8 @@ $db_path = "images/poster/";
 
 
 if(!isset($_POST['select_tclass']) || $_POST['select_tclass'] == "" || count($_POST['select_tclass']) < 1){
-		$err = "fAddEvent2";
-		header('Location: ../admin.php?err='.$err);
+			echo "<p style='background-color:#F5DEB3;'>Fail to create event.</p>";
+			exit;
 }
 
 else{
@@ -35,7 +35,6 @@ $db_path = $db_path . basename(mysql_real_escape_string(($_FILES['uploadedfile']
 $string = $string . ",'".$db_path."')";
 }
 	$fail = 0;		//0 = no error
-	echo $string;
 	mysql_query("START TRANSACTION");
 	$result = mysql_query($string) or die(mysql_error());
 	$e_id = mysql_insert_id();
@@ -44,15 +43,15 @@ $string = $string . ",'".$db_path."')";
 	//event ticket class
 	foreach($class as $c){
 		$string = "INSERT INTO event_tclass values(".$e_id.",'".$c."')";
-		echo $string;
+		//echo $string;
 		$result = mysql_query($string) or die(mysql_error());
 		if($result){
 		
 		}
 		else{
 			mysql_query("ROLLBACK");
-			$err = "fAddEvent";
-			header('Location: ../admin.php?err='.$err);
+			echo "<p style='background-color:#F5DEB3;'>Fail to create event.</p>";
+			exit;
 		}
 	}
 	
@@ -60,27 +59,29 @@ $string = $string . ",'".$db_path."')";
 	for($i=0, $count = count($date); $i<$count; $i++){
 		$foo = date('Y-m-d', strtotime($date[$i]));
 		$string = "INSERT INTO e_sched values('',".$e_id.",'".$foo."'".",'".$start[$i]."','".$end[$i]."',".$max[$i].",0)";
-		echo $string;
+		//echo $string;
 		$result = mysql_query($string) or die(mysql_error());
 		if($result){}
 		else{
 			mysql_query("ROLLBACK");
-			$err = "fAddEvent";
-			header('Location: ../admin.php?err='.$err);
+			echo "<p style='background-color:#F5DEB3;'>Fail to create event.</p>";
+			exit;
 		}
 	}
 	
 	//upload image only if event is already added
-	if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)) {
-		echo "File successfully uploaded";
-	} else{
-		$err = "fAddImage";
-		header('Location: ../admin.php?err='.$err);
+	if(isset($_FILES['uploadedfile']['tmp_name']) and $_FILES['uploadedfile']['tmp_name']!='') {
+		if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)){}
+		else{
+			echo "<p style='background-color:#F5DEB3;'>Fail to create event.</p>";
+			echo "2";
+			exit;
+		}
 	}
 
 	mysql_query("COMMIT");
-	$err = "sAddEvent";
-	header('Location: ../admin.php?err='.$err);
+	echo "<p style='background-color:#74c576;'>Event created.</p>";
+	exit;
 
 //date if conflict?
 //check for same name?
