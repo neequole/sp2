@@ -64,7 +64,9 @@ namespace facilitatorPortal
 
         private void button2_Click(object sender, EventArgs e)
         {
-            check_reader();
+            if (check_reader()) {
+                button2.Enabled = false;
+            }
         }
 
         private void generate_events() {
@@ -852,7 +854,7 @@ namespace facilitatorPortal
                 Thread.Sleep(1000);
                 if (checkCard2()) {
                     eTicket.Clear();
-                    MessageBox.Show("Card inserted!");
+                    //MessageBox.Show("Card inserted!");
                     flag = false;
                     //fetch booking ids from the card
                     fetch_bookingId();

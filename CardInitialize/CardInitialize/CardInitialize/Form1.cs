@@ -128,6 +128,7 @@ namespace WindowsFormsApplication1
                     send_http_request("PUT", str.ToString(), new{string_stud_status = "activated"});
                     MessageBox.Show("Status: " + stud.stud_status);
                     button1.Enabled = false;
+                    button5.Enabled = true;
                     label6.Enabled = true;
                     
             }
@@ -1231,6 +1232,11 @@ namespace WindowsFormsApplication1
         private void pictureBox3_Click(object sender, EventArgs e)
         {
 
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            
         }
 
 

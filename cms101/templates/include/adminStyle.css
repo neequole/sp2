@@ -1,0 +1,102 @@
+@charset "utf-8";
+/* CSS Document */
+html, body{
+	margin: 0;
+	padding: 0;
+	height:100%;
+	font-family:Verdana, Arial, Helvetica, sans-serif;
+	font-size:14px;
+	background-color:#eee;
+}
+
+#try{
+height: 250px;
+margin:0;
+padding:0;
+background-color:#eee;
+}
+#adminHead{
+	height: 200px;
+	border: solid 1px black;
+	background-color:#b1d046;
+}
+
+#logo{
+	float:left;
+	width:40%;
+}
+
+#img1{
+	height:250px;
+	width:100%;
+}
+
+#adminLink{
+height:100%;
+width:20%;
+float:right;
+}
+
+/*tabs*/
+/* Specific to example one */
+
+#adminTab { background: white; padding: 10px; margin: 0 0 15px 0; -moz-box-shadow: 0 0 5px #666; -webkit-box-shadow: 0 0 5px #666;}
+
+#adminTab .nav { overflow: hidden; margin: 0 0 10px 0;}
+#adminTab .nav > li { width: 97px; float: left; margin: 0 10px 0 0; }
+#adminTab .nav > li.last { margin-right: 0; }
+#adminTab .nav > li a { display: block; padding: 5px; background: #959290; color: white; font-size: 10px; text-align: center; border: 0; }
+#adminTab .nav > li a:hover { background-color: #111; }
+
+#adminTab > ul { list-style: none; }
+#adminTab > ul  li a { display: block; border-bottom: 1px solid #666; padding: 4px; color: #666; }
+#adminTab > ul li a:hover, #adminTab ul li a:focus { background: #fe4902; color: white; }
+#adminTab > ul li:last-child a { border: none; }
+
+.hide { position: absolute; top: -9999px; left: -9999px; }
+
+.eyelet{
+	width:10px;
+	height:10px;
+	margin-left:10px;
+}
+
+#editPageSegment{
+	padding:20px;
+	border:solid 1px black;
+}
+
+.smallText, a.smallText{
+	color:red;
+	font-size:9px;
+}
+
+/*modal*/
+#mask {
+	display:none;
+  	z-index: 10000;
+  	filter: alpha(opacity=50); /*older IE*/
+ 	filter:progid:DXImageTransform.Microsoft.Alpha(opacity=50); /* IE */
+	-moz-opacity: .50; /*older Mozilla*/
+	-khtml-opacity: 0.5;   /*older Safari*/
+	opacity: 0.5;   /*supported by current Mozilla, Safari, and Opera*/
+	background-color:#000000;
+	position:fixed; top:0px; left:0px; width:100%; height:100%; color:#FFFFFF; text-align:center; vertical-align:middle;
+}
+   
+#boxes .window {
+  position:fixed;
+  width:440px;
+  display:none;
+  z-index:10500;
+  padding:20px;
+}
+ 
+ 
+/* Customize your modal window here, you can add background image too */
+#boxes #dialog {
+  width:375px; 
+  background-color:white;
+}
+
+/*end of modal*/

@@ -1,0 +1,404 @@
+@charset "utf-8";
+/* CSS Document */
+html, body{
+	margin: 0;
+	padding: 0;
+	height:100%;
+	font: 12px Helvetica, Arial, Verdana, Sans-Serif;
+	background-color:#eee;
+	background-image:url('images/stripe.png');
+}
+
+#wrapper{
+	min-height: 100%;
+}
+
+#container{
+    width: 100%;
+    margin: auto;
+	padding-bottom: 200px;	/*either 66 or 200*/
+}
+
+#header, #footer, #nav {
+	width:100%;
+	float:left;
+}
+
+#header{
+	height: 200px;
+	background-color:#b1d046;
+}
+
+@font-face {
+	font-family: satisfaction;
+	src: url('font/ThrowMyHandsUpintheAirBold.ttf');
+}
+
+@font-face {
+	font-family: taylor;
+	src: url('font/Satisfaction.ttf');
+}
+
+#img1{
+	height:250px;
+	width:100%;
+}
+
+#nav{
+	background-color:#b1d046;
+	height:65px;	/*NOTE: to be edit*/
+}
+
+#main{
+	
+	clear:both;
+	/*border-left: dotted 1px gray;
+	border-right: dotted 1px gray;*/
+	height: 1000px;
+	/*overflow:auto;*/
+}
+
+#output{
+	padding:10px;
+	float:left;
+	width:65%;
+	/*background-color:#eae5ce;*/
+	background-color:white;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	margin-top:20px;
+}
+
+#sidebar{
+	width:30%;
+	background-color:#d4debb;
+	float:right;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	padding:10px;
+	margin-top:20px;
+}
+
+#footer{
+	position: relative;
+	margin-top: -200px; /* negative value of footer height */
+	height: 200px;
+	clear:both;
+	background: #353328;
+    background: -moz-linear-gradient(-90deg, rgba(0,0,0,0), rgba(0,0,0,0.9)), #353328;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.5))), #353328;
+	/*border-top:solid 2px #b1d046;*/
+}
+
+#login{
+	height: 450px;
+	width:85%;
+	margin:0 auto;
+	align:center;
+}
+
+#tabs{
+	height:450px;	
+}
+
+.wrap {
+	margin:0 auto;
+   /*replace 900px with your width*/
+	width:900px;
+}
+
+#demo4 > nav {
+	height: 60px;	/*Note: edit*/
+    width: 100%;		/*width of navigation bar*/
+    padding: 4px;
+    background: #464435;
+    background: -moz-linear-gradient(-90deg, rgba(0,0,0,0), rgba(0,0,0,0.7)), #464435;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0)), to(rgba(0,0,0,0.5))), #464435;
+    /*overflow: auto;*/
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+}
+#demo4 nav li {
+    float: left;
+    margin: 5px 20px;
+    padding: 0 0;
+    width: 110px;
+	list-style-type:none;
+    -moz-border-radius: 20px;
+    -webkit-border-radius: 20px;
+    border-radius: 20px;
+    -moz-transition-duration: 0.8s;
+    -webkit-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+}
+#demo4 nav li:hover {
+    -moz-box-shadow: 0px 1px 4px black;
+    -webkit-box-shadow: 0px 1px 4px black;
+    box-shadow: 0px 1px 4px black;
+    background-color: #797878;
+    background: -moz-linear-gradient(-90deg, rgba(0,0,0,0.2), rgba(0,0,0,0)),#797878;
+    background: -webkit-gradient(linear, left top, left bottom, from(rgba(0,0,0,0.2)), to(rgba(0,0,0,0))), #797878;
+}
+ 
+#demo4 nav li a {
+    -moz-transition-duration: 0.8s;
+    -webkit-transition-duration: 0.8s;
+    -o-transition-duration: 0.8s;
+    display: block;
+    text-align: center;
+    line-height: 1.8em;
+    font-size: 1.2em;
+    font-family: Delicious;
+    font-weight: bold;
+    text-shadow: 0px 0px 3px rgba(0,0,0,1);
+    text-decoration: none;
+    color: #DDD;
+}
+#demo4 nav li:hover a {
+    color: orange;
+    /*text-shadow: 0px 0px 3px rgba(255,255,255,1);*/
+}
+
+/*Opera Fix*/
+body:before {/* thanks to Maleika (Kohoutec)*/
+content:"";
+height:100%;
+float:left;
+width:0;
+margin-top:-32767px;/* thank you Erik J - negate effect of float*/
+}
+
+/*dots animation*/
+
+#stage{
+	/* The stage contains the individual divs that comprise the halftone icon: */
+	float:right;
+	width:55%;
+	height:200px;
+	/*background-color:blue;*/
+}
+#logo{
+	/* The stage contains the individual divs that comprise the halftone icon: */
+	float:left;
+	width:40%;
+}
+
+.dot{
+	/* The stage contains 192 .dot divs: */
+	float:left;
+	height:25px;
+	width:25px;
+}
+
+.dot.active{
+	/* When assigned the active class, the div shows a background image of a dot: */
+	background:url('dot.png') no-repeat center center;
+}
+
+
+.viewBlog{
+	text-decoration:none;
+	color:black;
+	font-family:satisfaction;
+	font-style:italic;
+	margin:5px;
+	
+}
+
+.viewBlog:hover{
+	color:#3C2002;
+}
+
+/*style for small texts such as published on*/
+#smallText,.smallText{
+	font-size:10px;
+	color:#FF6600;
+}
+
+/*Sub navigation*/
+
+/* dropdown */
+#demo4 nav li:hover > nav ul {
+	display: block;
+}
+
+/* level 2 list */
+.subChild ul {
+	display: none;
+	margin: 0;
+	padding: 0;
+	width: 185px;
+	left: 0;
+	position: relative;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+
+	-webkit-box-shadow: 0 1px 3px rgba(0,0,0, .3);
+	-moz-box-shadow: 0 1px 3px rgba(0,0,0, .3);
+	box-shadow: 0 1px 3px rgba(0,0,0, .3);
+}
+
+#createBlogPage{
+	padding:15px;
+}
+
+/*footer*/
+
+.footerlist{
+	list-style-type:none;
+}
+
+#features,#designers,#company,#icons,#updates{
+	margin:0;
+	width:20%;
+	float:left;
+}
+
+#footer h4{
+	color:#f7f7f7;
+}
+
+#footer li{
+	color:#666;
+	font-size:12px;
+	line-height:150%;
+}
+
+.footericon{
+	height:30px;
+	width:30px;	
+}
+
+/*slide*/
+.slideimage{
+	width:900px;
+	height:100%;
+	margin:0;
+}
+
+#maincontent{
+width:100%;	
+}
+
+#gallery {
+    position:relative;
+    height:446px;
+	width:100%;
+}
+#gallery > a {
+	float:left;
+        position:absolute;
+}
+     
+#gallery > a img {
+        border:none;
+}
+     
+#gallery > a.show {
+        z-index:500
+}
+ 
+#gallery .caption {
+        z-index:600; 
+        background-color:black; 
+        color:#ffffff; 
+        height:100px; 
+        width:100%; 
+        position:absolute;
+        bottom:0;
+}
+ 
+#gallery .caption .content2 {
+        margin:5px
+}
+     
+#gallery .caption .content2 h3 {
+        margin:0;
+        padding:0;
+        color:#1DCCEF;
+}
+
+/*blog*/
+h1.blogHeader{
+	-moz-border-radius: 15px;
+	border-top-left-radius: 15px;
+	/*color: #824226;*/
+	cursor: pointer;
+	text-decoration: none;	
+	opacity:0.8;
+	background-image:url('images/header.png');
+	background-repeat:repeat;
+}
+
+.blogsummary{
+	color:#555;
+	margin:5px;
+	text-align:justify;
+}
+
+.authorimage{
+	float:left;
+}
+
+.blogContent{
+	width: 80%;
+	float:left;
+
+}
+
+h1.headSection{
+color: #333;
+font-family: Georgia,serif;
+font-style: italic;
+}
+
+img{
+	margin:5px;
+	
+}
+
+/*Comment*/
+.commentBox{
+	border:dotted 1px #f9e3ae;
+	background-color:#eae5ce;;
+	-moz-border-radius: 15px;
+	border-radius: 15px;
+	margin-top:5px;
+	padding:5px;
+}
+
+ul.commentThread{
+	list-style-image:url('images/comment2.png');
+}
+
+#commentSection textarea{
+	background-color:#eee;
+	-moz-border-radius: 3px;
+	border-radius: 3px;
+	border:none;
+}
+
+#submitComment,#addBlog,#cancelAddBlog{
+display: inline-block;
+padding: 8px 16px;
+background: #b1d046;
+margin: 5px 6px 15px 5px;
+text-decoration: none;
+-webkit-border-radius: 15px;
+-moz-border-radius: 15px;
+border-radius: 15px;
+-moz-background-clip: padding;
+-webkit-background-clip: padding-box;
+background-clip: padding-box;
+-webkit-box-shadow: rgba(0,0,0,0.15) 0px 1px 2px;
+-moz-box-shadow: rgba(0,0,0,0.15) 0px 1px 2px;
+box-shadow: rgba(0,0,0,0.15) 0px 1px 2px;
+}
+
+#submitComment:hover,#addBlog:hover,#cancelAddBlog:hover{
+background: #f8fd7c;
+cursor:pointer;
+color:#FF6600;
+}

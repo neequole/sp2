@@ -53,6 +53,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.card_info = new System.Windows.Forms.ListBox();
+            this.button5 = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
@@ -71,7 +72,7 @@
             this.button1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button1.Font = new System.Drawing.Font("Pristina", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button1.ForeColor = System.Drawing.Color.AliceBlue;
-            this.button1.Location = new System.Drawing.Point(72, 167);
+            this.button1.Location = new System.Drawing.Point(74, 174);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(166, 50);
             this.button1.TabIndex = 1;
@@ -87,6 +88,7 @@
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.button1);
             this.groupBox1.Controls.Add(this.button2);
+            this.groupBox1.Controls.Add(this.button5);
             this.groupBox1.Enabled = false;
             this.groupBox1.Location = new System.Drawing.Point(16, 6);
             this.groupBox1.Name = "groupBox1";
@@ -101,7 +103,7 @@
             this.label6.BackColor = System.Drawing.SystemColors.ButtonHighlight;
             this.label6.Enabled = false;
             this.label6.ForeColor = System.Drawing.Color.Red;
-            this.label6.Location = new System.Drawing.Point(122, 275);
+            this.label6.Location = new System.Drawing.Point(120, 285);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(77, 13);
             this.label6.TabIndex = 9;
@@ -141,7 +143,7 @@
             this.button2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.button2.Font = new System.Drawing.Font("Pristina", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.button2.ForeColor = System.Drawing.Color.AliceBlue;
-            this.button2.Location = new System.Drawing.Point(72, 167);
+            this.button2.Location = new System.Drawing.Point(74, 174);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(166, 49);
             this.button2.TabIndex = 4;
@@ -216,7 +218,7 @@
             // 
             this.panel2.BackColor = System.Drawing.SystemColors.WindowFrame;
             this.panel2.Controls.Add(this.groupBox2);
-            this.panel2.Location = new System.Drawing.Point(6, 3);
+            this.panel2.Location = new System.Drawing.Point(7, 6);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(331, 331);
             this.panel2.TabIndex = 13;
@@ -329,13 +331,29 @@
             this.card_info.Size = new System.Drawing.Size(344, 342);
             this.card_info.TabIndex = 9;
             // 
+            // button5
+            // 
+            this.button5.BackColor = System.Drawing.Color.Teal;
+            this.button5.Enabled = false;
+            this.button5.FlatAppearance.BorderSize = 0;
+            this.button5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.button5.Font = new System.Drawing.Font("Pristina", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.ForeColor = System.Drawing.Color.AliceBlue;
+            this.button5.Location = new System.Drawing.Point(74, 228);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(166, 50);
+            this.button5.TabIndex = 13;
+            this.button5.Text = "Log-out";
+            this.button5.UseVisualStyleBackColor = false;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("$this.BackgroundImage")));
-            this.ClientSize = new System.Drawing.Size(920, 510);
+            this.ClientSize = new System.Drawing.Size(384, 510);
             this.Controls.Add(this.tabControl1);
             this.Controls.Add(this.pictureBox3);
             this.Controls.Add(this.label5);
@@ -386,6 +404,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Panel panel2;
+        private System.Windows.Forms.Button button5;
     }
 }
 
