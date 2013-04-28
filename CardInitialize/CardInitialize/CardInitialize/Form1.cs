@@ -40,6 +40,7 @@ namespace WindowsFormsApplication1
         {
             //panel1.Hide();
             button4.Enabled = false;
+            progressBar1.Maximum = 19;
             
         }
 
@@ -249,6 +250,7 @@ namespace WindowsFormsApplication1
             {
                 // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 // logBox1.Items.Add("Card is successful.");
+               
             }
 
             // Select FF 04
@@ -286,7 +288,7 @@ namespace WindowsFormsApplication1
                 // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             // logBox1.Items.Add("User File AA 11 is defined");
 
             //  Write to second record of FF 04, 1st ticket object
@@ -304,7 +306,7 @@ namespace WindowsFormsApplication1
                 // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             // logBox1.Items.Add("User File BB 22 is defined");
 
             //  Write to third record of FF 04, 2nd ticket object
@@ -316,13 +318,13 @@ namespace WindowsFormsApplication1
             tmpArray[5] = 0x33;       // 33    File identifier
 
             writeRecord(0x00, 0x02, 0x06, 0x06, ref tmpArray);
-
+             
             if (retcode != ModWinsCard.SCARD_S_SUCCESS)
             {
                 // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             // logBox1.Items.Add("User File CC 33 is defined");
 
             //  Write to fourth record of FF 04, 3rd ticket object
@@ -340,7 +342,7 @@ namespace WindowsFormsApplication1
                 // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             // logBox1.Items.Add("User File DD 44 is defined");
 
 
@@ -359,7 +361,7 @@ namespace WindowsFormsApplication1
                 // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             // logBox1.Items.Add("User File EE 55 is defined");
 
 
@@ -378,7 +380,7 @@ namespace WindowsFormsApplication1
                 // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             // logBox1.Items.Add("User File E1 66 is defined");
 
 
@@ -692,7 +694,7 @@ namespace WindowsFormsApplication1
                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
            // logBox1.Items.Add("User Id Written.");
            // logBox1.SelectedIndex = logBox1.Items.Count - 1; 
 
@@ -712,7 +714,7 @@ namespace WindowsFormsApplication1
              //   logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
            // logBox1.Items.Add("Name Written.");
            // logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -731,7 +733,7 @@ namespace WindowsFormsApplication1
              //   logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
           //  logBox1.Items.Add("Username Written.");
           //  logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -750,7 +752,7 @@ namespace WindowsFormsApplication1
              //   logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
           //  logBox1.Items.Add("Password Written.");
            // logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -769,7 +771,7 @@ namespace WindowsFormsApplication1
             //    logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             //logBox1.Items.Add("Student number Written.");
             //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -788,7 +790,7 @@ namespace WindowsFormsApplication1
               //  logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             //logBox1.Items.Add("College Written.");
            // logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -807,7 +809,7 @@ namespace WindowsFormsApplication1
               //  logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             //logBox1.Items.Add("Course Written.");
             //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -826,7 +828,7 @@ namespace WindowsFormsApplication1
                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             //logBox1.Items.Add("Contact number Written.");
             //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -845,7 +847,7 @@ namespace WindowsFormsApplication1
                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             //logBox1.Items.Add("Email Written.");
             //logBox1.SelectedIndex = logBox1.Items.Count - 1; 
 
@@ -874,7 +876,7 @@ namespace WindowsFormsApplication1
                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
            // logBox1.Items.Add("Ticket object 1 unallocated.");
             //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -901,7 +903,7 @@ namespace WindowsFormsApplication1
              //   logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             //logBox1.Items.Add("Ticket object 2 unallocated.");
             //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -928,7 +930,7 @@ namespace WindowsFormsApplication1
                // logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             //logBox1.Items.Add("Ticket object 3 unallocated.");
             //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -955,7 +957,7 @@ namespace WindowsFormsApplication1
                 //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             //logBox1.Items.Add("Ticket object 4 unallocated.");
             //logBox1.SelectedIndex = logBox1.Items.Count - 1;
 
@@ -982,7 +984,7 @@ namespace WindowsFormsApplication1
                 //logBox1.Items.Add(ModWinsCard.GetScardErrMsg(retcode));
                 return false;
             }
-
+            progressBar1.Increment(1);
             //logBox1.Items.Add("Ticket object 5 unallocated.");
             //logBox1.SelectedIndex = logBox1.Items.Count - 1; 
             return true;
@@ -1237,6 +1239,11 @@ namespace WindowsFormsApplication1
         private void button5_Click(object sender, EventArgs e)
         {
             
+        }
+
+        private void progressBar1_Click(object sender, EventArgs e)
+        {
+
         }
 
 
