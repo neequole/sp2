@@ -1238,7 +1238,18 @@ namespace WindowsFormsApplication1
 
         private void button5_Click(object sender, EventArgs e)
         {
-            
+            //Disconnect  and unpower card
+            retcode = ModWinsCard.SCardDisconnect(hCard, ModWinsCard.SCARD_EJECT_CARD);
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                MessageBox.Show("Disconnection Error!");
+                
+            }
+            else
+            {
+                MessageBox.Show("Card Disconnected!");
+                Application.Exit();
+            }
         }
 
         private void progressBar1_Click(object sender, EventArgs e)

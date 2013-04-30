@@ -2035,7 +2035,11 @@ namespace WindowsFormsApplication1
                         logBox1.Items.Add("Unable to fetch pending bookings");
                         logBox1.SelectedIndex = logBox1.Items.Count - 1;
                     }
+                    button3.Enabled = false;
+                    button5.Enabled = true;
                 }
+
+
             }
             catch {
                 card_info.Items.Add("There were no available user information");
@@ -2129,9 +2133,13 @@ namespace WindowsFormsApplication1
 
         private void button4_Click(object sender, EventArgs e)
         {
-            dataGridView2.Columns.RemoveAt(6);
-            dataGridView2.Rows.Clear();
-            populate_pending();
+            try
+            {
+                dataGridView2.Columns.RemoveAt(6);
+                dataGridView2.Rows.Clear();
+                populate_pending();
+            }
+            catch { }
         }
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
@@ -2180,6 +2188,33 @@ namespace WindowsFormsApplication1
                 }
             }
            
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+
+            //Disconnect  and unpower card
+            retcode = ModWinsCard.SCardDisconnect(hCard, ModWinsCard.SCARD_EJECT_CARD);
+            if (retcode != ModWinsCard.SCARD_S_SUCCESS)
+            {
+                MessageBox.Show("Disconnection Error!");
+
+            }
+            else
+            {
+                MessageBox.Show("Card Disconnected!");
+                button3.Enabled = true;
+                button5.Enabled = false;
+                try
+                {
+                    dataGridView1.Rows.Clear();
+                    dataGridView1.Columns.RemoveAt(6);
+                    dataGridView2.Columns.RemoveAt(6);
+                    dataGridView2.Rows.Clear();
+                    card_info.Items.Clear();
+                }
+                catch { }
+            }
         }
 
 
