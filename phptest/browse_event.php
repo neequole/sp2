@@ -6,18 +6,20 @@ include("include/config.php");
     <div id="main">			
 		<div  class="ribbonHeader"></div>
 		<div class='event_content'>
+		
+
 <?php
 		$dt = date('Y-m-d');
 		$time = date('H:i:s');
 		if(isset($_GET['id'])){
 		$id = $_GET['id'];
 			$result = mysql_query("SELECT * FROM event where id=$id limit 1 ;") or die(mysql_error());
-
 			// Mysql_num_row is counting table row
 			$count=mysql_num_rows($result);
 
 			if($count>0){
 				$row = mysql_fetch_array($result);
+				echo "<div class='parallelogram'><h2>".$row['title']."</h2></div>";
 				//print_r($row);
 				if(isset($row['filepath']) && $row['filepath']!='') echo '<div class="left_content"><img src="'.$row['filepath'].'"/></div>';
 				else echo '<div class="left_content"><img src="images/poster/no_image.png"/></div>';
@@ -31,9 +33,9 @@ include("include/config.php");
 				echo "<tr><td><br></td></tr>";
 				if($count>0){
 					$row2 = mysql_fetch_array($result2);
-					echo "<tr><td><span class='label1'>VENUE</span></td></tr><tr><td>".$row2['venue_name']."</td><td><input type='image' src='images/map.jpg'/></td></tr>";
+					echo "<tr><td><span class='label1'>VENUE</span></td></tr><tr><td>".$row2['venue_name']."</td><td><input type='image' src='images/map.jpg' onclick='initialize2(".$row['latitude'].",".$row['longitude'].")' /></td></tr>";
 				}
-				else echo "<tr><td><span class='label1'>VENUE</span></td></tr><tr><td>not set</td><td><input type='image' src='images/map.jpg'/></td></tr>";
+				else echo "<tr><td><span class='label1'>VENUE</span></td></tr><tr><td>not set</td><td><input type='image' src='images/map.jpg' onclick='initialize2(".$row['latitude'].",".$row['longitude'].")' /></td></tr>";
 				echo "</table>";
 				echo "</div>";
 ?>
@@ -42,11 +44,11 @@ include("include/config.php");
 		<br>
 		<div class='event_content' style='text-align:center;'>
 			<iframe title="YouTube video player" class="youtube-player" type="text/html" src="http://www.youtube.com/embed/W-Q7RMpINVo?wmode=opaque" frameborder="0" allowFullScreen></iframe>
-			<iframe title="YouTube video player" class="youtube-player" type="text/html" src="http://www.youtube.com/embed/W-Q7RMpINVo?wmode=opaque" frameborder="0" allowFullScreen></iframe>
-			<iframe title="YouTube video player" class="youtube-player" type="text/html" src="http://www.youtube.com/embed/W-Q7RMpINVo?wmode=opaque" frameborder="0" allowFullScreen></iframe>
+			<!--<iframe title="YouTube video player" class="youtube-player" type="text/html" src="http://www.youtube.com/embed/W-Q7RMpINVo?wmode=opaque" frameborder="0" allowFullScreen></iframe>
+			<iframe title="YouTube video player" class="youtube-player" type="text/html" src="http://www.youtube.com/embed/W-Q7RMpINVo?wmode=opaque" frameborder="0" allowFullScreen></iframe>-->
 		</div>
 		
-		<div  class="parallelogram2"></div> <!--Bookings-->
+		<div  class="parallelogram2"><h2>EVENT SCHEDULE(s)</h2></div> <!--Bookings-->
 		<div class='event_content'>
 		<table id='sched_table'>
 <?php
@@ -105,6 +107,9 @@ include("include/config.php");
 ?>
 		</table>
 		</div>
+			<div id='dialog-map' title='View Map'>
+		<div id="map-canvas2" style="height:400px;width:400px;margin-left:auto;margin-right:auto;"></div>
+	</div>
 		<br>
 	<div id="overlay2">
      <div id="event_info2">

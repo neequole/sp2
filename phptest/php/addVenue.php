@@ -13,7 +13,7 @@ if(isset($_POST["venue"]) && strlen($_POST["venue"])>0)
 	// Insert sanitize string in record
 	if(mysql_query("INSERT INTO venue(venue_id,venue_name) VALUES('','".$venue."')"))
 	{	  
-		  echo "<tr><td>".$venue ."</td><td>ACTION HERE</td></tr>";
+		  echo "<tr><td>".$venue ."</td><td>Action here</td></tr>";
 	}else{
 		//output error
 		

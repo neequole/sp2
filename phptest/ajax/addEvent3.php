@@ -25,7 +25,8 @@ date_default_timezone_set('Asia/Manila');
 			<tr><td>Event Name*:</td><td><input type="text" id="event_name" class="required" name="event_name" required/></td></tr>
 			<tr><td>Description:</td><td><textarea id="event_desc" class="required" name="event_desc" cols="50"></textarea></td></tr>
 			<tr><td><br></td></tr>
-			<tr><td>Date(s) and Time(s)*:</td><td>Set date and time for the event. If event takes 2 or more non-consecutive days just click on Add date icon below and select multiple dates and times. </td></tr>
+			<tr><td>Date(s) and Time(s)*:</td></tr>
+			<tr><td colspan=2><p class='label_class'>Set date and time for the event. If event takes 2 or more non-consecutive days just click on Add date icon below and select multiple dates and times.</p></td></tr>
 			</table>
 			<table id="eventDate" class="table_center">
 			<tr><th>Date</th><th colspan='3'>Showing Time</th><th>Max tickets to sell</th><th>Action</th></tr>
@@ -37,7 +38,8 @@ date_default_timezone_set('Asia/Manila');
 			<br>
 
 	<table>
-	<tr><td>Ticket Class(s)*:</td><td>If event requires new ticket classes just click on Add Ticket Class icon below and fill up needed informations.</td></tr>
+	<tr><td>Ticket Class(s)*:</td></tr>
+	<tr><td colspan='2'><p class='label_class'>If event requires new ticket classes just click on Add Ticket Class icon below and fill up needed informations.</p></td></tr>
 	</table>
 	<table id="ticket_class" class="table_center">
 			<tr><th>Ticket type</th><th>Price</th><th>Action</th></tr>
@@ -54,7 +56,7 @@ date_default_timezone_set('Asia/Manila');
 				}
 				//else echo "<tr><td colspan='3'>There are no data available.</td></tr>";
 			?>
-			<tr><td><input type="text" id="t_class" placeholder="Class"/></td><td><input type="text"id="t_price" placeholder="Price"/></td><td><input type="button" value="Add Ticket Class" id="addTicketClass" /></td></tr>
+			<tr><td><input type="text" id="t_class" placeholder="Class"/></td><td><input type="text"id="t_price" placeholder="Price"/></td><td><input type="button" value="Add Ticket Class" id="addcClass" /></td></tr>
 	</table>
 	<br>	
 	<table>
@@ -62,9 +64,17 @@ date_default_timezone_set('Asia/Manila');
 		<tr><td>Event thumbnail:</td></tr>
 		<tr><td></td><td>Choose a file to upload:</td><td><input name="uploadedfile" type="file" id="event_image"/></td></tr>
 	</table>
-
+	<table>
+		<tr><td>Add Map:</td></tr>	
+		<tr><td></td><td>Latitude: <input type='number' pattern='[0-9]+([.][0-9]+)' id='lat' name='lat' value='14.1675' readonly /></td></tr>
+		<tr><td></td><td>Longitude: <input type='number' pattern='[0-9]+([.][0-9]+)' id='long' name='long' value='121.243' readonly /></td></tr>
+	</table>
+	<br/>
+	<div id="map-canvas" style="height:300px;width:300px;margin-left:auto;margin-right:auto;"></div>
+	<script>
+	initialize();
+	</script>
 <input type="submit" value="Create Event"/>	
-</form>
 <div id="overlay">
      <div id="event_info">
      </div>

@@ -7,8 +7,8 @@ header( 'Location: index.php' );
 ?>
 
 <div id="main">
-	<a href="faculty.php">Create Class</a><a href="viewAttendance.php">View attendance</a>
-	<div class="blueHeader"><h3>View Attendance</h3></div>
+	<!--<a href="faculty.php">Create Class</a><a href="viewAttendance.php">View attendance</a>-->
+	<div class="parallelogram"><h2>VIEW ATTENDANCE...</h2></div>
 	<div class="accordion">
 	<?php
 			//check all classes made by the logged faculty
@@ -23,7 +23,7 @@ header( 'Location: index.php' );
 						echo "<div><p>";
 						//echo $count2;
 						if(isset($count2) && $count2 > 0){
-							echo "<table>";
+							echo "<table class='table_center2'>";
 							echo "<tr><th>Student name</th><th>Student number</th><th>Timein</th><th>Timeout</th><th>Status</th></tr>";
 							while($row4 = mysql_fetch_array($qry2)){
 								echo "<tr><td>".$row4["fname"]." ".$row4["mname"]." ".$row4["lname"]."</td><td>".$row4["stud_no"]."</td><td>".$row4["timein"]."</td><td>".$row4["timeout"]."</td><td>".$row4["status"]."</td></tr>";

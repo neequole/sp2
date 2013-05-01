@@ -8,12 +8,13 @@ header( 'Location: index.php' );
 ?>
 
 <div id="main">
-	<a href="faculty.php">Create Class</a><a href="viewAttendance.php">View attendance</a>
-	<div class="blueHeader"><h3>Create Class</h3></div>
+	<!--<a href="faculty.php">Create Class</a><a href="viewAttendance.php">View attendance</a>-->
+	<div class="parallelogram"><h2>CREATE CLASS...</h2></div>
+	<p class='label_class2'>Fields with * are required. Course title and Lecture section accepts only alphabetic characters. Course number accepts only numeric characters. Please select at least one associated event for newly created class.</p>
 	<div>
 	<?php if(isset($_GET['error'])){
-	if($_GET['error']==1) echo "Class not created!";
-	else if($_GET['error']==2) echo "Class successfulyy created!";
+	if($_GET['error']==1) echo "<div class='errorDiv'><p>Class not created!</p></div>";
+	else if($_GET['error']==2) echo "<div class='successDiv'><p>Class successfully created!</p></div>";
 	}
 	?>
 	</div>

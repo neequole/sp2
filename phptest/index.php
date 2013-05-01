@@ -20,7 +20,7 @@ include("include/config.php");
 	?>
 	</div>
 	<div style="clear:both;"></div>
-	<div class="parallelogram"></div>
+	<div class="parallelogram"><h2>EVENTS...</h2></div>
 <?php 
 $result = mysql_query("SELECT * FROM event;") or die(mysql_error());
 // Mysql_num_row is counting table row

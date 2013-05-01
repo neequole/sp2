@@ -4,7 +4,8 @@ include("include/header.php");
 include("include/config.php");
 ?>
  <div id="main">
- <div class="parallelogram"></div>
+ <div class="parallelogram"><h2>USER BOOKING(s)</h2></div>
+ <p class='label_class2'>If student wishes to view or update class(es) associated to his/her bookings, click the booking row to show assocatiated class(es).</p>
 <?php
 if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']=="YES"){
 			//check if already reserved
@@ -28,12 +29,12 @@ if(isset($_SESSION['loggedin']) && $_SESSION['loggedin']=="YES"){
 								$row5 = mysql_fetch_array($qry3);
 								//print_r($row5);
 								if(is_array($row5) and in_array($row4['class_id'], $row5))
-									echo "<li>".$row4['courseTitle'].$row4['courseNo']." ".$row4['lecSec']." ".$row4['labSec']." ".$row4['term']." ".$row4['acadYear']." Prof.".$row4['lname']." <input type='checkbox' name='updateAClass[]' value='".$row4['class_id']."' checked disabled/></li>";
+									echo "<li>".$row4['courseTitle'].$row4['courseNo']." ".$row4['lecSec']." ".$row4['labSec']." | ".$row4['term']." ".$row4['acadYear']." | Prof.".$row4['lname']." <input type='checkbox' name='updateAClass[]' value='".$row4['class_id']."' checked disabled/></li>";
 								else
-									echo "<li>".$row4['courseTitle'].$row4['courseNo']." ".$row4['lecSec']." ".$row4['labSec']." ".$row4['term']." ".$row4['acadYear']." Prof.".$row4['lname']." <input type='checkbox' name='updateAClass[]' value='".$row4['class_id']."' /></li>";
+									echo "<li>".$row4['courseTitle'].$row4['courseNo']." ".$row4['lecSec']." ".$row4['labSec']." | ".$row4['term']." ".$row4['acadYear']." | Prof.".$row4['lname']." <input type='checkbox' name='updateAClass[]' value='".$row4['class_id']."' /></li>";
 								}
 								else{
-									echo "<li>".$row4['courseTitle'].$row4['courseNo']." ".$row4['lecSec']." ".$row4['labSec']." ".$row4['term']." ".$row4['acadYear']." Prof.".$row4['lname']." <input type='checkbox' name='updateAClass[]' value='".$row4['class_id']."' /></li>";
+									echo "<li>".$row4['courseTitle'].$row4['courseNo']." ".$row4['lecSec']." ".$row4['labSec']." | ".$row4['term']." ".$row4['acadYear']." | Prof.".$row4['lname']." <input type='checkbox' name='updateAClass[]' value='".$row4['class_id']."' /></li>";
 								
 								}
 							}

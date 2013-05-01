@@ -3,7 +3,7 @@ session_start();
 include("../include/config.php");
 
 $venue = mysql_real_escape_string($_POST['event_venue']);
-$name = mysql_real_escape_string($_POST['event_name']);
+$name = ucwords(mysql_real_escape_string($_POST['event_name']));
 $desc = mysql_real_escape_string($_POST['event_desc']);
 $date = $_POST['date'];			//return to object
 $start = $_POST['start'];
@@ -11,10 +11,11 @@ $end = $_POST['end'];
 $max = $_POST['max'];
 $target_path = "../images/poster/";
 $db_path = "images/poster/";
-
+$lat = $_POST['lat'];
+$long = $_POST['long'];
 
 if(!isset($_POST['select_tclass']) || $_POST['select_tclass'] == "" || count($_POST['select_tclass']) < 1){
-			echo "<p style='background-color:#F5DEB3;'>Fail to create event.</p>";
+			header('Location: ../admin.php#event');
 			exit;
 }
 
@@ -23,16 +24,16 @@ $class = $_POST['select_tclass'];
 
 
 //if desc is null
-if(isset($desc) && $desc != '') $string = "INSERT INTO event(id,title,abstract,venue,pay_due,start_sdate,end_sdate,emgr_id,filepath) VALUES('','".$name."','".$desc."'";
-else $string = "INSERT INTO event(id,title,abstract,venue,pay_due,start_sdate,end_sdate,emgr_id,filepath) VALUES('','".$name."',''";
+if(isset($desc) && $desc != '') $string = "INSERT INTO event(id,title,abstract,venue,pay_due,start_sdate,end_sdate,emgr_id,filepath,latitude,longitude) VALUES('','".$name."','".$desc."'";
+else $string = "INSERT INTO event(id,title,abstract,venue,pay_due,start_sdate,end_sdate,emgr_id,filepath,latitude,longitude) VALUES('','".$name."',''";
 
 $string = $string.",".$venue.",NULL,NULL,NULL,".$_SESSION['id'];
 
-if(!isset($_FILES['uploadedfile']['name']) || $_FILES['uploadedfile']['name'] == "") $string = $string . ",NULL)";
+if(!isset($_FILES['uploadedfile']['name']) || $_FILES['uploadedfile']['name'] == "") $string = $string . ",NULL,".$lat.",".$long.")";
 else{
 $target_path = $target_path . basename(mysql_real_escape_string(($_FILES['uploadedfile']['name']))); 
 $db_path = $db_path . basename(mysql_real_escape_string(($_FILES['uploadedfile']['name']))); 
-$string = $string . ",'".$db_path."')";
+$string = $string . ",'".$db_path."',".$lat.",".$long.")";
 }
 	$fail = 0;		//0 = no error
 	mysql_query("START TRANSACTION");
@@ -50,7 +51,10 @@ $string = $string . ",'".$db_path."')";
 		}
 		else{
 			mysql_query("ROLLBACK");
-			echo "<p style='background-color:#F5DEB3;'>Fail to create event.</p>";
+?>
+		<script type='text/javascript'>alert('Fail to add event.');</script>
+<?php
+			header('Location: ../admin.php');
 			exit;
 		}
 	}
@@ -64,23 +68,39 @@ $string = $string . ",'".$db_path."')";
 		if($result){}
 		else{
 			mysql_query("ROLLBACK");
-			echo "<p style='background-color:#F5DEB3;'>Fail to create event.</p>";
-			exit;
+?>
+		<script type='text/javascript'>
+		alert('Fail to add event.');
+		window.location = "../admin.php";
+		</script>
+<?php
+		exit;
 		}
 	}
 	
 	//upload image only if event is already added
-	if(isset($_FILES['uploadedfile']['tmp_name']) and $_FILES['uploadedfile']['tmp_name']!='') {
+	if(isset($_FILES['uploadedfile']['name']) && $_FILES['uploadedfile']['name'] != "") {
 		if(move_uploaded_file($_FILES['uploadedfile']['tmp_name'], $target_path)){}
 		else{
-			echo "<p style='background-color:#F5DEB3;'>Fail to create event.</p>";
-			echo "2";
+			mysql_query("ROLLBACK");
+?>
+		<script type='text/javascript'>
+		alert('Fail to add event due to image.');
+		window.location = "../admin.php";
+		</script>
+<?php
 			exit;
 		}
 	}
 
 	mysql_query("COMMIT");
-	echo "<p style='background-color:#74c576;'>Event created.</p>";
+?>
+		<script type='text/javascript'>
+		alert('Event added.');
+		window.location = "../admin.php";
+		</script>
+		
+<?php
 	exit;
 
 //date if conflict?

@@ -24,6 +24,7 @@ while($row = mysql_fetch_array($result)){
 			echo "<li>".$row2['e_book']." out of ".$row2['e_max']." | ".$row2['e_date']." ".$row2['e_stime']."-".$row2['e_etime']."</li><br>";
 			$result3 = mysql_query("SELECT * FROM booking b INNER JOIN user u ON b.user_id=u.id where e_sched_id=".$row2['e_sched_id']) or die(mysql_error());
 			$count3=mysql_num_rows($result3);
+			echo "<fieldset style='border:dotted 1px white;'><legend>Bookings</legend>";
 			if($count3>0){
 				echo "<table class='table_center2' cellpadding='5'>";
 				echo "<tr><th>Booking ID</th><th>Ticket Holder</th><th>Status</th><th>Action</th></tr>";
@@ -34,6 +35,7 @@ while($row = mysql_fetch_array($result)){
 				echo "</table>";
 			}
 			else echo "No bookings here.";
+			echo "</fieldset>";
 		}
 	echo "</ol>";
 	}

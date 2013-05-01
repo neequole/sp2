@@ -3,7 +3,7 @@ include("../include/config.php");
 ?>
 <h2 class='ribbonHeader'>ADD NEW VENUE . . .</h2>
 <div id="errorVenue"></div>
-<table id="table_venue">
+<table id="table_venue" class="table_center">
 <tr><th>Venue</th><th>Action</th></tr>
 <?php
 				$result = mysql_query("SELECT * FROM venue") or die(mysql_error());

@@ -225,7 +225,7 @@ $(document).ready(function() {
 				info = info + "<tr><td>Schedule</td></tr>";
 				info = info + "<tr><td><ul>";
 				for(i = 0; i< date_array.length; i++){
-					info = info + "<li>"+ date_array[i] +" | "+ start_array[i] +" | "+ end_array[i] +" | "+ max_array[i] +"</li>";
+					info = info + "<li>"+ date_array[i] +" | "+ start_array[i] +" - "+ end_array[i] +" | "+ max_array[i] +"</li>";
 				}
 				info = info + "</ul></td></tr>";
 				info = info + "<tr><td>Ticket class:</td></tr>";
@@ -235,6 +235,8 @@ $(document).ready(function() {
 				}
 				info = info + "</ol></td></tr>";
 				if($('#event_image').val()!= "") info = info + "<tr><td>Image URL: </td></tr><tr><td>"+$('#event_image').val()+"</td></tr>";
+				if($('#lat').val()!= "") info = info + "<tr><td>Latitude: </td></tr><tr><td>"+$('#lat').val()+"</td></tr>";
+				if($('#long').val()!= "") info = info + "<tr><td>Longitude: </td></tr><tr><td>"+$('#long').val()+"</td></tr>";
 				info = info + "</table>";
 								
 				$("#event_info").html(info + '<button id="final_eButton">Ok</button><input type="button" value="Cancel" id="cancel_eButton">');
@@ -252,7 +254,13 @@ $(document).ready(function() {
 
 	
 	$("#final_eButton").live("click",function(){
+	
+		el = document.getElementById("overlay");
+		el.style.visibility = (el.style.visibility == "visible") ? "hidden" : "visible";
+		document.forms["form_eDetails"].submit();
+		
 			/*var e_venue = $("#event_venue option:selected").val();	//get venue, must not be null
+			
 			var e_name = $("#event_name").val();
 			var e_desc = $("#event_desc").val();
 			var intRegex = /^\d+$/;
@@ -290,6 +298,7 @@ $(document).ready(function() {
 			//emax = encodeURIComponent(emax);
 			var eclass = JSON.stringify(class_array);
 		*/	
+		/*
 			$.ajax({
 				type: "POST",
 				url: "php/addEvent2.php",
@@ -301,7 +310,7 @@ $(document).ready(function() {
 				$("#error_edetails").html(msg);
 				}
 			});
-	
+	*/
 	});
 	
 	
@@ -567,8 +576,8 @@ $(document).ready(function() {
 						$("#loading2").empty();
 						if(response == "1"){
 							alert("User approved");
-							$("td:nth-child(4)", row).html("approved");
-							$("td:nth-child(5)", row).html("");
+							$("td:nth-child(5)", row).html("approved");
+							$("td:nth-child(6)", row).html("");
 						}
 						else if(response == "3") alert("Error in sending mail, requests not approved.");
 						else alert("Error in approving requests.");
@@ -638,7 +647,7 @@ $(document).ready(function() {
 		}
 	});
 	
-
+	
 }); //document.ready function
 
 function show_alert(msg) {
@@ -729,4 +738,60 @@ function tpEndOnMinuteShowCallback(hour, minute) {
     if ( (hour == tpStartHour) && (minute > tpStartMinute) ) { return true; }
     // if minute did not match, it can not be selected
     return false;
+}
+
+//add map
+var marker,map;
+function placeMarker(location) {
+
+  if ( marker ) {
+    marker.setPosition(location);
+  } else {
+    marker = new google.maps.Marker({
+      position: location,
+      map: map
+    });
+  }
+}
+
+function initialize() {
+
+  var mapOptions = {
+    zoom: 18,
+    center: new google.maps.LatLng(14.16754, 121.24328),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas'),
+      mapOptions);
+	  placeMarker(mapOptions.center);
+	  google.maps.event.addListener(map, 'click', function(event){
+		placeMarker(event.latLng);
+		document.getElementById("lat").value = event.latLng.lat();
+		document.getElementById("long").value = event.latLng.lng();
+		});
+}
+
+function initialize2(lat,lng) {
+  var mapOptions = {
+    zoom: 18,
+    center: new google.maps.LatLng(lat, lng),
+    mapTypeId: google.maps.MapTypeId.ROADMAP
+  };
+  map = new google.maps.Map(document.getElementById('map-canvas2'),
+      mapOptions);
+  placeMarker(mapOptions.center);
+  $( "#dialog-map" ).dialog({
+				resizable: false,
+				height:500,
+				width:500,
+				modal: true,
+				buttons: {
+				"Ok": function() {
+					$( this ).dialog( "close" );
+				},
+				Cancel: function() {
+				$( this ).dialog( "close" );
+				}
+				}
+	});
 }

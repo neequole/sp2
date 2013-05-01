@@ -56,7 +56,14 @@ height: 100%;
 	box-shadow: 10px 10px 5px #666666;
 }
 
-
+.parallelogram h2, .parallelogram2 h2{
+	margin:20px;
+	-webkit-transform: skew(-20deg);
+	-moz-transform: skew(-20deg);
+	-o-transform: skew(-20deg);
+	color:white;
+	font-family: 'Andika',sans-serif;
+}
 /*css for browse event*/
 .event_content{
 	width:90%;
@@ -89,7 +96,8 @@ height: 100%;
 }
 
 .youtube-player{
-
+width:600px;
+height:350px;
 }
 
 #logo{
@@ -322,6 +330,37 @@ clear:both;
 
 }
 
+.label_class{
+	background-color:#AFEAAA;
+	clear:both;
+    margin-left:auto;
+	margin-right:auto;
+    border:1px solid #fff;
+    padding:10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow:0px 0px 3px #aaa;
+    -webkit-box-shadow:0px 0px 3px #aaa;
+    box-shadow:0px 0px 3px #aaa;
+	text-align:center;
+}
+.label_class2{
+	background-color:	#FFCF79;
+	clear:both;
+    margin-left:auto;
+	margin-right:auto;
+    border:1px solid #fff;
+    padding:10px;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-box-shadow:0px 0px 3px #aaa;
+    -webkit-box-shadow:0px 0px 3px #aaa;
+    box-shadow:0px 0px 3px #aaa;
+	text-align:center;
+}
+
 /*Modal box*/
 #overlay, #overlay2, #overlay3, #edit_eventForm {
      visibility: hidden;
@@ -418,7 +457,12 @@ background-color:#99CC99;
  border:solid 1px #F0F0F0;
  border-collapse:collapse;
 text-align:center;
+
  }
+.table_center, .table_center td, .table_center2, .table_center2 td {
+padding: 10px; 
+border-spacing: 15px;
+} 
  .table_center th{
  background-color:#F0F0F0;
  }
@@ -633,4 +677,12 @@ color:black;
 .overlayform input[type=radio] {
 	float: left;
 	margin-right: 5px;
+}
+
+.accordionbaby:hover{ cursor: hand; cursor: pointer; }
+
+#map-canvas {
+        margin: 0;
+        padding: 0;
+        height: 100%;
 }

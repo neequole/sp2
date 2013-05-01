@@ -27,9 +27,9 @@ $type = filter_var($_POST["type"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH
 
 	//print_r($_POST);
 //change first letter to uppercase
-$fname = ucfirst(strtolower($fname));
-$mname = ucfirst(strtolower($mname));
-$lname = ucfirst(strtolower($lname));
+$fname = ucwords(strtolower($fname));
+$mname = ucwords(strtolower($mname));
+$lname = ucwords(strtolower($lname));
 
 //check for unique username and name;
 $result = mysql_query("SELECT id FROM user WHERE usrname = '$uname'");
