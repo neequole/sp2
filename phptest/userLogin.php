@@ -9,11 +9,11 @@ session_start();
         <meta name="description" content="Fancy Sliding Form with jQuery" />
         <meta name="keywords" content="jquery, form, sliding, usability, css3, validation, javascript"/>
         <link rel="stylesheet" href="css/style2.css" type="text/css" media="screen"/>
-		<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+		<script type="text/javascript" src="ajax2/jquerymin.js"></script>
        	<script type="text/javascript" src="js/loginJS.js"></script>
-    	<link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css"/>
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5/jquery.min.js"></script>
-		<script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>
+    	<link href="ajax2/jquery-ui.css" rel="stylesheet" type="text/css"/>
+		<script src="ajax2/jquery.js"></script>
+		<script src="ajax2/jquery2.js"></script>
 		<script language="javascript" type="text/javascript" src="jquery.js"></script>
     </head>
     <style>
