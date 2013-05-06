@@ -3,7 +3,6 @@ session_start();
 include_once("../include/config.php");
 ?>
 <?php
-
 //fetch from url data
 $uname = filter_var($_POST["username"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 $pwd = filter_var($_POST["password"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
@@ -14,6 +13,7 @@ $suffix = filter_var($_POST["suffix"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_
 $email = filter_var($_POST["email"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 $cnum = filter_var($_POST["cnum"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 $sex = filter_var($_POST["sex"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
+$captcha = $_POST["captcha"];
 $type = filter_var($_POST["type"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 	if($type=="student"){
 		$studno1 = filter_var($_POST["studnum1"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
@@ -22,6 +22,16 @@ $type = filter_var($_POST["type"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH
 		$college = filter_var($_POST["college"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 		$course = filter_var($_POST["course"],FILTER_SANITIZE_STRING, FILTER_FLAG_STRIP_HIGH);
 	}
+	
+//check capthca
+if($_SESSION["code"]!=$captcha)
+{
+echo "<p>Please verify your code.</p>";
+exit;
+}
+else
+{
+
 	
 	//echo $uname . " " . $pwd . " " . $fname . " " . $mname . " " . $lname . " " . $suffix . " " . $email . " " . $cnum . " " . $sex . " " . $type;
 
@@ -91,6 +101,6 @@ else{
 		}
 	}
 }
-
+}
 
 ?>

@@ -122,6 +122,11 @@ session_start();
 								<input type="radio" name="sex" value="f"/>Female
                             </p>
 							<p>
+								<label for='captcha'>Captcha code*</label>
+								<input name="captcha" type="text" id="reg_captcha" required />
+								<img src="include/captcha.php" /><br>
+							</p>
+							<p>
                                 <label for="type">Register as*</label>
                                 <input type="radio" name="type" value="admin" id="admintypeButton" checked/>Administrator
 								<input type="radio" name="type" value="faculty" id="facultytypeButton"/>Faculty<br>

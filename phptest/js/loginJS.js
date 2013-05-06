@@ -172,6 +172,7 @@ $(document).ready(function() {
 			var email = $("#reg_email").attr("value");
 			var cnum = $("#reg_cnum").attr("value");
 			var sex = $("#form_reg input[name='sex']:checked").val();
+			var captcha = $("#reg_captcha").attr("value");
 			var type = $("#form_reg input[name='type']:checked").val();
 			if(type=="student"){
 				var studno1 = $("#reg_studnum1").attr("value");
@@ -185,7 +186,7 @@ $(document).ready(function() {
 				//Verify data fetched
 				if(alphanumeric($("#reg_uname"),"Username",uname) && alphanumeric($("#reg_pwd"),"Password",pwd) && allLetterSpace($("#reg_fname"),"Firstname",fname) && allLetterSpace($("#reg_mname"),"Middlename",mname) && allLetterSpace($("#reg_lname"),"Lastname",fname) && allDigit($("#reg_cnum"),"Contact no",cnum) && ValidateEmail($("#reg_email"),email) && allDigit($("#reg_studnum1"),"Student number",studno1) && allDigit($("#reg_studnum2"),"Student number",studno2) && checkLength($("#reg_studnum1"),"Student no",studno1,4,4) && checkLength($("#reg_studnum2"),"Student no",studno2,5,5) && allLetterSpace($("#reg_college"),"College",college) && allLetterSpace($("#reg_course"),"Course",course)){
 					//process data fetched
-					var dataString = "username=" + uname + "&password=" + pwd + "&fname=" + fname + "&mname=" + mname + "&lname=" + lname + "&suffix=" +suffix + "&email=" +email + "&cnum=" +cnum + "&sex=" +sex+ "&type=" +type + "&studnum1=" + studno1 + "&studnum2=" + studno2 + "&college=" + college + "&course=" + course;
+					var dataString = "username=" + uname + "&password=" + pwd + "&fname=" + fname + "&mname=" + mname + "&lname=" + lname + "&suffix=" +suffix + "&email=" +email + "&cnum=" +cnum + "&sex=" +sex + "&captcha=" + captcha + "&type=" +type + "&studnum1=" + studno1 + "&studnum2=" + studno2 + "&college=" + college + "&course=" + course;
 					//alert(dataString);
 					$.ajax({
 						type: "POST",
@@ -214,7 +215,7 @@ $(document).ready(function() {
 				
 								//Verify data fetched
 				if(alphanumeric($("#reg_uname"),"Username",uname) && alphanumeric($("#reg_pwd"),"Password",pwd) && allLetterSpace($("#reg_fname"),"Firstname",fname) && allLetterSpace($("#reg_mname"),"Middlename",mname) && allLetterSpace($("#reg_lname"),"Lastname",fname) && allDigit($("#reg_cnum"),"Contact no",cnum) && ValidateEmail($("#reg_email"),email)){
-					var dataString = "username=" + uname + "&password=" + pwd + "&fname=" + fname + "&mname=" + mname + "&lname=" + lname + "&suffix=" +suffix + "&email=" +email + "&cnum=" +cnum + "&sex=" +sex+ "&type=" +type;
+					var dataString = "username=" + uname + "&password=" + pwd + "&fname=" + fname + "&mname=" + mname + "&lname=" + lname + "&suffix=" +suffix + "&email=" +email + "&cnum=" +cnum + "&sex=" +sex+ "&captcha=" + captcha +"&type=" +type;
 					//alert(dataString);
 					$.ajax({
 						type: "POST",
